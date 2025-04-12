@@ -10,21 +10,28 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-t from-tech-blue to-tech-blue/95">
-      <div className="container-custom">
-        <h2 className="section-title">Get In Touch</h2>
+    <section id="contact" className="py-24 relative">
+      <div className="absolute inset-0 bg-gradient-radial from-violet-900/10 to-transparent opacity-50"></div>
+      
+      <div className="container-custom relative z-10">
+        <div className="flex flex-col items-center mb-12">
+          <div className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-4">
+            Contact Me
+          </div>
+          <h2 className="section-title section-title-gradient text-center">Get In Touch</h2>
+        </div>
         
-        <div className="mt-12 grid md:grid-cols-2 gap-10">
+        <div className="grid md:grid-cols-2 gap-10">
           <div>
-            <p className="text-gray-300 mb-8 text-lg">
+            <p className="text-gray-300 mb-8 text-lg leading-relaxed">
               I'm currently open to new opportunities and collaborations. 
               Whether you have a question or just want to say hi, I'll try my best to get back to you!
             </p>
             
             <div className="space-y-6">
               <div className="flex items-start">
-                <div className="mr-4 bg-tech-accent/20 p-3 rounded-full">
-                  <Mail className="text-tech-accent" size={24} />
+                <div className="mr-4 bg-violet-600/20 p-3 rounded-xl">
+                  <Mail className="text-violet-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-white">Email</h3>
@@ -33,8 +40,8 @@ const Contact = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="mr-4 bg-tech-accent/20 p-3 rounded-full">
-                  <MapPin className="text-tech-accent" size={24} />
+                <div className="mr-4 bg-violet-600/20 p-3 rounded-xl">
+                  <MapPin className="text-violet-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-white">Location</h3>
@@ -43,8 +50,8 @@ const Contact = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="mr-4 bg-tech-accent/20 p-3 rounded-full">
-                  <Phone className="text-tech-accent" size={24} />
+                <div className="mr-4 bg-violet-600/20 p-3 rounded-xl">
+                  <Phone className="text-violet-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-white">Phone</h3>
@@ -54,7 +61,7 @@ const Contact = () => {
             </div>
           </div>
           
-          <div className="bg-secondary rounded-lg p-8">
+          <div className="glass-card p-8">
             <h3 className="text-xl font-semibold mb-6 text-white">Send Me a Message</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -62,7 +69,7 @@ const Contact = () => {
                 <input
                   type="text"
                   id="name"
-                  className="w-full bg-tech-blue text-white rounded-md border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-tech-accent"
+                  className="w-full bg-gray-800/70 text-white rounded-lg border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   placeholder="Your name"
                   required
                 />
@@ -73,7 +80,7 @@ const Contact = () => {
                 <input
                   type="email"
                   id="email"
-                  className="w-full bg-tech-blue text-white rounded-md border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-tech-accent"
+                  className="w-full bg-gray-800/70 text-white rounded-lg border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   placeholder="Your email"
                   required
                 />
@@ -84,7 +91,7 @@ const Contact = () => {
                 <input
                   type="text"
                   id="subject"
-                  className="w-full bg-tech-blue text-white rounded-md border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-tech-accent"
+                  className="w-full bg-gray-800/70 text-white rounded-lg border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   placeholder="Subject"
                   required
                 />
@@ -95,7 +102,7 @@ const Contact = () => {
                 <textarea
                   id="message"
                   rows={5}
-                  className="w-full bg-tech-blue text-white rounded-md border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-tech-accent"
+                  className="w-full bg-gray-800/70 text-white rounded-lg border border-gray-700 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   placeholder="Your message"
                   required
                 ></textarea>

@@ -39,25 +39,32 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-20 bg-tech-blue">
-      <div className="container-custom">
-        <h2 className="section-title">Featured Projects</h2>
+    <section id="projects" className="py-24 relative">
+      <div className="absolute inset-0 bg-gradient-radial from-indigo-900/10 to-transparent opacity-50"></div>
+      
+      <div className="container-custom relative z-10">
+        <div className="flex flex-col items-center mb-12">
+          <div className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-4">
+            My Work
+          </div>
+          <h2 className="section-title section-title-gradient text-center">Featured Projects</h2>
+        </div>
         
-        <div className="mt-12 grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className="project-card card-hover">
-              <div className="h-48 rounded-md mb-6 overflow-hidden">
+            <div key={index} className="project-card group">
+              <div className="h-56 rounded-lg mb-6 overflow-hidden">
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                 />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-white">{project.title}</h3>
               <p className="text-gray-400 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.technologies.map((tech, techIndex) => (
-                  <span key={techIndex} className="bg-tech-blue text-gray-300 px-3 py-1 rounded-md text-sm">
+                  <span key={techIndex} className="bg-gray-800/70 text-gray-300 px-3 py-1 rounded-md text-sm">
                     {tech}
                   </span>
                 ))}
@@ -65,7 +72,7 @@ const Projects = () => {
               <div className="flex space-x-4">
                 <a 
                   href={project.github} 
-                  className="flex items-center text-tech-accent hover:text-tech-purple transition-colors"
+                  className="flex items-center text-violet-400 hover:text-white transition-colors"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -74,7 +81,7 @@ const Projects = () => {
                 </a>
                 <a 
                   href={project.demo} 
-                  className="flex items-center text-tech-accent hover:text-tech-purple transition-colors"
+                  className="flex items-center text-violet-400 hover:text-white transition-colors"
                   target="_blank"
                   rel="noreferrer"
                 >
