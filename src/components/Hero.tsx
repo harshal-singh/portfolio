@@ -49,8 +49,11 @@ const Hero = () => {
           <div className="w-80 h-80 rounded-full bg-gradient-to-br from-tech-accent/20 to-tech-purple/20 animate-pulse"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-72 h-72 rounded-full bg-tech-blue border-4 border-tech-accent/30 overflow-hidden">
-              {/* Replace with actual profile image */}
-              <div className="w-full h-full bg-gradient-to-br from-tech-accent to-tech-purple opacity-70"></div>
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
+                alt="Alex Miller" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
