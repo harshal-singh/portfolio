@@ -1,7 +1,11 @@
-
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import React, { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,32 +20,33 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
+    { name: "Blogs", href: "#blogs" },
   ];
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'py-4 bg-gray-950/80 backdrop-blur-lg border-b border-gray-800/50' : 'py-6 bg-transparent'
+        scrolled
+          ? "py-4 bg-gray-950/80 backdrop-blur-lg border-b border-gray-800/50"
+          : "py-6 bg-transparent"
       }`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold">
+          <a href="/" className="text-2xl font-bold">
             <span className="bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-transparent">
-              Dev
+              Harshal
             </span>
-            <span className="text-white">Portfolio</span>
+            <span className="text-white"> Singh</span>
           </a>
 
           {/* Desktop Menu */}
@@ -59,9 +64,9 @@ const Navbar = () => {
                   </NavigationMenuItem>
                 ))}
                 <NavigationMenuItem>
-                  <a 
-                    href="#contact" 
-                    className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-5 py-2 rounded-lg hover:opacity-90 transition-all ml-4"
+                  <a
+                    href="/#contact"
+                    className="btn-primary inline-flex items-center px-5 py-2 ml-4"
                   >
                     Let's Connect
                   </a>
@@ -71,7 +76,10 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            className="md:hidden text-white"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -90,9 +98,9 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
-              <a 
-                href="#contact" 
-                className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all w-fit mx-4"
+              <a
+                href="#contact"
+                className="btn-primary inline-flex items-center justify-center px-5 py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Let's Connect
