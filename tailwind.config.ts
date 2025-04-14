@@ -1,5 +1,6 @@
-
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
+import animate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -19,6 +20,84 @@ export default {
       },
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "100%",
+            color: "rgb(156 163 175)",
+            h1: {
+              color: "rgb(255 255 255)",
+              fontWeight: "700",
+            },
+            h2: {
+              color: "rgb(255 255 255)",
+              fontWeight: "600",
+            },
+            h3: {
+              color: "rgb(255 255 255)",
+              fontWeight: "600",
+            },
+            h4: {
+              color: "rgb(255 255 255)",
+              fontWeight: "600",
+            },
+            p: {
+              color: "rgb(156 163 175)",
+              lineHeight: "1.75",
+            },
+            a: {
+              color: "rgb(167 139 250)",
+              textDecoration: "none",
+              "&:hover": {
+                color: "rgb(139 92 246)",
+              },
+            },
+            strong: {
+              color: "rgb(255 255 255)",
+              fontWeight: "600",
+            },
+            blockquote: {
+              color: "rgb(156 163 175)",
+              borderLeftColor: "rgb(139 92 246)",
+              fontStyle: "italic",
+            },
+            code: {
+              color: "rgb(167 139 250)",
+              backgroundColor: "rgba(139, 92, 246, 0.1)",
+              padding: "0.25rem 0.375rem",
+              borderRadius: "0.25rem",
+              fontWeight: "500",
+            },
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
+            pre: {
+              backgroundColor: "rgb(17 24 39)",
+              color: "rgb(156 163 175)",
+              borderRadius: "0.5rem",
+              padding: "1rem",
+            },
+            ul: {
+              color: "rgb(156 163 175)",
+            },
+            ol: {
+              color: "rgb(156 163 175)",
+            },
+            li: {
+              color: "rgb(156 163 175)",
+            },
+            img: {
+              borderRadius: "0.5rem",
+            },
+            hr: {
+              borderColor: "rgb(31 41 55)",
+            },
+          },
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -92,10 +171,11 @@ export default {
         "pulse-slow": "pulse-slow a3s infinite",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate, typography],
 } satisfies Config;

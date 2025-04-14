@@ -1,45 +1,7 @@
-import { Calendar, Clock, ArrowRight, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { blogPosts } from "@/lib/blog-data";
 
 const Blogs = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Building Scalable Microservices with Node.js and Docker",
-      excerpt:
-        "Learn how to build and deploy microservices using Node.js and Docker for scalable applications.",
-      category: "DevOps",
-      date: "April 8, 2025",
-      readTime: "8 min read",
-      image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
-      link: "/blogs/1",
-    },
-    {
-      id: 2,
-      title: "Mastering React Hooks: A Comprehensive Guide",
-      excerpt:
-        "Deep dive into React Hooks and learn how to build more efficient React applications.",
-      category: "React",
-      date: "April 5, 2025",
-      readTime: "10 min read",
-      image:
-        "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop",
-      link: "/blogs/2",
-    },
-    {
-      id: 3,
-      title: "TypeScript Best Practices for Large-Scale Applications",
-      excerpt:
-        "Discover the best practices for using TypeScript in large-scale applications.",
-      category: "TypeScript",
-      date: "April 2, 2025",
-      readTime: "12 min read",
-      image:
-        "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=2070&auto=format&fit=crop",
-      link: "/blogs/3",
-    },
-  ];
-
   return (
     <section id="blogs" className="pt-28 sm:pt-36 pb-24 relative">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-5"></div>
@@ -64,7 +26,7 @@ const Blogs = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogPosts.map((post) => (
             <article
-              key={post.id}
+              key={post.slug}
               className="project-card group h-full flex flex-col"
             >
               <div className="h-52 overflow-hidden rounded-lg mb-4">
@@ -96,7 +58,7 @@ const Blogs = () => {
                     <span>{post.readTime}</span>
                   </div>
                   <a
-                    href={post.link}
+                    href={`/blogs/${post.slug}`}
                     className="flex items-center text-violet-400 hover:text-white transition-colors"
                   >
                     <span className="mr-1">Read More</span>
