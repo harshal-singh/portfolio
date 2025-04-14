@@ -120,7 +120,7 @@ const Contact = () => {
 
         <div className="flex flex-col items-center mt-16">
           <div className="max-w-2xl w-full text-center">
-            <div className="glass-card p-8 border-violet-500/30">
+            <div className="glass-card p-6 border-violet-500/30">
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent">
                 Let's Build Something Amazing Together
               </h3>

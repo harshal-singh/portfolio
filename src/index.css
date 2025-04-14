@@ -59,7 +59,7 @@
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-10 relative;
+    @apply text-3xl md:text-4xl font-bold sm:mb-10 relative;
   }
 
   .section-title-gradient {

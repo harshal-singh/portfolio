@@ -16,8 +16,8 @@ const About = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="glass-card p-8 h-full">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="glass-card p-6 h-full">
             <p className="text-gray-300 mb-6 text-lg leading-relaxed">
               <span className="section-title-gradient font-medium">
                 I'm a passionate software engineer

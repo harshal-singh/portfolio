@@ -71,9 +71,9 @@ const Skills = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {skillCategories.map((category, index) => (
-            <div key={index} className="glass-card p-8">
+            <div key={index} className="glass-card p-6">
               <h3 className="text-xl font-semibold mb-6 bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent">
                 {category.title}
               </h3>

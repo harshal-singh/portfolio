@@ -82,7 +82,7 @@ const Projects = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
             <div key={index} className="project-card group">
               <div className="rounded-lg mb-6 overflow-hidden">

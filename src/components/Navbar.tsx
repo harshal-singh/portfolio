@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import { useLocation, useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +27,22 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Smooth scroll behavior for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute("href") || "");
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+  }, []);
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
@@ -31,6 +50,13 @@ const Navbar = () => {
     { name: "Projects", href: "#projects" },
     { name: "Blogs", href: "#blogs" },
   ];
+
+  const getBackPath = () => {
+    if (location.pathname.startsWith("/blog/")) {
+      return "/blogs";
+    }
+    return "/";
+  };
 
   return (
     <nav
@@ -51,37 +77,49 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <NavigationMenu>
-              <NavigationMenuList className="flex items-center space-x-1">
-                {navLinks.map((link) => (
-                  <NavigationMenuItem key={link.name}>
+            <div>
+              <div className="flex items-center space-x-1">
+                {location.pathname === "/" ? (
+                  <>
+                    {navLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        className="text-gray-300 hover:text-white px-4 py-2 rounded-md transition-colors"
+                      >
+                        {link.name}
+                      </a>
+                    ))}
+
                     <a
-                      href={link.href}
-                      className="text-gray-300 hover:text-white px-4 py-2 rounded-md transition-colors"
+                      href="/#contact"
+                      className="btn-primary inline-flex items-center px-5 py-2 !ml-4"
                     >
-                      {link.name}
+                      Let's Connect
                     </a>
-                  </NavigationMenuItem>
-                ))}
-                <NavigationMenuItem>
-                  <a
-                    href="/#contact"
-                    className="btn-primary inline-flex items-center px-5 py-2 ml-4"
-                  >
-                    Let's Connect
-                  </a>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                  </>
+                ) : (
+                  <BackButton />
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-white"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden">
+            {location.pathname === "/" ? (
+              <>
+                {/* Mobile Menu Button */}
+                <button
+                  className="text-white"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+              </>
+            ) : (
+              <BackButton />
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu */}

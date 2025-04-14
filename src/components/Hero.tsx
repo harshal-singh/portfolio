@@ -14,12 +14,12 @@ const Hero = () => {
   return (
     <div
       id="home"
-      className="pt-36 lg:min-h-screen flex items-center flex-col gap-14 lg:gap-36 relative"
+      className="pt-36 sm:pt-56 lg:min-h-screen flex items-center flex-col gap-14 lg:gap-36 relative"
     >
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-10"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 to-transparent"></div>
 
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center relative z-10 sm:pt-20">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-24 items-center relative z-10">
         <div className="animate-fade-in">
           <div className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-6">
             👋 Full Stack Developer

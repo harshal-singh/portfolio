@@ -12,8 +12,8 @@ const Footer = () => {
   return (
     <footer className="bg-gray-950 pt-16 pb-8 border-t border-gray-800/30 relative z-10">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-          <div className="mb-8 md:mb-0 text-center md:text-left">
+        <div className="flex flex-col md:flex-row justify-between md:items-center mb-12">
+          <div className="mb-8 md:mb-0 text-left">
             <a href="#" className="text-2xl font-bold inline-block mb-4">
               <span className="bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-transparent">
                 Harshal
@@ -27,55 +27,59 @@ const Footer = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 mb-8 md:mb-0">
-            <div className="flex flex-col items-center md:items-start">
-              <h3 className="text-white font-medium mb-4">Navigation</h3>
-              <div className="flex flex-col space-y-2">
-                <a
-                  href="#home"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  Home
-                </a>
-                <a
-                  href="#about"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  About
-                </a>
-                <a
-                  href="#skills"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  Skills
-                </a>
-              </div>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-              <h3 className="text-white font-medium mb-4">Content</h3>
-              <div className="flex flex-col space-y-2">
-                <a
-                  href="#projects"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  Projects
-                </a>
-                <a
-                  href="#blogs"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  Blogs
-                </a>
-                <a
-                  href="#contact"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
-            <div className="flex flex-col items-center md:items-start col-span-2 md:col-span-1 mt-8 md:mt-0">
+            {location.pathname === "/" && (
+              <>
+                <div className="flex flex-col items-start">
+                  <h3 className="text-white font-medium mb-4">Navigation</h3>
+                  <div className="flex flex-col space-y-2">
+                    <a
+                      href="#home"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      Home
+                    </a>
+                    <a
+                      href="#about"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      About
+                    </a>
+                    <a
+                      href="#skills"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      Skills
+                    </a>
+                  </div>
+                </div>
+                <div className="flex flex-col items-start">
+                  <h3 className="text-white font-medium mb-4">Content</h3>
+                  <div className="flex flex-col space-y-2">
+                    <a
+                      href="#projects"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      Projects
+                    </a>
+                    <a
+                      href="#blogs"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      Blogs
+                    </a>
+                    <a
+                      href="#contact"
+                      className="text-gray-400 hover:text-violet-400 transition-colors"
+                    >
+                      Contact
+                    </a>
+                  </div>
+                </div>
+              </>
+            )}
+            <div className="flex flex-col items-start col-span-2 md:col-span-1 mt-8 md:mt-0">
               <h3 className="text-white font-medium mb-4">Social Media</h3>
-              <div className="flex space-x-4">
+              <div className="flex space-x-6">
                 <a
                   href="https://github.com/harshal-singh"
                   target="_blank"

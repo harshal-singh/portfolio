@@ -1,5 +1,4 @@
-import React from "react";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, ArrowLeft } from "lucide-react";
 
 const Blogs = () => {
   const blogPosts = [
@@ -7,53 +6,59 @@ const Blogs = () => {
       id: 1,
       title: "Building Scalable Microservices with Node.js and Docker",
       excerpt:
-        "Learn how to architect and deploy scalable microservices using Node.js and Docker containers with practical examples and best practices.",
+        "Learn how to build and deploy microservices using Node.js and Docker for scalable applications.",
+      category: "DevOps",
       date: "April 8, 2025",
       readTime: "8 min read",
       image:
         "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
-      category: "DevOps",
       link: "/blogs/1",
     },
     {
       id: 2,
-      title: "GraphQL vs REST: Making the Right Choice for Your API",
+      title: "Mastering React Hooks: A Comprehensive Guide",
       excerpt:
-        "A comprehensive comparison of GraphQL and REST APIs, exploring their strengths, weaknesses, and ideal use cases for modern web applications.",
-      date: "March 22, 2025",
-      readTime: "6 min read",
+        "Deep dive into React Hooks and learn how to build more efficient React applications.",
+      category: "React",
+      date: "April 5, 2025",
+      readTime: "10 min read",
       image:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop",
-      category: "Backend",
+        "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop",
       link: "/blogs/2",
     },
     {
       id: 3,
-      title: "Optimizing React Performance: Advanced Techniques",
+      title: "TypeScript Best Practices for Large-Scale Applications",
       excerpt:
-        "Discover practical strategies to significantly improve your React application's performance, from code splitting to memoization and beyond.",
-      date: "March 5, 2025",
-      readTime: "10 min read",
+        "Discover the best practices for using TypeScript in large-scale applications.",
+      category: "TypeScript",
+      date: "April 2, 2025",
+      readTime: "12 min read",
       image:
-        "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?q=80&w=2070&auto=format&fit=crop",
-      category: "Frontend",
+        "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=2070&auto=format&fit=crop",
       link: "/blogs/3",
     },
   ];
 
   return (
-    <section id="blogs" className="py-24 relative">
+    <section id="blogs" className="pt-28 sm:pt-36 pb-24 relative">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-5"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950 to-gray-900"></div>
 
       <div className="container-custom relative z-10">
-        <div className="flex flex-col items-center mb-12">
-          <div className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-4">
+        <div className="mb-12">
+          <span className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-4">
             My Blogs
-          </div>
-          <h2 className="section-title section-title-gradient text-center">
-            Latest Articles
-          </h2>
+          </span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent">
+              Latest Articles
+            </span>
+          </h1>
+          <p className="text-gray-400 text-lg">
+            Insights, tutorials, and thoughts on web development, programming,
+            and technology.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -101,12 +106,6 @@ const Blogs = () => {
               </div>
             </article>
           ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <a href="/blogs" className="btn-primary inline-flex items-center">
-            View All Articles
-          </a>
         </div>
       </div>
     </section>
