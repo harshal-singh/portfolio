@@ -2,10 +2,39 @@
 import { useState } from "react";
 import LinkedInBanner from "./LinkedInBanner";
 import { Button } from "./ui/button";
-import { Download } from "lucide-react";
+import { Download, ZoomIn, ZoomOut, Maximize2, User } from "lucide-react";
+import html2canvas from "html2canvas";
 
 const BannerPreview = () => {
   const [scale, setScale] = useState(0.25);
+  
+  const increaseZoom = () => {
+    setScale(prev => Math.min(prev + 0.05, 0.5));
+  };
+  
+  const decreaseZoom = () => {
+    setScale(prev => Math.max(prev - 0.05, 0.1));
+  };
+  
+  const downloadBanner = async () => {
+    const bannerElement = document.getElementById('linkedin-banner');
+    if (!bannerElement) return;
+    
+    try {
+      const canvas = await html2canvas(bannerElement, {
+        scale: 2, // Higher scale for better quality
+        backgroundColor: null,
+        logging: false
+      });
+      
+      const link = document.createElement('a');
+      link.download = 'linkedin-banner.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error generating banner:', error);
+    }
+  };
   
   return (
     <div className="min-h-screen bg-gray-950 py-12 px-4">
@@ -13,10 +42,27 @@ const BannerPreview = () => {
         <h1 className="text-3xl font-bold mb-8 text-white">LinkedIn Banner Preview</h1>
         
         <div className="mb-8">
-          <div className="border border-gray-800 rounded-lg overflow-hidden shadow-xl bg-gray-900">
+          <div className="border border-gray-800 rounded-lg overflow-hidden shadow-xl bg-gray-900 relative">
+            <div className="flex justify-end gap-2 p-2 border-b border-gray-800">
+              <Button variant="ghost" size="sm" onClick={decreaseZoom} className="text-gray-400">
+                <ZoomOut size={16} />
+              </Button>
+              <Button variant="ghost" size="sm" onClick={increaseZoom} className="text-gray-400">
+                <ZoomIn size={16} />
+              </Button>
+            </div>
             <div className="overflow-auto p-4">
-              <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }} className="w-max">
+              <div 
+                id="linkedin-banner"
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }} 
+                className="w-max relative"
+              >
                 <LinkedInBanner />
+                
+                {/* LinkedIn profile circle overlay simulation */}
+                <div className="absolute left-[152px] -bottom-12 w-[200px] h-[200px] rounded-full border-[8px] border-gray-900 bg-gray-900/90 flex items-center justify-center">
+                  <User size={64} className="text-gray-700" />
+                </div>
               </div>
             </div>
           </div>
@@ -33,7 +79,7 @@ const BannerPreview = () => {
               className="w-48"
             />
             <div className="text-white">{Math.round(scale * 100)}%</div>
-            <Button variant="outline" className="ml-auto flex items-center gap-2">
+            <Button variant="outline" className="ml-auto flex items-center gap-2" onClick={downloadBanner}>
               <Download size={16} />
               <span>Save Banner</span>
             </Button>
@@ -41,24 +87,25 @@ const BannerPreview = () => {
         </div>
         
         <div className="mb-8 bg-gray-900 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-white">Important Notes:</h2>
+          <ul className="text-gray-300 space-y-2 list-disc pl-6">
+            <li><strong>Profile Placement:</strong> The banner is designed with the LinkedIn profile picture overlay in mind.</li>
+            <li><strong>Clean Space:</strong> Keep the left 320px area clear as it will be partially covered by your profile picture and info.</li>
+            <li><strong>Dimensions:</strong> LinkedIn banner dimensions are 1584 × 396 pixels.</li>
+            <li><strong>File Size:</strong> Keep the banner under 8MB, preferably in PNG or JPG format.</li>
+          </ul>
+        </div>
+        
+        <div className="mb-8 bg-gray-900 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4 text-white">Instructions:</h2>
           <ol className="list-decimal pl-6 text-gray-300 space-y-2">
-            <li>Right-click on the banner above and select "Save image as..."</li>
-            <li>Save the image to your computer</li>
+            <li>Click the "Save Banner" button above</li>
             <li>Go to your LinkedIn profile</li>
             <li>Click the edit icon (pencil) on your profile banner</li>
             <li>Upload the saved banner image</li>
             <li>Adjust positioning if needed</li>
             <li>Save your changes</li>
           </ol>
-        </div>
-        
-        <div className="bg-gray-900 p-6 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4 text-white">Note:</h2>
-          <p className="text-gray-300">
-            LinkedIn banner dimensions are 1584 × 396 pixels. This banner has been designed to match these dimensions 
-            and complement your portfolio's color scheme and style.
-          </p>
         </div>
       </div>
     </div>
