@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import LinkedInBanner from "./LinkedInBanner";
 import { Button } from "./ui/button";
@@ -7,7 +6,7 @@ import html2canvas from "html2canvas";
 
 const BannerPreview = () => {
   const [scale, setScale] = useState(0.25);
-  const [currentVariant, setCurrentVariant] = useState(1);
+  const [currentVariant, setCurrentVariant] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
   
   const increaseZoom = () => {
     setScale(prev => Math.min(prev + 0.05, 0.5));
@@ -18,11 +17,17 @@ const BannerPreview = () => {
   };
   
   const nextVariant = () => {
-    setCurrentVariant(prev => prev === 3 ? 1 : prev + 1);
+    setCurrentVariant(prev => {
+      if (prev === 6) return 1;
+      return ((prev + 1) as 1 | 2 | 3 | 4 | 5 | 6);
+    });
   };
   
   const prevVariant = () => {
-    setCurrentVariant(prev => prev === 1 ? 3 : prev - 1);
+    setCurrentVariant(prev => {
+      if (prev === 1) return 6;
+      return ((prev - 1) as 1 | 2 | 3 | 4 | 5 | 6);
+    });
   };
   
   const downloadBanner = async () => {
@@ -57,7 +62,7 @@ const BannerPreview = () => {
                 <Button variant="ghost" size="sm" onClick={prevVariant} className="text-gray-400">
                   <ChevronLeft size={16} />
                 </Button>
-                <div className="text-gray-400 mx-2">Variant {currentVariant} of 3</div>
+                <div className="text-gray-400 mx-2">Variant {currentVariant} of 6</div>
                 <Button variant="ghost" size="sm" onClick={nextVariant} className="text-gray-400">
                   <ChevronRight size={16} />
                 </Button>
