@@ -2,11 +2,12 @@
 import { useState } from "react";
 import LinkedInBanner from "./LinkedInBanner";
 import { Button } from "./ui/button";
-import { Download, ZoomIn, ZoomOut, Maximize2, User } from "lucide-react";
+import { Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, User } from "lucide-react";
 import html2canvas from "html2canvas";
 
 const BannerPreview = () => {
   const [scale, setScale] = useState(0.25);
+  const [currentVariant, setCurrentVariant] = useState(1);
   
   const increaseZoom = () => {
     setScale(prev => Math.min(prev + 0.05, 0.5));
@@ -14,6 +15,14 @@ const BannerPreview = () => {
   
   const decreaseZoom = () => {
     setScale(prev => Math.max(prev - 0.05, 0.1));
+  };
+  
+  const nextVariant = () => {
+    setCurrentVariant(prev => prev === 3 ? 1 : prev + 1);
+  };
+  
+  const prevVariant = () => {
+    setCurrentVariant(prev => prev === 1 ? 3 : prev - 1);
   };
   
   const downloadBanner = async () => {
@@ -28,7 +37,7 @@ const BannerPreview = () => {
       });
       
       const link = document.createElement('a');
-      link.download = 'linkedin-banner.png';
+      link.download = `linkedin-banner-variant-${currentVariant}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (error) {
@@ -43,13 +52,24 @@ const BannerPreview = () => {
         
         <div className="mb-8">
           <div className="border border-gray-800 rounded-lg overflow-hidden shadow-xl bg-gray-900 relative">
-            <div className="flex justify-end gap-2 p-2 border-b border-gray-800">
-              <Button variant="ghost" size="sm" onClick={decreaseZoom} className="text-gray-400">
-                <ZoomOut size={16} />
-              </Button>
-              <Button variant="ghost" size="sm" onClick={increaseZoom} className="text-gray-400">
-                <ZoomIn size={16} />
-              </Button>
+            <div className="flex justify-between items-center p-2 border-b border-gray-800">
+              <div className="flex items-center">
+                <Button variant="ghost" size="sm" onClick={prevVariant} className="text-gray-400">
+                  <ChevronLeft size={16} />
+                </Button>
+                <div className="text-gray-400 mx-2">Variant {currentVariant} of 3</div>
+                <Button variant="ghost" size="sm" onClick={nextVariant} className="text-gray-400">
+                  <ChevronRight size={16} />
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="ghost" size="sm" onClick={decreaseZoom} className="text-gray-400">
+                  <ZoomOut size={16} />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={increaseZoom} className="text-gray-400">
+                  <ZoomIn size={16} />
+                </Button>
+              </div>
             </div>
             <div className="overflow-auto p-4">
               <div 
@@ -57,7 +77,7 @@ const BannerPreview = () => {
                 style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }} 
                 className="w-max relative"
               >
-                <LinkedInBanner />
+                <LinkedInBanner variant={currentVariant} />
                 
                 {/* LinkedIn profile circle overlay simulation */}
                 <div className="absolute left-[152px] -bottom-12 w-[200px] h-[200px] rounded-full border-[8px] border-gray-900 bg-gray-900/90 flex items-center justify-center">
