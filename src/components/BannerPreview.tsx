@@ -1,15 +1,42 @@
 
+import { useState } from "react";
 import LinkedInBanner from "./LinkedInBanner";
+import { Button } from "./ui/button";
+import { Download } from "lucide-react";
 
 const BannerPreview = () => {
+  const [scale, setScale] = useState(0.25);
+  
   return (
     <div className="min-h-screen bg-gray-950 py-12 px-4">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-white">LinkedIn Banner Preview</h1>
         
         <div className="mb-8">
-          <div className="border border-gray-800 rounded-lg overflow-hidden shadow-xl">
-            <LinkedInBanner />
+          <div className="border border-gray-800 rounded-lg overflow-hidden shadow-xl bg-gray-900">
+            <div className="overflow-auto p-4">
+              <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }} className="w-max">
+                <LinkedInBanner />
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4 mt-4">
+            <div className="text-white">Zoom:</div>
+            <input 
+              type="range" 
+              min="0.1" 
+              max="0.5" 
+              step="0.05" 
+              value={scale} 
+              onChange={(e) => setScale(parseFloat(e.target.value))}
+              className="w-48"
+            />
+            <div className="text-white">{Math.round(scale * 100)}%</div>
+            <Button variant="outline" className="ml-auto flex items-center gap-2">
+              <Download size={16} />
+              <span>Save Banner</span>
+            </Button>
           </div>
         </div>
         
