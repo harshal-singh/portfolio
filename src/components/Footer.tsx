@@ -21,8 +21,9 @@ const Footer = () => {
               <span className="text-white"> Singh</span>
             </a>
             <p className="text-gray-400 max-w-md">
-              Building innovative digital solutions and experiences using
-              JavaScript technologies
+              Building innovative digital solutions and experiences using modern{" "}
+              <span className="section-title-gradient pr-1">JavaScript</span>{" "}
+              technologies
             </p>
           </div>
 
