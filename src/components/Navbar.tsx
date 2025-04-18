@@ -51,13 +51,6 @@ const Navbar = () => {
     { name: "Blogs", href: "#blogs" },
   ];
 
-  const getBackPath = () => {
-    if (location.pathname.startsWith("/blog/")) {
-      return "/blogs";
-    }
-    return "/";
-  };
-
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -92,7 +85,7 @@ const Navbar = () => {
                     ))}
 
                     <a
-                      href="/#contact"
+                      href="#contact"
                       className="btn-primary inline-flex items-center px-5 py-2 !ml-4"
                     >
                       Let's Connect
