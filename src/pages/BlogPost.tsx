@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Calendar, Clock, Home } from "lucide-react";
-import { useParams } from "react-router-dom";
-import BackButton from "@/components/BackButton";
 import { blogPosts } from "@/lib/blog-data";
 import { convertMarkdownToHtml } from "@/lib/markdown";
-import { Button } from "@/components/ui/button";
+import { Calendar, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import BlogNotFound from "./BlogNotFound";
 
 const BlogPost = () => {
@@ -29,9 +27,8 @@ const BlogPost = () => {
 
   return (
     <section id="blog-post" className="pt-28 sm:pt-36 pb-24 relative">
-      <BackButton />
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-5"></div>
-      <div className="absolute inset-0 bg-gray-950"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 bg-gray-950"></div>
 
       <div className="container-custom relative z-10">
         <article className="max-w-4xl mx-auto">

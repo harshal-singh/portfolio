@@ -1,11 +1,11 @@
-import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { blogPosts } from "@/lib/blog-data";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
 
 const Blogs = () => {
   return (
     <section id="blogs" className="pt-28 sm:pt-36 pb-24 relative">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-5"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 to-gray-900"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 bg-gray-950"></div>
 
       <div className="container-custom relative z-10">
         <div className="mb-12">
