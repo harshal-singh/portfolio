@@ -1,5 +1,4 @@
-import React from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 
 const Projects = () => {
   const projects = [
@@ -49,23 +48,6 @@ const Projects = () => {
       github: "https://github.com/harshal-singh/meet",
       demo: "https://meet-spacee.vercel.app",
     },
-    {
-      title: "Guide On The Go",
-      description:
-        "An AWS infrastructure monitoring dashboard that provides real-time insights into resource utilization, costs, and performance metrics. Built with React and AWS services.",
-      image: "/projects/guide-on-the-go.jpg",
-      technologies: [
-        "Next.js",
-        "Tailwind CSS",
-        "TypeScript",
-        "Python",
-        "Fastapi",
-        "PostgreSQL",
-        "Docker",
-      ],
-      github: "https://github.com/harshal-singh/visa-fill",
-      demo: "https://guide-on-the-go.vercel.app",
-    },
   ];
 
   return (
@@ -82,7 +64,7 @@ const Projects = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <div key={index} className="project-card group">
               <div className="rounded-lg mb-6 overflow-hidden">
