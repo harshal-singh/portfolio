@@ -364,7 +364,7 @@ By following these steps, you can effectively manage multiple GitHub identities 
   {
     title: "Real-Time Apps with Socket.IO: A Complete Guide (Node.js + React)",
     slug: "real-time-apps-with-socket-io-complete-guide",
-    image: "/blogs/real-time-apps-with-socket-io-complete-guide.png",
+    image: "/placeholder.svg",
     date: "August 21, 2025",
     category: "Socket.IO",
     excerpt:
