@@ -1,16 +1,14 @@
 import {
   ArrowDown,
   Briefcase,
-  Download,
   Github,
   Linkedin,
   Twitter,
   View,
+  Mail,
 } from "lucide-react";
 
 const Hero = () => {
-  const date = new Date();
-
   return (
     <div
       id="home"
@@ -48,17 +46,11 @@ const Hero = () => {
               View My Work
             </a>
             <a
-              href="/Harshal Singh.pdf"
-              download={`Harshal Singh - Resume - ${date.toLocaleString(
-                "default",
-                { month: "long" }
-              )} ${date.getFullYear()}`}
+              href="/#contact"
               className="btn-secondary inline-flex items-center"
-              target="_blank"
-              rel="noreferrer"
             >
-              <Download size={20} className="mr-2" />
-              Download CV
+              <Mail size={20} className="mr-2" />
+              Contact Me
             </a>
           </div>
           <div className="flex items-center space-x-6">
