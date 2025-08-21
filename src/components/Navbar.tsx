@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { Menu, X, ArrowLeft } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Menu } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -7,9 +7,14 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -98,47 +103,38 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Mobile Menu - Drawer */}
           <div className="md:hidden">
             {location.pathname === "/" ? (
-              <>
-                {/* Mobile Menu Button */}
-                <button
-                  className="text-white"
-                  onClick={() => setIsOpen(!isOpen)}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <button className="text-white">
+                    <Menu size={24} />
+                  </button>
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="bg-gray-900 border-gray-800"
                 >
-                  {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </>
+                  <div className="py-6">
+                    {navLinks.map((link) => (
+                      <SheetClose asChild key={link.name}>
+                        <a
+                          href={link.href}
+                          className="block text-gray-300 hover:text-white px-4 py-3 rounded-md transition-colors"
+                        >
+                          {link.name}
+                        </a>
+                      </SheetClose>
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
             ) : (
               <BackButton />
             )}
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden bg-gray-900/95 backdrop-blur-md mt-4 rounded-lg border border-gray-800/40">
-            <div className="py-4 px-2 flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-gray-300 hover:text-white px-4 py-2 rounded-md transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                className="btn-primary inline-flex items-center justify-center px-5 py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Let's Connect
-              </a>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
