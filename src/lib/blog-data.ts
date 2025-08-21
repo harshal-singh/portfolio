@@ -361,6 +361,275 @@ git clone git@github.com-account1:YourUsername1/new-repo.git
 
 By following these steps, you can effectively manage multiple GitHub identities on your Windows machine, keeping your personal and professional work separate and organized. Happy coding!`,
   },
+  {
+    title: "Real-Time Apps with Socket.IO: A Complete Guide (Node.js + React)",
+    slug: "real-time-apps-with-socket-io-complete-guide",
+    image: "/blogs/real-time-apps-with-socket-io-complete-guide.png",
+    date: "August 21, 2025",
+    category: "Socket.IO",
+    excerpt:
+      "From basics to production: events, rooms, auth, scaling with Redis, TypeScript types, and deployment tips for Socket.IO.",
+    readTime: "12 min read",
+    content: `Socket.IO makes real-time features approachable with a high-level API built on top of WebSocket + fallbacks. In this guide, we'll cover fundamentals, best practices, and production patterns you can ship today.
+
+## Why Socket.IO (vs WebSocket)?
+- Automatic reconnection + heartbeat
+- Rooms & namespaces for broadcast patterns
+- Binary support, acks, middlewares
+- Cross-browser transport fallbacks
+- Ecosystem (adapters, tooling)
+
+If you need raw perf for streaming large binaries, vanilla WebSocket may win. For product features like chat, presence, notifications—Socket.IO is pragmatic and fast to build.
+
+## Setup (Node.js server)
+Install:
+
+\`\`\`bash
+npm i socket.io express cors
+npm i -D typescript @types/node ts-node-dev
+\`\`\`
+
+Minimal server:
+
+\`\`\`ts
+// server.ts
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+
+const app = express();
+app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: ["http://localhost:5173"], credentials: true },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected:", socket.id);
+
+  socket.on("ping", (data, ack) => {
+    console.log("ping", data);
+    ack?.({ ok: true, ts: Date.now() });
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log("disconnected:", socket.id, reason);
+  });
+});
+
+server.listen(3001, () => console.log("socket server on :3001"));
+\`\`\`
+
+## Client (React + Vite)
+\`\`\`bash
+npm i socket.io-client
+\`\`\`
+
+\`\`\`tsx
+// App.tsx
+import { useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
+
+type ServerToClient = {
+  // example: "notice": (msg: string) => void
+};
+type ClientToServer = {
+  ping: (payload: { who: string }, ack?: (res: { ok: boolean; ts: number }) => void) => void;
+};
+
+export default function App() {
+  const socketRef = useRef<Socket<ServerToClient, ClientToServer> | null>(null);
+  const [status, setStatus] = useState("disconnected");
+  const [lastAck, setLastAck] = useState<number | null>(null);
+
+  useEffect(() => {
+    const socket = io("http://localhost:3001", {
+      transports: ["websocket"],
+      withCredentials: true,
+      reconnectionAttempts: 5,
+      timeout: 10000,
+    });
+    socketRef.current = socket;
+
+    socket.on("connect", () => setStatus("connected"));
+    socket.on("disconnect", () => setStatus("disconnected"));
+
+    return () => socket.disconnect();
+  }, []);
+
+  const sendPing = () => {
+    socketRef.current?.emit("ping", { who: "client" }, (res) => setLastAck(res.ts));
+  };
+
+  return (
+    <div>
+      <p>Status: {status}</p>
+      <button onClick={sendPing}>Ping</button>
+      {lastAck && <p>Last ack: {new Date(lastAck).toLocaleTimeString()}</p>}
+    </div>
+  );
+}
+\`\`\`
+
+## Events, Acknowledgements, and Error Handling
+- **Events**: free-form names, payloads are JSON or binary.
+- **Acks**: pass a function as the last arg to receive a server response.
+- **Errors**: prefer structured objects.
+
+\`\`\`ts
+// server
+io.on("connection", (socket) => {
+  socket.on("create:message", async (payload, ack) => {
+    try {
+      // ...persist
+      ack?.({ ok: true, id: "123" });
+      socket.to(payload.roomId).emit("message:new", payload);
+    } catch (e) {
+      ack?.({ ok: false, error: "DB_WRITE_FAILED" });
+    }
+  });
+});
+\`\`\`
+
+## Rooms and Namespaces
+- **Rooms**: lightweight channels per socket.
+- **Namespaces**: separate logical endpoints (auth, rate limits, middleware).
+
+\`\`\`ts
+// rooms
+io.on("connection", (socket) => {
+  socket.on("room:join", (roomId) => socket.join(roomId));
+  socket.on("room:leave", (roomId) => socket.leave(roomId));
+  socket.on("chat:send", ({ roomId, text }) => {
+    socket.to(roomId).emit("chat:new", { from: socket.id, text });
+  });
+});
+
+// namespaces
+const admin = io.of("/admin");
+admin.use((socket, next) => {
+  // verify admin token
+  next();
+});
+admin.on("connection", (socket) => {
+  socket.emit("admin:hello", { id: socket.id });
+});
+\`\`\`
+
+## Authentication (JWT in handshake)
+- Send token via \`auth\` or query.
+- Verify in middleware before \`connection\`.
+
+\`\`\`ts
+// server auth
+io.use(async (socket, next) => {
+  const token = socket.handshake.auth?.token || socket.handshake.headers["x-auth-token"];
+  try {
+    // const user = verifyJWT(token as string)
+    (socket as any).userId = "u_123";
+    next();
+  } catch {
+    next(new Error("UNAUTHORIZED"));
+  }
+});
+
+io.on("connection", (socket) => {
+  // access with (socket as any).userId
+});
+\`\`\`
+
+Client:
+
+\`\`\`ts
+io("http://localhost:3001", { auth: { token: "JWT_HERE" } });
+\`\`\`
+
+## CORS, Rate Limiting, and Safety
+- Set explicit CORS origins.
+- Throttle chatty events.
+- Sanitize payloads and cap sizes.
+
+\`\`\`ts
+import rateLimit from "express-rate-limit";
+// For HTTP endpoints; for WS, build a simple in-memory token bucket per socket.id
+\`\`\`
+
+## Scaling Horizontally (Redis Adapter)
+To broadcast across multiple Node.js instances, add the Redis adapter.
+
+\`\`\`bash
+npm i @socket.io/redis-adapter ioredis
+\`\`\`
+
+\`\`\`ts
+import { createAdapter } from "@socket.io/redis-adapter";
+import { createClient } from "ioredis";
+
+const pub = new createClient(process.env.REDIS_URL!);
+const sub = new createClient(process.env.REDIS_URL!);
+await Promise.all([pub.connect(), sub.connect()]);
+
+io.adapter(createAdapter(pub, sub));
+\`\`\`
+
+Notes:
+- Use **sticky sessions** on your load balancer or session affinity.
+- Health-check Redis; auto-retry with backoff.
+
+## TypeScript: Strongly-Typed Events
+Define shared interfaces for event names and payloads:
+
+\`\`\`ts
+type ServerToClient = {
+  "chat:new": (msg: { from: string; text: string }) => void;
+};
+type ClientToServer = {
+  "chat:send": (input: { roomId: string; text: string }) => void;
+  "room:join": (roomId: string) => void;
+};
+
+const ioServer = new Server<ClientToServer, ServerToClient>(server, { /* ... */ });
+\`\`\`
+
+## Presence and Heartbeats
+Track online users with join/leave + \`disconnect\`. For durability, store presence in Redis with TTLs, refresh on \`ping\`.
+
+## Deployment Tips
+- Reverse proxy (Nginx) must support WebSocket upgrade (\`Upgrade\`, \`Connection\` headers).
+- Enable sticky sessions with cookies or IP hash.
+- Set timeouts: LB \u003e Node.js \u003e Socket.IO pingInterval.
+- Consider autoscaling and Redis adapter.
+
+## Common Pitfalls
+- Missing sticky sessions: clients connect to different nodes, miss events.
+- Overusing \`io.emit\`: prefer room-targeted emissions.
+- Large payloads: chunk or move to HTTP upload + socket event for completion.
+- Silent failures: always ack with status and errors.
+
+## Example: Small Chat Flow
+\`\`\`ts
+// server
+io.on("connection", (socket) => {
+  socket.on("room:join", (roomId) => socket.join(roomId));
+  socket.on("chat:send", ({ roomId, text }) => {
+    const msg = { id: Date.now().toString(), from: socket.id, text };
+    io.to(roomId).emit("chat:new", msg);
+  });
+});
+\`\`\`
+
+\`\`\`tsx
+// client
+socket.emit("room:join", "room-1");
+socket.on("chat:new", (msg) => setMessages((m) => [...m, msg]));
+socket.emit("chat:send", { roomId: "room-1", text: "hello" });
+\`\`\`
+
+## Final Thoughts
+Socket.IO accelerates real-time product features without forcing you to reinvent reliability. Start small—events, rooms, acks—then add auth and scaling as your traffic grows.`,
+  },
 ].sort((a, b) => {
   const dateA = new Date(a.date);
   const dateB = new Date(b.date);
