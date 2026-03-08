@@ -7,7 +7,7 @@ import Contact from "../components/Contact";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 text-white">
+    <div className="min-h-screen bg-[#080808] text-white">
       <Hero />
       <About />
       <Skills />

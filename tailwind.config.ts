@@ -134,7 +134,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Poppins", "Inter", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
+        syne: ["Syne", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

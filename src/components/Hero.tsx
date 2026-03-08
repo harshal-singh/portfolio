@@ -1,105 +1,157 @@
-import {
-  ArrowDown,
-  Briefcase,
-  Github,
-  Linkedin,
-  Twitter,
-  View,
-  Mail,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowDown, Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
+
+const roles = [
+  "Full Stack Developer",
+  "JavaScript Engineer",
+  "React Specialist",
+  "Cloud Architect",
+];
 
 const Hero = () => {
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentRole = roles[roleIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting && displayText === currentRole) {
+      timeout = setTimeout(() => setIsDeleting(true), 2000);
+    } else if (isDeleting && displayText === "") {
+      setIsDeleting(false);
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    } else {
+      timeout = setTimeout(() => {
+        setDisplayText(
+          isDeleting
+            ? currentRole.slice(0, displayText.length - 1)
+            : currentRole.slice(0, displayText.length + 1)
+        );
+      }, isDeleting ? 40 : 80);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, roleIndex]);
+
   return (
-    <div
+    <section
       id="home"
-      className="pt-36 sm:pt-56 lg:min-h-screen flex items-center flex-col gap-14 lg:gap-36 relative"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#080808]"
     >
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')] bg-no-repeat bg-cover opacity-10"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 to-transparent"></div>
+      {/* Ambient orbs */}
+      <div className="absolute rounded-full blur-3xl pointer-events-none w-[700px] h-[700px] bg-violet-600/10 -top-40 -right-60 opacity-60" />
+      <div className="absolute rounded-full blur-3xl pointer-events-none w-[500px] h-[500px] bg-indigo-600/[0.08] top-1/2 -left-60 opacity-50" />
+      <div className="absolute rounded-full blur-3xl pointer-events-none w-[300px] h-[300px] bg-purple-600/10 bottom-20 right-1/4" />
 
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-24 items-center relative z-10">
-        <div className="animate-fade-in">
-          <div className="inline-block px-3 py-1 text-sm font-medium bg-violet-600/20 text-violet-300 rounded-full mb-6">
-            👋 Full Stack Developer
-          </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
-            <span className="text-white">Hey there, I'm </span>
-            <span className="bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent">
-              Harshal Singh
-            </span>
-          </h1>
-          <h2 className="text-2xl md:text-3xl font-medium mb-6 text-gray-300">
-            Building innovative digital solutions and experiences using{" "}
-            <span className="section-title-gradient italic font-semibold pr-1">
-              JavaScript
-            </span>
-          </h2>
-          <p className="text-gray-400 mb-8 text-lg max-w-xl">
-            Specializing in full-stack development & cloud platforms.
-          </p>
-          <div className="flex flex-wrap gap-4 mb-12">
-            <a
-              href="/#projects"
-              className="btn-primary inline-flex items-center"
-            >
-              <Briefcase size={20} className="mr-2" />
-              View My Work
-            </a>
-            <a
-              href="/#contact"
-              className="btn-secondary inline-flex items-center"
-            >
-              <Mail size={20} className="mr-2" />
-              Contact Me
-            </a>
-          </div>
-          <div className="flex items-center space-x-6">
-            <a
-              href="https://github.com/harshal-singh"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/harshal-singh-56a55a236/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Linkedin size={24} />
-            </a>
-            <a
-              href="https://x.com/harshal_8ingh"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Twitter size={24} />
-            </a>
-          </div>
-        </div>
+      {/* Grid + fade */}
+      <div className="absolute inset-0 bg-grid" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#080808]" />
 
-        <div className="hidden md:flex justify-center relative animate-float">
-          <div className="w-[460px] h-[460px] rounded-full bg-gradient-to-br from-violet-600/10 to-indigo-600/10 absolute blur-3xl"></div>
-          <div className="w-[420px] h-[420px] rounded-full overflow-hidden border-4 border-gray-800 relative z-10 shadow-2xl">
-            <img
-              src="/harshal-singh.jpg"
-              alt="Harshal Singh"
-              className="w-full h-full object-cover"
-            />
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-24">
+        <div className="grid lg:grid-cols-[1fr_auto] gap-16 items-center">
+
+          {/* Left */}
+          <div className="max-w-3xl">
+            {/* Availability badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Available for new opportunities
+            </div>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6">
+              <span className="text-white/90">Hey, I'm</span>
+              <br />
+              <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                Harshal Singh
+              </span>
+            </h1>
+
+            {/* Typewriter role */}
+            <div className="flex items-center gap-3 mb-6 h-10">
+              <div className="w-px h-8 bg-violet-500" />
+              <p className="text-xl sm:text-2xl text-white/50 font-light">
+                <span className="text-white/80 font-medium">{displayText}</span>
+                <span className="animate-blink text-violet-400">|</span>
+              </p>
+            </div>
+
+            <p className="text-white/50 text-lg leading-relaxed max-w-xl mb-10">
+              Building scalable web applications and cloud-native solutions with
+              modern JavaScript. Turning complex problems into clean, elegant code.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 mb-12">
+              <a
+                href="/#projects"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm bg-violet-600 text-white transition-all duration-300 hover:bg-violet-500 hover:shadow-lg hover:shadow-violet-600/25 active:scale-[0.98] group"
+              >
+                View Projects
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="/#contact"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm border border-white/10 text-white/80 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:text-white active:scale-[0.98]"
+              >
+                <Mail size={16} />
+                Get in Touch
+              </a>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-white/20 text-xs font-medium tracking-widest uppercase">Find me on</span>
+              <div className="flex items-center gap-3">
+                {[
+                  { href: "https://github.com/harshal-singh", icon: Github, label: "GitHub" },
+                  { href: "https://www.linkedin.com/in/harshal-singh-56a55a236/", icon: Linkedin, label: "LinkedIn" },
+                  { href: "https://x.com/harshal_8ingh", icon: Twitter, label: "Twitter" },
+                ].map(({ href, icon: Icon, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="w-9 h-9 rounded-xl bg-white/5 border border-white/[0.08] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+                  >
+                    <Icon size={16} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right — Photo */}
+          <div className="hidden lg:block relative animate-float">
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 blur-2xl scale-110" />
+            <div className="relative w-[340px] xl:w-[380px] aspect-[3/4] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-violet-900/20">
+              <img
+                src="/harshal-singh.jpg"
+                alt="Harshal Singh"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 via-transparent to-transparent" />
+            </div>
+            {/* Floating stat cards */}
+            <div className="absolute -left-14 top-16 bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl px-4 py-3 shadow-xl shadow-black/40">
+              <p className="text-white/40 text-xs mb-0.5">Experience</p>
+              <p className="text-white font-bold text-lg leading-none">4+ Years</p>
+            </div>
+            <div className="absolute -right-12 bottom-20 bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl px-4 py-3 shadow-xl shadow-black/40">
+              <p className="text-white/40 text-xs mb-0.5">Projects</p>
+              <p className="text-white font-bold text-lg leading-none">15+ Done</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="text-gray-400 animate-bounce">
-        <a href="#about" className="flex flex-col items-center">
-          <span className="mb-2 text-sm">Scroll Down</span>
-          <ArrowDown size={20} />
-        </a>
+      {/* Scroll hint */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/25 animate-bounce">
+        <span className="text-xs tracking-widest uppercase">Scroll</span>
+        <ArrowDown size={14} />
       </div>
-    </div>
+    </section>
   );
 };
 

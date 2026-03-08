@@ -1,126 +1,87 @@
-import React from "react";
 import { Github, Linkedin, Twitter, ArrowUp } from "lucide-react";
 
+const navLinks = [
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Blogs", href: "#blogs" },
+  { name: "Contact", href: "#contact" },
+];
+
+const socials = [
+  { href: "https://github.com/harshal-singh", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/harshal-singh-56a55a236/", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://x.com/harshal_8ingh", icon: Twitter, label: "Twitter" },
+];
+
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="bg-gray-950 pt-16 pb-8 border-t border-gray-800/30 relative z-10">
-      <div className="container-custom">
-        <div className="flex flex-col md:flex-row justify-between md:items-center mb-12">
-          <div className="mb-8 md:mb-0 text-left">
-            <a href="#" className="text-2xl font-bold inline-block mb-4">
-              <span className="bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-transparent">
-                Harshal
-              </span>
-              <span className="text-white"> Singh</span>
+    <footer className="relative bg-[#050505] border-t border-white/[0.05] pt-14 pb-8 z-10">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between gap-10 mb-12">
+          {/* Brand */}
+          <div className="max-w-xs">
+            <a href="#" className="flex items-center gap-2 mb-4 group">
+              <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center text-white font-bold text-sm transition-transform group-hover:rotate-6 duration-300">
+                H
+              </div>
+              <span className="text-white font-semibold text-[15px]">Harshal Singh</span>
             </a>
-            <p className="text-gray-400 max-w-md">
-              Building innovative digital solutions and experiences using modern{" "}
-              <span className="section-title-gradient pr-1">JavaScript</span>{" "}
-              technologies
+            <p className="text-white/30 text-sm leading-relaxed">
+              Full Stack Developer building scalable web applications with modern JavaScript & cloud platforms.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-4 mb-8 md:mb-0">
-            {location.pathname === "/" && (
-              <>
-                <div className="flex flex-col items-start">
-                  <h3 className="text-white font-medium mb-4">Navigation</h3>
-                  <div className="flex flex-col space-y-2">
-                    <a
-                      href="#home"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      Home
-                    </a>
-                    <a
-                      href="#about"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      About
-                    </a>
-                    <a
-                      href="#skills"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      Skills
-                    </a>
-                  </div>
-                </div>
-                <div className="flex flex-col items-start">
-                  <h3 className="text-white font-medium mb-4">Content</h3>
-                  <div className="flex flex-col space-y-2">
-                    <a
-                      href="#projects"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      Projects
-                    </a>
-                    <a
-                      href="#blogs"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      Blogs
-                    </a>
-                    <a
-                      href="#contact"
-                      className="text-gray-400 hover:text-violet-400 transition-colors"
-                    >
-                      Contact
-                    </a>
-                  </div>
-                </div>
-              </>
-            )}
-            <div className="flex flex-col items-start col-span-2 md:col-span-1 mt-8 md:mt-0">
-              <h3 className="text-white font-medium mb-4">Social Media</h3>
-              <div className="flex space-x-6">
+          {/* Nav */}
+          <div className="flex flex-col gap-3">
+            <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-1">Navigation</p>
+            <div className="grid grid-cols-2 gap-x-10 gap-y-2">
+              {navLinks.map((link) => (
                 <a
-                  href="https://github.com/harshal-singh"
+                  key={link.name}
+                  href={link.href}
+                  className="text-white/35 hover:text-white text-sm transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Socials */}
+          <div className="flex flex-col gap-3">
+            <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-1">Social</p>
+            <div className="flex gap-2">
+              {socials.map(({ href, icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
+                  aria-label={label}
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/[0.07] flex items-center justify-center text-white/35 hover:text-white hover:bg-violet-500/15 hover:border-violet-500/30 transition-all duration-200"
                 >
-                  <Github size={20} />
+                  <Icon size={16} />
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/harshal-singh-56a55a236/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  <Linkedin size={20} />
-                </a>
-                <a
-                  href="https://x.com/harshal_8ingh"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-400 hover:text-violet-400 transition-colors"
-                >
-                  <Twitter size={20} />
-                </a>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800/30 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+        {/* Bottom */}
+        <div className="border-t border-white/[0.05] pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-white/20 text-xs">
             © {new Date().getFullYear()} Harshal Singh. All rights reserved.
           </p>
-
           <button
             onClick={scrollToTop}
-            className="bg-gray-800/50 hover:bg-violet-600/20 border border-gray-700 hover:border-violet-500 rounded-full p-2 text-gray-400 hover:text-violet-400 transition-all"
             aria-label="Scroll to top"
+            className="w-8 h-8 rounded-lg bg-white/5 border border-white/[0.08] flex items-center justify-center text-white/30 hover:text-white hover:bg-violet-500/15 hover:border-violet-500/30 transition-all duration-200"
           >
-            <ArrowUp size={20} />
+            <ArrowUp size={14} />
           </button>
         </div>
       </div>
