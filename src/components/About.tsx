@@ -1,130 +1,144 @@
 import { Code2, Clock, Laptop, Rocket, Download } from "lucide-react";
 
-const stats = [
+const STATS = [
   { value: "4+", label: "Years of Experience" },
-  { value: "15+", label: "Projects Shipped" },
-  { value: "5+", label: "Tech Stacks" },
-  { value: "100%", label: "Commitment" },
+  { value: "20+", label: "Projects Completed" },
+  { value: "15+", label: "Tech Articles" },
+  { value: "100%", label: "Client Satisfaction" },
 ];
 
-const traits = [
+const VALUES = [
   {
-    icon: Code2,
+    icon: "⚡",
     title: "Clean Code",
-    description: "Writing maintainable, scalable, and well-documented code that teams love.",
-    iconBg: "bg-gradient-to-br from-violet-500/20 to-purple-500/10",
-    iconColor: "text-violet-400",
+    desc: "Writing maintainable, scalable, and efficient code is my priority.",
+    hoverBorder: "hover:border-l-violet-500",
+    hoverBg: "hover:bg-violet-500/[0.04]",
+    iconBg: "bg-violet-500/15",
   },
   {
-    icon: Clock,
+    icon: "🚀",
     title: "Timely Delivery",
-    description: "Consistently shipping on time without compromising quality.",
-    iconBg: "bg-gradient-to-br from-indigo-500/20 to-blue-500/10",
-    iconColor: "text-indigo-400",
+    desc: "Always meeting deadlines consistently while maintaining high quality.",
+    hoverBorder: "hover:border-l-cyan-400",
+    hoverBg: "hover:bg-cyan-500/[0.04]",
+    iconBg: "bg-cyan-500/15",
   },
   {
-    icon: Laptop,
+    icon: "🎨",
     title: "Responsive Design",
-    description: "Pixel-perfect UIs that feel native on every screen size and device.",
-    iconBg: "bg-gradient-to-br from-cyan-500/20 to-teal-500/10",
-    iconColor: "text-cyan-400",
+    desc: "Building apps that work seamlessly across all devices.",
+    hoverBorder: "hover:border-l-pink-400",
+    hoverBg: "hover:bg-pink-500/[0.04]",
+    iconBg: "bg-pink-500/15",
   },
   {
-    icon: Rocket,
-    title: "Performance First",
-    description: "Optimizing for Core Web Vitals and real-world user experience.",
-    iconBg: "bg-gradient-to-br from-pink-500/20 to-rose-500/10",
-    iconColor: "text-pink-400",
+    icon: "⚙️",
+    title: "Optimization",
+    desc: "High-performance applications with optimized code and architecture.",
+    hoverBorder: "hover:border-l-amber-400",
+    hoverBg: "hover:bg-amber-500/[0.04]",
+    iconBg: "bg-amber-500/15",
   },
 ];
 
-const About = () => {
-  return (
-    <section id="about" className="py-28 relative bg-[#080808] overflow-hidden">
-      <div className="absolute rounded-full blur-3xl pointer-events-none w-[600px] h-[600px] bg-violet-600/[0.08] -left-60 top-0" />
-      <div className="absolute inset-0 bg-dots opacity-50" />
+const About = () => (
+  <section id="about" className="py-28 bg-[#050810] relative overflow-hidden">
+    {/* Ambient glows */}
+    <div className="absolute -left-48 top-1/4 w-[500px] h-[500px] rounded-full bg-violet-600/10 blur-[100px] pointer-events-none" />
+    <div className="absolute right-0 bottom-0 w-[400px] h-[400px] rounded-full bg-indigo-600/8 blur-[120px] pointer-events-none" />
 
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="max-w-2xl mb-16">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-violet-400 mb-4 before:content-[''] before:w-6 before:h-px before:bg-violet-400">
-            About Me
-          </span>
-          <h2 className="font-bold leading-tight tracking-tight text-4xl md:text-5xl text-white">
-            Crafting digital{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              experiences
-            </span>
-            <br />
-            with purpose
-          </h2>
+    <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Eyebrow */}
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-6 h-px bg-violet-500" />
+        <span className="font-mono text-[0.7rem] font-semibold tracking-[0.12em] uppercase text-violet-500">
+          About Me
+        </span>
+      </div>
+
+      {/* Heading */}
+      <h2 className="text-4xl md:text-5xl font-bold leading-[1.08] tracking-tight text-white mb-14 max-w-2xl">
+        Who{" "}
+        <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          I Am
+        </span>
+      </h2>
+
+      {/* Two-column: bio + value cards */}
+      <div className="grid md:grid-cols-2 gap-16 items-start mb-16">
+        {/* Bio */}
+        <div>
+          <p className="text-[#8b98b8] text-base leading-[1.85] mb-5">
+            I'm a{" "}
+            <span className="text-[#5eead4] font-semibold">
+              passionate software engineer
+            </span>{" "}
+            with expertise in modern JavaScript technologies and cloud
+            computing. With a strong foundation in full-stack development, I
+            enjoy building scalable web applications that deliver exceptional
+            user experiences.
+          </p>
+          <p className="text-[#8b98b8] text-base leading-[1.85] mb-5">
+            My journey in tech started over 4 years ago, and I've since worked
+            on various projects across different domains, from e-commerce to
+            fintech.
+          </p>
+          <p className="text-[#8b98b8] text-base leading-[1.85] mb-8">
+            When I'm not coding, you can find me exploring new tech, or sharing
+            my knowledge through tech blogs.
+          </p>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold bg-violet-600 text-white hover:bg-[#6b4ef0] hover:shadow-[0_0_24px_rgba(124,92,252,0.4)] transition-all duration-200 active:scale-[0.98]"
+          >
+            <Download size={15} />
+            Download Resume
+          </a>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          {/* Bio card */}
-          <div className="md:col-span-7 bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl transition-all duration-300 hover:bg-white/[0.06] hover:border-violet-500/30 hover:shadow-xl hover:shadow-violet-900/10 p-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-900/10 to-transparent" />
-            <div className="relative z-10">
-              <p className="text-white/70 text-lg leading-relaxed mb-5">
-                I'm a{" "}
-                <span className="text-white font-semibold">passionate software engineer</span>{" "}
-                specializing in modern JavaScript technologies and cloud computing. With a strong
-                foundation in full-stack development, I build scalable web applications that deliver
-                exceptional user experiences.
-              </p>
-              <p className="text-white/50 leading-relaxed mb-5">
-                My journey started 4+ years ago and has spanned domains from e-commerce to fintech.
-                I love the intersection of great engineering and thoughtful design.
-              </p>
-              <p className="text-white/50 leading-relaxed mb-8">
-                When I'm not shipping features, you'll find me exploring new technologies or sharing
-                insights through my tech blog.
-              </p>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-sm bg-violet-600 text-white transition-all duration-300 hover:bg-violet-500 hover:shadow-lg hover:shadow-violet-600/25 active:scale-[0.98]"
-              >
-                <Download size={16} />
-                Download Resume
-              </a>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="md:col-span-5 grid grid-cols-2 gap-4">
-            {stats.map(({ value, label }) => (
-              <div
-                key={label}
-                className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl transition-all duration-300 hover:bg-white/[0.06] hover:border-violet-500/30 hover:shadow-xl hover:shadow-violet-900/10 p-6 flex flex-col justify-between"
-              >
-                <span className="text-4xl font-bold bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent leading-none mb-2">
-                  {value}
-                </span>
-                <span className="text-white/40 text-sm leading-snug">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Traits */}
-          {traits.map(({ icon: Icon, title, description, iconBg, iconColor }) => (
+        {/* Value cards */}
+        <div className="flex flex-col gap-3">
+          {VALUES.map(({ icon, title, desc, hoverBorder, hoverBg, iconBg }) => (
             <div
               key={title}
-              className="md:col-span-3 bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl transition-all duration-300 hover:bg-white/[0.06] hover:border-violet-500/30 hover:shadow-xl hover:shadow-violet-900/10 p-6 group"
+              className={`
+                flex items-center gap-4 px-5 py-4 rounded-2xl
+                bg-[#111827] border border-white/[0.07] border-l-[3px] border-l-transparent
+                transition-all duration-250 cursor-default
+                ${hoverBorder} ${hoverBg}
+                hover:translate-x-1
+              `}
             >
-              <div className={`w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}>
-                <Icon size={20} className={iconColor} />
+              <div
+                className={`w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center text-lg flex-shrink-0`}
+              >
+                {icon}
               </div>
-              <h3 className="text-white font-semibold mb-2 text-sm">{title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed">{description}</p>
+              <div className="min-w-0">
+                <p className="text-white text-sm font-bold mb-0.5">{title}</p>
+                <p className="text-[#4a5578] text-xs leading-snug">{desc}</p>
+              </div>
             </div>
           ))}
         </div>
       </div>
-    </section>
-  );
-};
+
+      {/* Stats strip */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.07] border border-white/[0.07] rounded-2xl overflow-hidden">
+        {STATS.map(({ value, label }) => (
+          <div key={label} className="bg-[#111827] px-6 py-7 text-center">
+            <p className="text-3xl font-bold tracking-tight bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-1">
+              {value}
+            </p>
+            <p className="text-[#4a5578] text-xs font-medium">{label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 export default About;
