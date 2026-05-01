@@ -97,10 +97,9 @@ export default function Footer() {
       <div className="border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs text-zinc-500">
           <p>
-            © {new Date().getFullYear()} Harshal Singh. Crafted with care in
-            Mumbai.
+            © {new Date().getFullYear()} Harshal Singh.
           </p>
-          <p className="mono">v1.0 · last updated Jul 2025</p>
+          <p className="mono">All rights reserved.</p>
         </div>
       </div>
     </footer>
