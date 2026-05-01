@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 export default function BlogPostPage() {
@@ -28,9 +28,37 @@ export default function BlogPostPage() {
     () =>
       post?.content
         ?.filter((b) => b.type === "h2")
-        .map((b, i) => ({ id: `h-${i}`, text: b.text })) || [],
+        .map((b) => ({ id: `h-${b.text.replace(/\s/g, "-").toLowerCase()}`, text: b.text })) || [],
     [post]
   );
+
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const headings = Array.from(document.querySelectorAll("h2[id^='h-']"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          } else if (
+            headings.length > 0 &&
+            entry.target.id === headings[0].id &&
+            entry.boundingClientRect.top > 100
+          ) {
+            setActiveSection("");
+          }
+        });
+      },
+      { rootMargin: "-100px 0px -70% 0px" }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+
+    return () => {
+      headings.forEach((h) => observer.unobserve(h));
+    };
+  }, [toc]);
 
   const related = useMemo(
     () => blogPosts.filter((p) => p.slug !== slug).slice(0, 3),
@@ -122,7 +150,11 @@ export default function BlogPostPage() {
                 <li key={t.id}>
                   <a
                     href={`#${t.id}`}
-                    className="text-sm text-zinc-400 hover:text-accent transition-colors block leading-snug"
+                    className={`text-sm transition-colors block leading-snug ${
+                      activeSection === t.id
+                        ? "text-accent font-medium"
+                        : "text-zinc-400 hover:text-accent"
+                    }`}
                   >
                     {t.text}
                   </a>
@@ -167,7 +199,7 @@ export default function BlogPostPage() {
           <div className="prose prose-invert max-w-none space-y-6">
             {post.content.map((block, i) => {
               if (block.type === "h2") {
-                const id = `h-${h2Index++}`;
+                const id = `h-${block.text.replace(/\s/g, "-").toLowerCase()}`;
                 return (
                   <h2
                     key={i}
