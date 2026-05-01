@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className="grain">
         <div className="relative min-h-screen flex flex-col">
           <Header />
-          <main className="flex-1 pt-16 overflow-x-hidden">{children}</main>
+          <main className="flex-1 pt-16 overflow-x-clip">{children}</main>
           <Footer />
         </div>
         <Toaster />
