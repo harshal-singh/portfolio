@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
 
         {/* Name */}
-        <h1 className="heading font-bold text-zinc-100 leading-[0.88] text-[clamp(3.2rem,12vw,11rem)]">
+        <h1 className="heading uppercase font-bold text-zinc-100 leading-[0.88] text-[clamp(3.2rem,10vw,11rem)]">
           Harshal <span className="text-zinc-400">Singh</span><span className="text-accent">.</span>
         </h1>
 
