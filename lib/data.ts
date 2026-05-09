@@ -11,7 +11,7 @@ export const profile = {
   email: "harshal.wrk@gmail.com",
   phone: "+91 88289 84985",
   website: "harshal-singh.vercel.app",
-  status: "Open for new opportunities",
+  status: "Open to Opportunities",
   socials: {
     github: "https://github.com/harshal-singh",
     linkedin: "https://linkedin.com/in/harshal-singh-56a55a236",

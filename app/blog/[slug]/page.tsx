@@ -67,7 +67,7 @@ export default function BlogPostPage() {
 
   if (!post) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-32 text-center">
+      <div className="max-w-3xl mx-auto px-6 pt-56 pb-32 text-center">
         <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
           404
         </p>

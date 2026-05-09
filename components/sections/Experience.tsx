@@ -6,8 +6,8 @@ export default function Experience() {
       id="experience"
       className="max-w-7xl mx-auto px-6 md:px-10 py-24"
     >
-      <div className="grid md:grid-cols-12 gap-10 mb-14">
-        <div className="md:col-span-4">
+      <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
+        <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
             03 — Experience
           </p>
@@ -15,7 +15,7 @@ export default function Experience() {
             Where I&apos;ve shipped.
           </h2>
         </div>
-        <p className="md:col-span-8 text-zinc-400 md:pt-2 leading-relaxed">
+        <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
           A short tour of the teams and clients I&apos;ve built with.
         </p>
       </div>

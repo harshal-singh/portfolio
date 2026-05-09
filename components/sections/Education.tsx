@@ -4,7 +4,7 @@ export default function Education() {
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10 py-20">
       <div className="grid md:grid-cols-12 gap-10">
-        <div className="md:col-span-4">
+        <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
             06 — Education
           </p>
@@ -12,7 +12,7 @@ export default function Education() {
             Foundations.
           </h2>
         </div>
-        <div className="md:col-span-8 space-y-4">
+        <div className="md:col-span-7 space-y-4">
           {education.map((e) => (
             <div
               key={e.school}

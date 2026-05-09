@@ -1,5 +1,5 @@
-import { Code2, Cloud, Cpu, Database, Wrench, type LucideIcon } from "lucide-react";
 import { skills } from "@/lib/data";
+import { Cloud, Code2, Cpu, Database, Wrench, type LucideIcon } from "lucide-react";
 
 const skillIcons: Record<string, LucideIcon> = {
   Frontend: Code2,
@@ -12,8 +12,8 @@ const skillIcons: Record<string, LucideIcon> = {
 export default function Skills() {
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10 py-20">
-      <div className="grid md:grid-cols-12 gap-10 mb-12">
-        <div className="md:col-span-4">
+      <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
+        <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
             02 — Stack
           </p>
@@ -21,7 +21,7 @@ export default function Skills() {
             The toolbelt.
           </h2>
         </div>
-        <p className="md:col-span-8 text-zinc-400 md:pt-2 leading-relaxed">
+        <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
           A mix of what I reach for daily and what I trust in production. New
           tools earn their place by removing real pain, not by being shiny.
         </p>

@@ -4,7 +4,7 @@ export default function About() {
   return (
     <section id="about" className="max-w-7xl mx-auto px-6 md:px-10 py-24 md:py-32">
       <div className="grid md:grid-cols-12 gap-10">
-        <div className="md:col-span-4">
+        <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-4">
             01 — About
           </p>
@@ -12,7 +12,7 @@ export default function About() {
             Engineer who cares about the boring fundamentals.
           </h2>
         </div>
-        <div className="md:col-span-8 md:pt-2 space-y-5 text-zinc-300 text-base md:text-lg leading-relaxed">
+        <div className="md:col-span-7 md:pt-2 space-y-5 text-zinc-300 text-base md:text-lg leading-relaxed">
           <p>
             I&apos;ve spent the last four years shipping web products end‑to‑end
             — from messy legacy CMS revamps to peer‑to‑peer video apps. The

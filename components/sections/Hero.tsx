@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
 
         {/* Name */}
-        <h1 className="heading uppercase font-bold text-zinc-100 leading-[0.88] text-[clamp(3.2rem,10vw,11rem)]">
+        <h1 className="heading uppercase font-bold text-zinc-100 leading-[1] text-[clamp(4.2rem,10vw,11rem)]">
           Harshal <span className="text-zinc-400">Singh</span><span className="text-accent">.</span>
         </h1>
 
@@ -47,19 +47,21 @@ export default function Hero() {
         </div>
 
         {/* CTAs */}
-        <div className="mt-12 flex flex-wrap items-center gap-4">
-          <a
-            href="#work"
-            className="inline-flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors"
-          >
-            See selected work <ArrowRight className="w-4 h-4" />
-          </a>
-          <a
-            href={`mailto:${profile.email}`}
-            className="inline-flex items-center gap-2 border border-white/15 text-zinc-200 px-6 py-3 rounded-md hover:border-white/30 hover:bg-white/[0.03] transition-colors"
-          >
-            Start a project <ArrowUpRight className="w-4 h-4" />
-          </a>
+        <div className="mt-12 flex flex-wrap items-start md:items-center justify-between gap-4">
+          <div className="flex items-start md:items-center flex-col md:flex-row gap-3 ml-2">
+            <a
+              href="#work"
+              className="inline-flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors"
+            >
+              See selected work <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href={`mailto:${profile.email}`}
+              className="inline-flex items-center gap-2 border border-white/15 text-zinc-200 px-6 py-3 rounded-md hover:border-white/30 hover:bg-white/[0.03] transition-colors"
+            >
+              Start a project <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>  
           <div className="flex items-center gap-3 ml-2">
             <a
               href={profile.socials.github}

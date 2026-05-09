@@ -13,8 +13,7 @@ export default function Footer() {
           <span className="text-accent">.</span>
         </Link>
           <p className="mt-4 text-sm text-zinc-500 max-w-xs leading-relaxed">
-            Software engineer based in Mumbai. Available for select freelance
-            and contract work.
+            Software engineer based in Mumbai.
           </p>
         </div>
 
@@ -48,14 +47,14 @@ export default function Footer() {
                 Work
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="/#contact"
                 className="hover:text-accent transition-colors"
               >
                 Contact
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 

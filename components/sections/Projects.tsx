@@ -4,8 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 export default function Projects() {
   return (
     <section id="work" className="max-w-7xl mx-auto px-6 md:px-10 py-24">
-      <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-        <div>
+      <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
+        <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
             04 — Selected Work
           </p>
@@ -13,7 +13,7 @@ export default function Projects() {
             Things I&apos;ve built.
           </h2>
         </div>
-        <p className="text-zinc-400 max-w-md">
+        <p className="md:col-span-7 text-zinc-400 max-w-md">
           A small set, chosen for the technical depth or the problem they solved.
         </p>
       </div>
