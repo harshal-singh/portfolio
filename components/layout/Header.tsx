@@ -129,7 +129,8 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden fixed inset-0 top-16 bg-background flex flex-col h-[calc(100vh-4rem)]">
-          <div className="px-6 py-10 flex flex-col gap-8 flex-1 overflow-y-auto">
+          <div className="px-6 pt-4 pb-10 flex flex-col gap-8 flex-1 overflow-y-auto">
+            <span className="border-t border-white/10" />
             {navItems.map((item) =>
               item.href.startsWith("/#") ? (
                 <a
@@ -151,7 +152,7 @@ export default function Header() {
                 </Link>
               )
             )}
-            <div className="mt-4 border-t border-white/10 pt-8">
+            <div className="mt-auto border-t border-white/10 pt-8">
               <a
                 href={`mailto:${profile.email}`}
                 className="inline-flex items-center justify-center gap-2 bg-accent text-background px-6 py-4 rounded-xl font-medium text-lg w-full"

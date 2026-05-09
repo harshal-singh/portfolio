@@ -11,7 +11,7 @@ const skillIcons: Record<string, LucideIcon> = {
 
 export default function Skills() {
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-10 py-20">
+    <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">

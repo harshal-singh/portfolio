@@ -8,7 +8,7 @@ import {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center px-6 md:px-10 max-w-7xl mx-auto pt-10">
+    <section className="relative min-h-[92vh] flex flex-col justify-center px-6 md:px-10 max-w-7xl mx-auto py-12">
       {/* Glow */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/[0.04] rounded-full blur-3xl pointer-events-none" />
 
@@ -48,7 +48,7 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="mt-12 flex flex-wrap items-start md:items-center justify-between gap-4">
-          <div className="flex items-start md:items-center flex-col md:flex-row gap-3 ml-2">
+          <div className="flex items-start md:items-center flex-col md:flex-row gap-3 md:ml-2">
             <a
               href="#work"
               className="inline-flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors"
@@ -62,7 +62,7 @@ export default function Hero() {
               Start a project <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>  
-          <div className="flex items-center gap-3 ml-2">
+          <div className="flex items-center gap-3 md:ml-2">
             <a
               href={profile.socials.github}
               className="w-10 h-10 rounded-md border border-white/10 flex items-center justify-center text-zinc-400 hover:text-accent hover:border-accent/30 transition-colors"

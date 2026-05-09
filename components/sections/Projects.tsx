@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Projects() {
   return (
-    <section id="work" className="max-w-7xl mx-auto px-6 md:px-10 py-24">
+    <section id="work" className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">

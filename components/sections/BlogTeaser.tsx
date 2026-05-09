@@ -1,12 +1,12 @@
+import { blogPosts } from "@/lib/data";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { blogPosts } from "@/lib/data";
 
 export default function BlogTeaser() {
   const recent = blogPosts.slice(0, 3);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-10 py-24">
+    <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
         <div>
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">

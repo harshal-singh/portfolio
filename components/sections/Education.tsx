@@ -2,7 +2,7 @@ import { education } from "@/lib/data";
 
 export default function Education() {
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-10 py-20">
+    <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="grid md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
