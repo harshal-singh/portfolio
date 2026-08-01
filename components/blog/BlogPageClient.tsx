@@ -1,7 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { blogCategories, blogPosts, gradientMap } from "@/lib/data";
+import { gradientMap } from "@/lib/seed";
+import type { BlogPost, SectionMeta } from "@/lib/types";
 import { ArrowUpRight, Calendar, Clock, Search } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -10,7 +11,7 @@ function BlogCard({
   post,
   featured = false,
 }: {
-  post: (typeof blogPosts)[0];
+  post: BlogPost;
   featured?: boolean;
 }) {
   return (
@@ -77,7 +78,17 @@ function BlogCard({
   );
 }
 
-export default function BlogPage() {
+interface BlogPageClientProps {
+  section: SectionMeta;
+  blogPosts: BlogPost[];
+  blogCategories: string[];
+}
+
+export default function BlogPageClient({
+  section,
+  blogPosts,
+  blogCategories,
+}: BlogPageClientProps) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState("All");
 
@@ -92,26 +103,22 @@ export default function BlogPage() {
         p.tags.some((t) => t.toLowerCase().includes(q));
       return matchesCat && matchesQ;
     });
-  }, [query, active]);
+  }, [query, active, blogPosts]);
 
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24">
-      {/* Header */}
       <div className="mb-14 max-w-3xl rise-in">
         <p className="mono text-xs uppercase tracking-widest text-accent mb-4">
-          The Journal
+          {section.label}
         </p>
         <h1 className="heading text-5xl md:text-7xl font-semibold leading-[0.95] mb-6">
-          Writing about the{" "}
-          <span className="text-accent">craft</span> of building software.
+          {section.title}
         </h1>
-        <p className="text-zinc-400 text-lg leading-relaxed">
-          Pragmatic notes from the trench — architecture decisions, performance
-          work, and the small patterns that make codebases pleasant to live in.
-        </p>
+        {section.description ? (
+          <p className="text-zinc-400 text-lg leading-relaxed">{section.description}</p>
+        ) : null}
       </div>
 
-      {/* Filters */}
       <div className="sticky top-16 z-30 -mx-6 md:-mx-10 px-6 md:px-10 py-4 backdrop-blur-md bg-background/70 border-y border-white/5 mb-10">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="relative flex-1 max-w-md">
@@ -141,7 +148,6 @@ export default function BlogPage() {
         </div>
       </div>
 
-      {/* Grid */}
       {filtered.length === 0 ? (
         <div className="text-center py-24 text-zinc-500">
           <p className="mono text-sm">No posts match your filter.</p>

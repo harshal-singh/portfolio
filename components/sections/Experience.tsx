@@ -1,6 +1,11 @@
-import { experience } from "@/lib/data";
+import type { Experience, SectionMeta } from "@/lib/types";
 
-export default function Experience() {
+interface ExperienceProps {
+  section: SectionMeta;
+  experience: Experience[];
+}
+
+export default function ExperienceSection({ section, experience }: ExperienceProps) {
   return (
     <section
       id="experience"
@@ -9,15 +14,15 @@ export default function Experience() {
       <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
-            03 — Experience
+            {section.label}
           </p>
-          <h2 className="heading text-4xl md:text-5xl font-semibold">
-            Where I&apos;ve shipped.
-          </h2>
+          <h2 className="heading text-4xl md:text-5xl font-semibold">{section.title}</h2>
         </div>
-        <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
-          A short tour of the teams and clients I&apos;ve built with.
-        </p>
+        {section.description ? (
+          <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
+            {section.description}
+          </p>
+        ) : null}
       </div>
       <div className="relative border-l border-white/10 ml-3 md:ml-6">
         {experience.map((job) => (
@@ -30,13 +35,9 @@ export default function Experience() {
               } transition-colors`}
             />
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-1">
-              <h3 className="heading text-xl md:text-2xl text-zinc-100">
-                {job.role}
-              </h3>
+              <h3 className="heading text-xl md:text-2xl text-zinc-100">{job.role}</h3>
               <span className="text-zinc-400">at</span>
-              <span className="text-accent heading text-xl md:text-2xl">
-                {job.company}
-              </span>
+              <span className="text-accent heading text-xl md:text-2xl">{job.company}</span>
             </div>
             <p className="mono text-xs text-zinc-500 mb-4">
               {job.period} · {job.location}

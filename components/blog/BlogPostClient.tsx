@@ -1,7 +1,8 @@
 "use client";
 
 import { LinkedinIcon, TwitterIcon } from "@/components/ui/brand-icons";
-import { blogPosts, gradientMap, profile } from "@/lib/data";
+import { gradientMap } from "@/lib/seed";
+import type { BlogPost, Profile } from "@/lib/types";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -10,19 +11,22 @@ import {
   Link as LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
-export default function BlogPostPage() {
-  const params = useParams();
+interface BlogPostClientProps {
+  post: BlogPost | null;
+  profile: Profile;
+  related: BlogPost[];
+}
+
+export default function BlogPostClient({ post, profile, related }: BlogPostClientProps) {
   const router = useRouter();
-  const slug = params.slug as string;
-  const post = blogPosts.find((p) => p.slug === slug);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, [slug]);
+  }, [post?.slug]);
 
   const toc = useMemo(
     () =>
@@ -54,26 +58,14 @@ export default function BlogPostPage() {
     );
 
     headings.forEach((h) => observer.observe(h));
-
-    return () => {
-      headings.forEach((h) => observer.unobserve(h));
-    };
+    return () => headings.forEach((h) => observer.unobserve(h));
   }, [toc]);
-
-  const related = useMemo(
-    () => blogPosts.filter((p) => p.slug !== slug).slice(0, 3),
-    [slug]
-  );
 
   if (!post) {
     return (
       <div className="max-w-3xl mx-auto px-6 pt-56 pb-32 text-center">
-        <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
-          404
-        </p>
-        <h1 className="heading text-4xl text-zinc-100 mb-6">
-          This post doesn&apos;t exist.
-        </h1>
+        <p className="mono text-xs uppercase tracking-widest text-accent mb-3">404</p>
+        <h1 className="heading text-4xl text-zinc-100 mb-6">This post doesn&apos;t exist.</h1>
         <button
           onClick={() => router.push("/blog")}
           className="mono text-sm text-zinc-300 inline-flex items-center gap-2 link-underline"
@@ -89,11 +81,8 @@ export default function BlogPostPage() {
     toast.success("Link copied to clipboard");
   };
 
-  let h2Index = 0;
-
   return (
     <article className="relative">
-      {/* Cover */}
       <div
         className={`relative h-[40vh] md:h-[55vh] overflow-hidden bg-gradient-to-br ${
           gradientMap[post.cover] || gradientMap["gradient-1"]
@@ -137,9 +126,7 @@ export default function BlogPostPage() {
         </div>
       </div>
 
-      {/* Body */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-12 gap-10">
-        {/* TOC */}
         <aside className="md:col-span-3">
           <div className="md:sticky md:top-24">
             <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-4">
@@ -162,20 +149,16 @@ export default function BlogPostPage() {
               ))}
             </ul>
             <div className="pt-6 border-t border-white/5">
-              <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">
-                Share
-              </p>
+              <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">Share</p>
               <div className="flex gap-2">
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                    post.title
-                  )}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
                   className="w-9 h-9 rounded-md border border-white/10 flex items-center justify-center text-zinc-400 hover:text-accent hover:border-accent/30 transition-colors"
                 >
                   <TwitterIcon className="w-4 h-4" />
                 </a>
                 <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/`}
+                  href="https://www.linkedin.com/sharing/share-offsite/"
                   className="w-9 h-9 rounded-md border border-white/10 flex items-center justify-center text-zinc-400 hover:text-accent hover:border-accent/30 transition-colors"
                 >
                   <LinkedinIcon className="w-4 h-4" />
@@ -191,7 +174,6 @@ export default function BlogPostPage() {
           </div>
         </aside>
 
-        {/* Article content */}
         <div className="md:col-span-9 max-w-3xl">
           <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed border-l-2 border-accent pl-5 mb-12 italic">
             {post.excerpt}
@@ -223,21 +205,15 @@ export default function BlogPostPage() {
                 );
               }
               return (
-                <p
-                  key={i}
-                  className="text-zinc-300 text-[17px] leading-[1.8]"
-                >
+                <p key={i} className="text-zinc-300 text-[17px] leading-[1.8]">
                   {block.text}
                 </p>
               );
             })}
           </div>
 
-          {/* Tags */}
           <div className="mt-14 pt-8 border-t border-white/5">
-            <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">
-              Tagged
-            </p>
+            <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">Tagged</p>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((t) => (
                 <span
@@ -250,7 +226,6 @@ export default function BlogPostPage() {
             </div>
           </div>
 
-          {/* Author */}
           <div className="mt-10 p-6 rounded-xl border border-white/[0.07] bg-white/[0.015] flex item-start sm:items-center flex-col sm:flex-row gap-5">
             <div className="w-14 h-14 rounded-full bg-accent text-background flex items-center justify-center heading font-bold text-lg">
               HS
@@ -271,12 +246,9 @@ export default function BlogPostPage() {
         </div>
       </div>
 
-      {/* Related */}
       <section className="max-w-7xl mx-auto px-6 md:px-10 pb-20">
         <div className="flex items-end justify-between mb-10">
-          <h2 className="heading text-3xl md:text-4xl text-zinc-100">
-            Keep reading
-          </h2>
+          <h2 className="heading text-3xl md:text-4xl text-zinc-100">Keep reading</h2>
           <Link href="/blog" className="mono text-sm text-zinc-300 link-underline">
             All posts →
           </Link>
@@ -293,16 +265,12 @@ export default function BlogPostPage() {
                   {p.category}
                 </span>
                 <span className="text-zinc-600">·</span>
-                <span className="mono text-[11px] text-zinc-500">
-                  {p.readTime}
-                </span>
+                <span className="mono text-[11px] text-zinc-500">{p.readTime}</span>
               </div>
               <h3 className="heading text-lg text-zinc-100 group-hover:text-accent transition-colors leading-snug">
                 {p.title}
               </h3>
-              <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2 mt-3">
-                {p.excerpt}
-              </p>
+              <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2 mt-3">{p.excerpt}</p>
             </Link>
           ))}
         </div>

@@ -1,11 +1,7 @@
 "use client";
 
-import { profile } from "@/lib/data";
-import {
-  ArrowUpRight,
-  Menu,
-  X,
-} from "lucide-react";
+import type { Profile } from "@/lib/types";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,7 +12,11 @@ const navItems = [
   { label: "Blog", href: "/blog" },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  profile: Profile;
+}
+
+export default function Header({ profile }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -27,12 +27,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -44,17 +42,13 @@ export default function Header() {
     };
   }, [open]);
 
-  const handleAnchor = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("/#")) {
       const id = href.replace("/#", "");
       if (pathname === "/") {
         e.preventDefault();
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
       }
-      // If on a different page, let the default navigation happen
     }
     setOpen(false);
   };
@@ -65,18 +59,20 @@ export default function Header() {
         open
           ? "bg-background border-transparent"
           : scrolled
-          ? "backdrop-blur-md bg-background/95 border-white/5"
-          : "border-transparent"
+            ? "backdrop-blur-md bg-background/95 border-white/5"
+            : "border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" onClick={() => setOpen(false)} className="heading uppercase text-2xl text-zinc-300 font-bold group hover:text-white transition-colors relative z-50">
-            HRS
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="heading uppercase text-2xl text-zinc-300 font-bold group hover:text-white transition-colors relative z-50"
+        >
+          HRS
           <span className="text-accent">.</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item) =>
             item.href.startsWith("/#") ? (
@@ -93,9 +89,7 @@ export default function Header() {
                 key={item.label}
                 href={item.href}
                 className={`text-sm link-underline ${
-                  pathname === item.href
-                    ? "text-white"
-                    : "text-zinc-400 hover:text-white"
+                  pathname === item.href ? "text-white" : "text-zinc-400 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -104,7 +98,6 @@ export default function Header() {
           )}
         </nav>
 
-        {/* CTA + Mobile toggle */}
         <div className="flex items-center gap-3 relative z-50">
           <a
             href={`mailto:${profile.email}`}
@@ -117,16 +110,11 @@ export default function Header() {
             className="md:hidden text-zinc-200 p-2"
             aria-label="Menu"
           >
-            {open ? (
-              <X className="w-7 h-7" />
-            ) : (
-              <Menu className="w-7 h-7" />
-            )}
+            {open ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {open && (
         <div className="md:hidden fixed inset-0 top-16 bg-background flex flex-col h-[calc(100vh-4rem)]">
           <div className="px-6 pt-4 pb-10 flex flex-col gap-8 flex-1 overflow-y-auto">

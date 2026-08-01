@@ -1,20 +1,23 @@
-import { blogPosts } from "@/lib/data";
+import type { BlogPost, SectionMeta } from "@/lib/types";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-export default function BlogTeaser() {
-  const recent = blogPosts.slice(0, 3);
+interface BlogTeaserProps {
+  section: SectionMeta;
+  posts: BlogPost[];
+}
+
+export default function BlogTeaser({ section, posts }: BlogTeaserProps) {
+  const recent = posts.slice(0, 3);
 
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
         <div>
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
-            05 — Writing
+            {section.label}
           </p>
-          <h2 className="heading text-4xl md:text-5xl font-semibold">
-            Notes from the trench.
-          </h2>
+          <h2 className="heading text-4xl md:text-5xl font-semibold">{section.title}</h2>
         </div>
         <Link
           href="/blog"
@@ -35,20 +38,14 @@ export default function BlogTeaser() {
                 {post.category}
               </span>
               <span className="text-zinc-600">·</span>
-              <span className="mono text-[11px] text-zinc-500">
-                {post.readTime}
-              </span>
+              <span className="mono text-[11px] text-zinc-500">{post.readTime}</span>
             </div>
             <h3 className="heading text-xl text-zinc-100 mb-3 group-hover:text-accent transition-colors leading-snug">
               {post.title}
             </h3>
-            <p className="text-zinc-400 text-sm leading-relaxed line-clamp-3">
-              {post.excerpt}
-            </p>
+            <p className="text-zinc-400 text-sm leading-relaxed line-clamp-3">{post.excerpt}</p>
             <div className="mt-6 flex items-center justify-between">
-              <span className="mono text-[11px] text-zinc-500">
-                {post.date}
-              </span>
+              <span className="mono text-[11px] text-zinc-500">{post.date}</span>
               <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-accent transition-colors" />
             </div>
           </Link>

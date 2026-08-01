@@ -1,21 +1,24 @@
-import { education } from "@/lib/data";
+import type { Education, SectionMeta } from "@/lib/types";
 
-export default function Education() {
+interface EducationProps {
+  section: SectionMeta;
+  education: Education[];
+}
+
+export default function EducationSection({ section, education }: EducationProps) {
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="grid md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
-            06 — Education
+            {section.label}
           </p>
-          <h2 className="heading text-4xl md:text-5xl font-semibold">
-            Foundations.
-          </h2>
+          <h2 className="heading text-4xl md:text-5xl font-semibold">{section.title}</h2>
         </div>
         <div className="md:col-span-7 space-y-4">
           {education.map((e) => (
             <div
-              key={e.school}
+              key={e.id}
               className="p-6 rounded-xl border border-white/[0.06] bg-white/[0.015] flex flex-wrap gap-4 items-baseline justify-between"
             >
               <div>

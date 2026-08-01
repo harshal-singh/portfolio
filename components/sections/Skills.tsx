@@ -1,4 +1,4 @@
-import { skills } from "@/lib/data";
+import type { SectionMeta } from "@/lib/types";
 import { Cloud, Code2, Cpu, Database, Wrench, type LucideIcon } from "lucide-react";
 
 const skillIcons: Record<string, LucideIcon> = {
@@ -9,22 +9,26 @@ const skillIcons: Record<string, LucideIcon> = {
   Tooling: Wrench,
 };
 
-export default function Skills() {
+interface SkillsProps {
+  section: SectionMeta;
+  skills: Record<string, string[]>;
+}
+
+export default function Skills({ section, skills }: SkillsProps) {
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-24">
       <div className="grid md:grid-cols-12 gap-10 items-end mb-14">
         <div className="md:col-span-5">
           <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
-            02 — Stack
+            {section.label}
           </p>
-          <h2 className="heading text-4xl md:text-5xl font-semibold">
-            The toolbelt.
-          </h2>
+          <h2 className="heading text-4xl md:text-5xl font-semibold">{section.title}</h2>
         </div>
-        <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
-          A mix of what I reach for daily and what I trust in production. New
-          tools earn their place by removing real pain, not by being shiny.
-        </p>
+        {section.description ? (
+          <p className="md:col-span-7 text-zinc-400 md:pt-2 leading-relaxed">
+            {section.description}
+          </p>
+        ) : null}
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Object.entries(skills).map(([cat, list]) => {
