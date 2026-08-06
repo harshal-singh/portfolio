@@ -10,7 +10,6 @@ export default async function BlogPage() {
     <BlogPageClient
       section={content.sections.blog}
       blogPosts={content.blogPosts}
-      blogCategories={content.blogCategories}
     />
   );
 }

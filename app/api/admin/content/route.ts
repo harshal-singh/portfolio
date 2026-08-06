@@ -166,6 +166,17 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
       );
       break;
     }
+    case "blog-categories": {
+      const categories = data as string[];
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.BLOG_CATEGORIES,
+        SHEET_HEADERS[SHEET_TABS.BLOG_CATEGORIES],
+        categories.map((name, i) => [name, String(i)])
+      );
+      break;
+    }
     case "blog": {
       const { posts, categories } = data as {
         posts: BlogPost[];

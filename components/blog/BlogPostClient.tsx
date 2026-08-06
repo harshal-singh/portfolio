@@ -1,8 +1,9 @@
 "use client";
 
 import { LinkedinIcon, TwitterIcon } from "@/components/ui/brand-icons";
+import type { BlogPostMeta } from "@/lib/blog/postMeta";
 import { gradientMap } from "@/lib/seed";
-import type { BlogPost, Profile } from "@/lib/types";
+import type { Profile } from "@/lib/types";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -12,34 +13,35 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
 interface BlogPostClientProps {
-  post: BlogPost | null;
+  post: BlogPostMeta | null;
   profile: Profile;
-  related: BlogPost[];
+  related: BlogPostMeta[];
+  toc: { id: string; text: string }[];
+  children?: ReactNode;
 }
 
-export default function BlogPostClient({ post, profile, related }: BlogPostClientProps) {
+export default function BlogPostClient({
+  post,
+  profile,
+  related,
+  toc,
+  children,
+}: BlogPostClientProps) {
   const router = useRouter();
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [post?.slug]);
 
-  const toc = useMemo(
-    () =>
-      post?.content
-        ?.filter((b) => b.type === "h2")
-        .map((b) => ({ id: `h-${b.text.replace(/\s/g, "-").toLowerCase()}`, text: b.text })) || [],
-    [post]
-  );
-
-  const [activeSection, setActiveSection] = useState<string>("");
-
   useEffect(() => {
-    const headings = Array.from(document.querySelectorAll("h2[id^='h-']"));
+    const headings = Array.from(
+      document.querySelectorAll("h2[id^='h-'], h3[id^='h-']"),
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -54,7 +56,7 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
           }
         });
       },
-      { rootMargin: "-100px 0px -70% 0px" }
+      { rootMargin: "-100px 0px -70% 0px" },
     );
 
     headings.forEach((h) => observer.observe(h));
@@ -64,8 +66,12 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
   if (!post) {
     return (
       <div className="max-w-3xl mx-auto px-6 pt-56 pb-32 text-center">
-        <p className="mono text-xs uppercase tracking-widest text-accent mb-3">404</p>
-        <h1 className="heading text-4xl text-zinc-100 mb-6">This post doesn&apos;t exist.</h1>
+        <p className="mono text-xs uppercase tracking-widest text-accent mb-3">
+          404
+        </p>
+        <h1 className="heading text-4xl text-zinc-100 mb-6">
+          This post doesn&apos;t exist.
+        </h1>
         <button
           onClick={() => router.push("/blog")}
           className="mono text-sm text-zinc-300 inline-flex items-center gap-2 link-underline"
@@ -84,7 +90,7 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
   return (
     <article className="relative">
       <div
-        className={`relative h-[40vh] md:h-[55vh] overflow-hidden bg-gradient-to-br ${
+        className={`relative h-[40vh] md:h-[65vh] overflow-hidden bg-gradient-to-br ${
           gradientMap[post.cover] || gradientMap["gradient-1"]
         }`}
       >
@@ -149,7 +155,9 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
               ))}
             </ul>
             <div className="pt-6 border-t border-white/5">
-              <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">Share</p>
+              <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">
+                Share
+              </p>
               <div className="flex gap-2">
                 <a
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}`}
@@ -178,42 +186,12 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
           <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed border-l-2 border-accent pl-5 mb-12 italic">
             {post.excerpt}
           </p>
-          <div className="prose prose-invert max-w-none space-y-6">
-            {post.content.map((block, i) => {
-              if (block.type === "h2") {
-                const id = `h-${block.text.replace(/\s/g, "-").toLowerCase()}`;
-                return (
-                  <h2
-                    key={i}
-                    id={id}
-                    className="heading text-2xl md:text-3xl text-zinc-100 mt-12 mb-2 scroll-mt-24"
-                  >
-                    {block.text}
-                  </h2>
-                );
-              }
-              if (block.type === "code") {
-                return (
-                  <pre
-                    key={i}
-                    className="max-w-[calc(100vw-48px)] bg-surface-code border border-white/10 rounded-lg p-5 overflow-x-auto"
-                  >
-                    <code className="mono text-sm text-zinc-300 leading-relaxed whitespace-pre">
-                      {block.text}
-                    </code>
-                  </pre>
-                );
-              }
-              return (
-                <p key={i} className="text-zinc-300 text-[17px] leading-[1.8]">
-                  {block.text}
-                </p>
-              );
-            })}
-          </div>
+          {children}
 
           <div className="mt-14 pt-8 border-t border-white/5">
-            <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">Tagged</p>
+            <p className="mono text-[10px] uppercase tracking-widest text-zinc-500 mb-3">
+              Tagged
+            </p>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((t) => (
                 <span
@@ -248,8 +226,13 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
 
       <section className="max-w-7xl mx-auto px-6 md:px-10 pb-20">
         <div className="flex items-end justify-between mb-10">
-          <h2 className="heading text-3xl md:text-4xl text-zinc-100">Keep reading</h2>
-          <Link href="/blog" className="mono text-sm text-zinc-300 link-underline">
+          <h2 className="heading text-3xl md:text-4xl text-zinc-100">
+            Keep reading
+          </h2>
+          <Link
+            href="/blog"
+            className="mono text-sm text-zinc-300 link-underline"
+          >
             All posts →
           </Link>
         </div>
@@ -265,12 +248,16 @@ export default function BlogPostClient({ post, profile, related }: BlogPostClien
                   {p.category}
                 </span>
                 <span className="text-zinc-600">·</span>
-                <span className="mono text-[11px] text-zinc-500">{p.readTime}</span>
+                <span className="mono text-[11px] text-zinc-500">
+                  {p.readTime}
+                </span>
               </div>
               <h3 className="heading text-lg text-zinc-100 group-hover:text-accent transition-colors leading-snug">
                 {p.title}
               </h3>
-              <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2 mt-3">{p.excerpt}</p>
+              <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2 mt-3">
+                {p.excerpt}
+              </p>
             </Link>
           ))}
         </div>

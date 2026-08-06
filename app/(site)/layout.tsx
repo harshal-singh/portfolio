@@ -13,13 +13,17 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { profile } = await getPortfolioContent();
 
   return (
     <>
       <Header profile={profile} />
-      <main className="flex-1 pt-16 overflow-x-clip">{children}</main>
+      <main className="flex-1 overflow-x-clip">{children}</main>
       <Footer profile={profile} />
     </>
   );

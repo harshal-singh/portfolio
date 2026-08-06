@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { uniqueBlogCategories } from "@/lib/blog/categories";
 import { gradientMap } from "@/lib/seed";
 import type { BlogPost, SectionMeta } from "@/lib/types";
 import { ArrowUpRight, Calendar, Clock, Search } from "lucide-react";
@@ -81,16 +82,19 @@ function BlogCard({
 interface BlogPageClientProps {
   section: SectionMeta;
   blogPosts: BlogPost[];
-  blogCategories: string[];
 }
 
 export default function BlogPageClient({
   section,
   blogPosts,
-  blogCategories,
 }: BlogPageClientProps) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState("All");
+
+  const blogCategories = useMemo(
+    () => uniqueBlogCategories(blogPosts),
+    [blogPosts],
+  );
 
   const filtered = useMemo(() => {
     return blogPosts.filter((p) => {

@@ -10,7 +10,7 @@ export const seedContent: PortfolioContent = {
     shortBio:
       "Full-stack engineer with 5+ years building scalable web apps. I craft fast, accessible interfaces and ship reliable systems with React, Next.js & Node.",
     location: "Mumbai, India",
-    email: "harshal8828984985@gmail.com",
+    email: "harshal.wrk@gmail.com",
     phone: "+91 88289 84985",
     website: "harshal-singh.vercel.app",
     status: "Open to Opportunities",
