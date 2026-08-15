@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { label: "Work", href: "/#work" },
-  { label: "Experience", href: "/#experience" },
+  { label: "About", href: "/#about" },
+  // { label: "Work", href: "/#work" },
+  // { label: "Experience", href: "/#experience" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -42,7 +43,10 @@ export default function Header({ profile }: HeaderProps) {
     };
   }, [open]);
 
-  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleAnchor = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     if (href.startsWith("/#")) {
       const id = href.replace("/#", "");
       if (pathname === "/") {
@@ -89,12 +93,14 @@ export default function Header({ profile }: HeaderProps) {
                 key={item.label}
                 href={item.href}
                 className={`text-sm link-underline ${
-                  pathname === item.href ? "text-white" : "text-zinc-400 hover:text-white"
+                  pathname === item.href
+                    ? "text-white"
+                    : "text-zinc-400 hover:text-white"
                 }`}
               >
                 {item.label}
               </Link>
-            )
+            ),
           )}
         </nav>
 
@@ -138,7 +144,7 @@ export default function Header({ profile }: HeaderProps) {
                 >
                   {item.label}
                 </Link>
-              )
+              ),
             )}
             <div className="mt-auto border-t border-white/10 pt-8">
               <a

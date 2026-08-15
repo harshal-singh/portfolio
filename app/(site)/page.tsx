@@ -1,10 +1,8 @@
 import About from "@/components/sections/About";
 import BlogTeaser from "@/components/sections/BlogTeaser";
 import Education from "@/components/sections/Education";
-import Experience from "@/components/sections/Experience";
 import Hero from "@/components/sections/Hero";
 import Marquee from "@/components/sections/Marquee";
-import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
 import { getPortfolioContent } from "@/lib/content/getContent";
 
@@ -23,10 +21,16 @@ export default async function Home() {
         stats={content.stats}
       />
       <Skills section={content.sections.skills} skills={content.skills} />
-      <Experience section={content.sections.experience} experience={content.experience} />
-      <Projects section={content.sections.projects} projects={content.projects} />
-      <BlogTeaser section={content.sections.blogTeaser} posts={content.blogPosts} />
-      <Education section={content.sections.education} education={content.education} />
+      {/* <Experience section={content.sections.experience} experience={content.experience} /> */}
+      {/* <Projects section={content.sections.projects} projects={content.projects} /> */}
+      <BlogTeaser
+        section={content.sections.blogTeaser}
+        posts={content.blogPosts}
+      />
+      <Education
+        section={content.sections.education}
+        education={content.education}
+      />
     </>
   );
 }
