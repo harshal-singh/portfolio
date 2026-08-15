@@ -1,4 +1,3 @@
-import About from "@/components/sections/About";
 import BlogTeaser from "@/components/sections/BlogTeaser";
 import Education from "@/components/sections/Education";
 import Hero from "@/components/sections/Hero";
@@ -15,11 +14,11 @@ export default async function Home() {
     <>
       <Hero profile={content.profile} />
       <Marquee items={content.marquee} />
-      <About
+      {/* <About
         section={content.sections.about}
         paragraphs={content.aboutParagraphs}
         stats={content.stats}
-      />
+      /> */}
       <Skills section={content.sections.skills} skills={content.skills} />
       {/* <Experience section={content.sections.experience} experience={content.experience} /> */}
       {/* <Projects section={content.sections.projects} projects={content.projects} /> */}

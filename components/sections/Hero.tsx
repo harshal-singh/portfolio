@@ -1,5 +1,5 @@
-import type { Profile } from "@/lib/types";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import type { Profile } from "@/lib/types";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 
 interface HeroProps {
@@ -29,7 +29,9 @@ export default function Hero({ profile }: HeroProps) {
         <div className="mt-10 grid md:grid-cols-12 gap-8 items-end">
           <div className="md:col-span-7">
             <p className="text-zinc-300 text-lg md:text-xl leading-relaxed max-w-xl">
-              {profile.shortBio}
+              Software Engineer building scalable web apps. I craft fast,
+              accessible interfaces and ship reliable systems with React,
+              Next.js, TypeScript, Tailwind CSS and Node.js
             </p>
           </div>
           <div className="md:col-span-5 md:text-right">
