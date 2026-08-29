@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Landing page redesign — 12 directions · Harshal Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0A0B0D; --fg:#EDEFF2; --dim:#8A929E; --dim2:#5C6470;
+  --card:#111318; --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.18);
+  --em:#4ADE80;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:60px 60px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:clamp(2.5rem,6vw,4.5rem) clamp(1rem,4vw,2rem) 5rem}
+
+.kick{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--em);margin-bottom:1rem}
+h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;letter-spacing:-.038em;line-height:1.08;max-width:20ch}
+.lede{margin-top:1.1rem;color:var(--dim);line-height:1.75;max-width:50rem;font-size:1rem}
+.hint{margin-top:1.5rem;display:inline-flex;align-items:center;gap:.6rem;font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--dim);border:1px solid var(--line);background:var(--card);padding:.6rem 1rem;border-radius:9px}
+
+.round{display:flex;align-items:center;gap:1rem;margin:clamp(2.5rem,5vw,3.5rem) 0 1.25rem}
+.round h2{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.round .ln{flex:1;height:1px;background:var(--line)}
+
+.grid{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+.card{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;display:flex;flex-direction:column;transition:.28s}
+.card:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+
+.frame{position:relative;height:290px;overflow:hidden;border-bottom:1px solid var(--line);background:#000;display:block}
+.frame iframe{position:absolute;top:0;left:0;width:1440px;height:1460px;border:0;transform:scale(.385);transform-origin:top left;pointer-events:none}
+.frame .veil{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(17,19,24,.85));pointer-events:none}
+.frame .pin{position:absolute;top:.75rem;left:.85rem;z-index:3;font-family:"JetBrains Mono",monospace;font-size:.68rem;font-weight:600;padding:.28rem .65rem;border-radius:999px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);border:1px solid var(--line2)}
+
+.body{padding:1.4rem 1.5rem 1.5rem;flex:1;display:flex;flex-direction:column}
+.body h3{font-family:"Space Grotesk",sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-.025em}
+.body .tag{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--em);margin-top:.35rem;letter-spacing:.04em}
+.body p{font-size:.9rem;line-height:1.7;color:var(--dim);margin-top:.85rem}
+
+.facts{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.45rem}
+.facts li{display:flex;gap:.6rem;font-size:.82rem;color:var(--dim);line-height:1.55}
+.facts li b{color:var(--fg);font-weight:600;min-width:5.5rem;flex-shrink:0;font-size:.78rem}
+
+.foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.4rem;padding-top:1.15rem;border-top:1px solid var(--line);flex-wrap:wrap}
+.best{font-size:.78rem;color:var(--dim2)}
+.best b{color:var(--fg)}
+.open{display:inline-flex;align-items:center;gap:.45rem;font-size:.82rem;font-weight:600;padding:.6rem 1.1rem;border-radius:9px;background:var(--fg);color:#0A0B0D;transition:.2s}
+.open:hover{background:var(--em)}
+
+.note{margin-top:clamp(2.5rem,5vw,3.5rem);border:1px solid var(--line);border-radius:16px;background:var(--card);padding:clamp(1.5rem,3vw,2rem)}
+.note h3{font-family:"Space Grotesk",sans-serif;font-size:1.1rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.9rem}
+.note p{font-size:.88rem;line-height:1.75;color:var(--dim);max-width:62rem}
+.note p + p{margin-top:.8rem}
+.note code{font-family:"JetBrains Mono",monospace;font-size:.8rem;background:rgba(255,255,255,.06);padding:.15rem .4rem;border-radius:4px;color:var(--em)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Portfolio redesign · 12 directions</div>
+  <h1>Twelve landing page directions.</h1>
+  <p class="lede">Each is a complete, self-contained landing page built with your real content &mdash; the Webol / Atrina / Quadb history, the four projects, the measurable outcomes. They are deliberately different design languages and, from the second round on, different <em>structures</em> too. Nothing in the Next.js app has been touched.</p>
+  <div class="hint">Tip &mdash; open each full-screen, then use the switcher pill at the bottom to jump between all twelve.</div>
+
+  <div class="round"><h2>Round 1 · Visual language</h2><span class="ln"></span></div>
+  <div class="grid">
+
+    <div class="card">
+      <a class="frame" href="a-editorial.html"><span class="pin">A</span><iframe src="a-editorial.html" loading="lazy" title="Variation A preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Editorial Precision</h3>
+        <div class="tag">warm paper · Fraunces serif · hairline grid</div>
+        <p>A print-magazine language: big serif display line, a dossier column of facts, hairline rules dividing everything. Work is an editorial index, experience is a ledger table.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Taste, restraint, seniority</li>
+          <li><b>Risk</b> Quiet — rewards reading, not skimming</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>design-led product teams</b></span><a class="open" href="a-editorial.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="b-terminal.html"><span class="pin">B</span><iframe src="b-terminal.html" loading="lazy" title="Variation B preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Engineer&rsquo;s Console</h3>
+        <div class="tag">near-black · mono-forward · IDE chrome</div>
+        <p>The page behaves like your terminal. Editor tabs for nav, a live <code>cat profile.json</code> window, projects as an <code>ls -la</code> listing, experience as a git log with commit refs.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Deep technical credibility</li>
+          <li><b>Risk</b> Reads as niche to non-technical recruiters</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>eng managers &amp; devtools</b></span><a class="open" href="b-terminal.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="c-impact.html"><span class="pin">C</span><iframe src="c-impact.html" loading="lazy" title="Variation C preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Impact First</h3>
+        <div class="tag">light · Space Grotesk · SaaS landing page</div>
+        <p>Structured like a well-funded product site. Availability badge, gradient headline, metric cards with attribution, and case-study cards that lead with outcomes rather than stack lists.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Business impact, hireability</li>
+          <li><b>Risk</b> Most conventional of the twelve</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>recruiters &amp; fast scanning</b></span><a class="open" href="c-impact.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="d-bento.html"><span class="pin">D</span><iframe src="d-bento.html" loading="lazy" title="Variation D preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Bento Aurora</h3>
+        <div class="tag">dark glass · aurora gradients · modular grid</div>
+        <p>A modular bento grid of glass cards over a drifting aurora. Cursor spotlight on hover, a live IST clock showing UK overlap, dual-direction stack marquee, projects as first-class tiles.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Modern craft, front-end flair</li>
+          <li><b>Risk</b> Trend-anchored; ages faster</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>memorability</b></span><a class="open" href="d-bento.html">Open &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="round"><h2>Round 2 · Different structures, not just skins</h2><span class="ln"></span></div>
+  <div class="grid">
+
+    <div class="card">
+      <a class="frame" href="e-brutalist.html"><span class="pin">E</span><iframe src="e-brutalist.html" loading="lazy" title="Variation E preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Brutalist Poster</h3>
+        <div class="tag">black / white / orange · Archivo Black · hard edges</div>
+        <p>Loud and graphic. A scrolling status ticker, oversized uppercase display type, 3px black rules, hard offset shadows and a rotated &ldquo;open to work&rdquo; sticker. Rows invert to black on hover.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Confidence, personality, zero hedging</li>
+          <li><b>Risk</b> Polarising — people love it or find it shouty</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>standing out in a stack of CVs</b></span><a class="open" href="e-brutalist.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="f-sidebar.html"><span class="pin">F</span><iframe src="f-sidebar.html" loading="lazy" title="Variation F preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>App Shell</h3>
+        <div class="tag">fixed sidebar · scroll-spy nav · Linear/Notion feel</div>
+        <p>Not a page &mdash; a product. A persistent left sidebar holds your identity, status and nav, and the nav item highlights itself as you scroll. Content sits in a comfortable reading column.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Product thinking, calm competence</li>
+          <li><b>Risk</b> Understated; no single &ldquo;wow&rdquo; moment</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>everything findable at once</b></span><a class="open" href="f-sidebar.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="g-timeline.html"><span class="pin">G</span><iframe src="g-timeline.html" loading="lazy" title="Variation G preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Narrative Timeline</h3>
+        <div class="tag">deep navy · glowing spine · one chronological story</div>
+        <p>The only one with no sections. Your career is a single scroll from 2019 to now &mdash; roles, projects and education interleaved on one spine that fills with light as you read, ending on 2026.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Trajectory and growth, not a list</li>
+          <li><b>Risk</b> Linear — a recruiter can&rsquo;t jump straight to work</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>showing rapid progression</b></span><a class="open" href="g-timeline.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="h-gallery.html"><span class="pin">H</span><iframe src="h-gallery.html" loading="lazy" title="Variation H preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Gallery Studio</h3>
+        <div class="tag">gallery white · Syne · horizontal work gallery</div>
+        <p>Agency-style. A full-bleed animated gradient hero with outlined display type, then work as a drag-and-scroll horizontal gallery with snap points and a progress track. Visual-led throughout.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Craft, art direction, portfolio energy</li>
+          <li><b>Risk</b> Leans on imagery — needs real screenshots</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>creative &amp; product studios</b></span><a class="open" href="h-gallery.html">Open &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="round"><h2>Round 3 · New formats</h2><span class="ln"></span></div>
+  <div class="grid">
+
+    <div class="card">
+      <a class="frame" href="i-split.html"><span class="pin">I</span><iframe src="i-split.html" loading="lazy" title="Variation I preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Split Screen</h3>
+        <div class="tag">fixed dark panel · Sora · reacts to scroll</div>
+        <p>The viewport is split. The left half never moves &mdash; it holds your name, status and CTA &mdash; but its glow and its caption change to match whichever section you&rsquo;ve scrolled to on the right.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Control, polish, attention to detail</li>
+          <li><b>Risk</b> Halves the reading width on laptops</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>a permanent call to action</b></span><a class="open" href="i-split.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="j-dashboard.html"><span class="pin">J</span><iframe src="j-dashboard.html" loading="lazy" title="Variation J preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Career Analytics</h3>
+        <div class="tag">light dashboard · Gantt chart · before/after bars</div>
+        <p>Your career as a product dashboard. A real Gantt of roles and study on a 2021&ndash;2026 axis, before/after bars for every measured win, and a project table. All charts hand-built, no libraries.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Analytical, evidence-led, chart-capable</li>
+          <li><b>Risk</b> Cold &mdash; light on personality</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>data-minded hiring managers</b></span><a class="open" href="j-dashboard.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="k-magazine.html"><span class="pin">K</span><iframe src="k-magazine.html" loading="lazy" title="Variation K preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>The Magazine</h3>
+        <div class="tag">cream stock · Bodoni Moda · cover &amp; spreads</div>
+        <p>A print issue. Masthead cover with cover-lines and a barcode, a contents page with leader dots, then a three-column feature with a drop cap, a pull quote, plates, and a back-page contact.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Writing ability, editorial taste</li>
+          <li><b>Risk</b> Longest read &mdash; needs your words to carry it</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>showing you can write</b></span><a class="open" href="k-magazine.html">Open &rarr;</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="frame" href="l-kinetic.html"><span class="pin">L</span><iframe src="l-kinetic.html" loading="lazy" title="Variation L preview" scrolling="no"></iframe><span class="veil"></span></a>
+      <div class="body">
+        <h3>Kinetic</h3>
+        <div class="tag">near-black · Anton · motion-first</div>
+        <p>Movement carries the page. Marquees running in opposite directions, condensed display type, rows that invert to lime on hover, and a work preview that trails your cursor with easing.</p>
+        <ul class="facts">
+          <li><b>Signals</b> Motion craft, agency energy</li>
+          <li><b>Risk</b> Motion-dependent; quiet without a mouse</li>
+        </ul>
+        <div class="foot"><span class="best">Best for <b>proving front-end chops</b></span><a class="open" href="l-kinetic.html">Open &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <h3>How to read these</h3>
+    <p>Static HTML, self-contained apart from Google Fonts. Everything lives in <code>demo/landing/</code>; no app file, route, or component was modified.</p>
+    <p><b>Round 1</b> varies the visual language over roughly the same page structure. <b>Round 2</b> changes the structure itself &mdash; E is a poster, F is an app shell with a persistent sidebar, G abandons sections for a single chronological narrative, and H makes the work gallery a horizontal scroll. If Round 1 all felt like the same page in different clothes, that&rsquo;s why Round 2 exists. <b>Round 3</b> pushes into formats rather than layouts &mdash; a reactive split screen, an analytics dashboard, a print magazine, and a motion-led page.</p>
+    <p>The gradient blocks standing in for project imagery are placeholders in every variation &mdash; H depends on them most, so it will only reach its full effect once real screenshots go in. Once you pick a direction, or a hybrid, the next step is porting it into the real sections and wiring it to the existing Google Sheets CMS.</p>
+  </div>
+</div>
+</body>
+</html>

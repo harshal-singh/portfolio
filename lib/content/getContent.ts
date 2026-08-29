@@ -1,11 +1,16 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { sortBlogPostsByDate } from "@/lib/blog/sortPosts";
 import { stripBlogPostContent } from "@/lib/blog/postMeta";
 import { CONTENT_CACHE_TAG } from "@/lib/constants";
+import { normalizeExperienceList } from "@/lib/experience/normalize";
+import { normalizeProjectList } from "@/lib/projects/normalize";
+import { stripProjectContent } from "@/lib/projects/meta";
+import { SCHEMA_VERSION } from "@/lib/google/schema";
 import { seedContent } from "@/lib/seed";
-import type { BlogPost, PortfolioContent } from "@/lib/types";
+import type { BlogPost, PortfolioContent, Project } from "@/lib/types";
 import { buildAdminContent } from "@/lib/google/serialize";
-import { batchGetAllTabs } from "@/lib/google/rows";
+import { readAllTabsWithFallback } from "@/lib/google/migrate";
 import { BOOTSTRAP_TABS } from "@/lib/google/spreadsheet";
 import { getSheetsClientForRead } from "@/lib/google/sheetsClient";
 import { sanitizeForRsc } from "@/lib/content/sanitize";
@@ -17,7 +22,7 @@ async function fetchAdminContentFromSheet(): Promise<CachedSheet | null> {
   if (!client) return null;
 
   try {
-    const tabs = await batchGetAllTabs(
+    const tabs = await readAllTabsWithFallback(
       client.sheets,
       client.spreadsheetId,
       BOOTSTRAP_TABS,
@@ -39,7 +44,7 @@ const getCachedSheet = unstable_cache(
     const fromSheet = await fetchAdminContentFromSheet();
     return sanitizeForRsc(fromSheet ?? seedAsCached());
   },
-  ["portfolio-sheet-content"],
+  ["portfolio-sheet-content", SCHEMA_VERSION],
   {
     tags: [CONTENT_CACHE_TAG],
     revalidate: 3600,
@@ -54,7 +59,13 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
   const cached = await getCachedSheet();
   return {
     ...cached,
-    blogPosts: cached.allBlogPosts
+    experience: normalizeExperienceList(cached.experience),
+    projects: normalizeProjectList(cached.projects).map((p) => ({
+      ...stripProjectContent(p),
+      content: [],
+    })),
+    testimonials: cached.testimonials.filter((t) => t.published),
+    blogPosts: sortBlogPostsByDate(cached.allBlogPosts)
       .filter((p) => p.published)
       .map((p) => ({ ...stripBlogPostContent(p), content: [] })),
   };
@@ -64,6 +75,21 @@ export async function getPortfolioContent(): Promise<PortfolioContent> {
 export async function getFullBlogPost(slug: string): Promise<BlogPost | null> {
   const cached = await getCachedSheet();
   return cached.allBlogPosts.find((p) => p.slug === slug) ?? null;
+}
+
+/** Full project including content blocks — for /projects/[slug] only. */
+export async function getFullProject(slug: string): Promise<Project | null> {
+  const cached = await getCachedSheet();
+  const project = normalizeProjectList(cached.projects).find(
+    (p) => p.slug === slug || p.id === slug,
+  );
+  return project ?? null;
+}
+
+/** All projects with full content — admin reads and case study pages. */
+export async function getAllProjects(): Promise<Project[]> {
+  const cached = await getCachedSheet();
+  return normalizeProjectList(cached.projects);
 }
 
 /** All posts including drafts — admin reads. */

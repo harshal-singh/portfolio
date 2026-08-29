@@ -1,12 +1,16 @@
 "use client";
 
+import { BlogCoverMedia } from "@/components/blog/BlogCoverMedia";
 import { Input } from "@/components/ui/input";
+import { Tag } from "@/components/ui/tag";
 import { uniqueBlogCategories } from "@/lib/blog/categories";
-import { gradientMap } from "@/lib/seed";
+import { sortBlogPostsByDate } from "@/lib/blog/sortPosts";
 import type { BlogPost, SectionMeta } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { ArrowUpRight, Calendar, Clock, Search } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { PageHeader } from "../layout/PageHeader";
 
 function BlogCard({
   post,
@@ -18,28 +22,23 @@ function BlogCard({
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group block rounded-2xl border border-white/[0.07] bg-white/[0.015] hover:border-accent/25 transition-all overflow-hidden ${
-        featured ? "md:col-span-2" : ""
-      }`}
+      className={cn(
+        "group block rounded-2xl border border-border-subtle bg-surface hover:border-accent/25 transition-all overflow-hidden",
+        featured && "md:col-span-2",
+      )}
     >
-      <div
-        className={`relative aspect-[16/9] overflow-hidden bg-gradient-to-br ${
-          gradientMap[post.cover] || gradientMap["gradient-1"]
-        }`}
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="heading text-6xl md:text-8xl font-bold text-white/[0.04] text-center">
-            {post.category}
-          </span>
-        </div>
-        <div className="absolute top-4 left-4">
-          <span className="mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-background/70 backdrop-blur-md border border-white/10 text-accent">
-            {post.category}
-          </span>
-        </div>
+      <div className="relative aspect-video overflow-hidden">
+        <BlogCoverMedia post={post} />
+        {!post.imageUrl?.trim() ? (
+          <div className="absolute top-4 left-4">
+            <span className="mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-background/70 backdrop-blur-md border border-border text-accent">
+              {post.category}
+            </span>
+          </div>
+        ) : null}
       </div>
       <div className="p-6 md:p-7">
-        <div className="flex items-center gap-4 mono text-[11px] text-zinc-500 mb-3">
+        <div className="flex items-center gap-4 mono text-[11px] text-muted mb-3">
           <span className="flex items-center gap-1.5">
             <Calendar className="w-3 h-3" />
             {post.date}
@@ -50,27 +49,23 @@ function BlogCard({
           </span>
         </div>
         <h3
-          className={`heading ${
-            featured ? "text-2xl md:text-3xl" : "text-xl"
-          } text-zinc-100 mb-3 group-hover:text-accent transition-colors leading-snug`}
+          className={cn(
+            "heading text-foreground mb-3 group-hover:text-accent transition-colors leading-snug",
+            featured ? "text-2xl md:text-3xl" : "text-xl",
+          )}
         >
           {post.title}
         </h3>
-        <p className="text-zinc-400 text-sm leading-relaxed line-clamp-2 mb-5">
+        <p className="text-muted text-sm leading-relaxed line-clamp-2 mb-5">
           {post.excerpt}
         </p>
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap gap-1.5">
             {post.tags.slice(0, 3).map((t) => (
-              <span
-                key={t}
-                className="mono text-[10px] text-zinc-500 px-2 py-0.5 rounded bg-white/[0.04] border border-white/5"
-              >
-                {t}
-              </span>
+              <Tag key={t}>{t}</Tag>
             ))}
           </div>
-          <span className="text-zinc-500 group-hover:text-accent transition-colors">
+          <span className="text-muted group-hover:text-accent transition-colors">
             <ArrowUpRight className="w-4 h-4" />
           </span>
         </div>
@@ -97,7 +92,7 @@ export default function BlogPageClient({
   );
 
   const filtered = useMemo(() => {
-    return blogPosts.filter((p) => {
+    return sortBlogPostsByDate(blogPosts).filter((p) => {
       const matchesCat = active === "All" || p.category === active;
       const q = query.trim().toLowerCase();
       const matchesQ =
@@ -110,63 +105,61 @@ export default function BlogPageClient({
   }, [query, active, blogPosts]);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24">
-      <div className="mb-14 max-w-3xl rise-in">
-        <p className="mono text-xs uppercase tracking-widest text-accent mb-4">
-          {section.label}
-        </p>
-        <h1 className="heading text-5xl md:text-7xl font-semibold leading-[0.95] mb-6">
-          {section.title}
-        </h1>
-        {section.description ? (
-          <p className="text-zinc-400 text-lg leading-relaxed">{section.description}</p>
-        ) : null}
-      </div>
+    <>
+      <PageHeader
+        label={section.label}
+        title={section.title}
+        description={section.description}
+      />
 
-      <div className="sticky top-16 z-30 -mx-6 md:-mx-10 px-6 md:px-10 py-4 backdrop-blur-md bg-background/70 border-y border-white/5 mb-10">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search posts..."
-              className="pl-10"
-            />
+      <div className="site-container pb-20 md:pb-28">
+        <div className="sticky top-16 z-30 -mx-6 md:-mx-10 px-6 md:px-10 py-4 backdrop-blur-md bg-background/70 border-y border-border-subtle mb-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
+              <Input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search posts..."
+                className="pl-10"
+                aria-label="Search blog posts"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {blogCategories.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setActive(c)}
+                  className={cn(
+                    "mono text-xs px-3 py-1.5 rounded-md border transition-colors",
+                    active === c
+                      ? "bg-accent text-accent-foreground border-accent"
+                      : "border-border text-muted hover:text-foreground hover:border-accent/30",
+                  )}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {blogCategories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setActive(c)}
-                className={`mono text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                  active === c
-                    ? "bg-accent text-background border-accent"
-                    : "border-white/10 text-zinc-400 hover:text-white hover:border-white/30"
-                }`}
-              >
-                {c}
-              </button>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div
+            className="text-center py-24 text-muted"
+            role="status"
+            aria-live="polite"
+          >
+            <p className="mono text-sm">No posts match your filter.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.map((post) => (
+              <BlogCard key={post.slug} post={post} />
             ))}
           </div>
-        </div>
+        )}
       </div>
-
-      {filtered.length === 0 ? (
-        <div className="text-center py-24 text-zinc-500">
-          <p className="mono text-sm">No posts match your filter.</p>
-        </div>
-      ) : (
-        <div className="grid md:grid-cols-2 gap-5">
-          {filtered.map((post, i) => (
-            <BlogCard
-              key={post.slug}
-              post={post}
-              featured={i === 0 && active === "All" && !query}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    </>
   );
 }

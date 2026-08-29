@@ -15,7 +15,10 @@ export function getDriveClient(accessToken: string) {
 /** Service-account client for fast, auth-free public reads (cached via ISR). */
 export function getSheetsClientForRead() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(
+    /\\n/g,
+    "\n",
+  );
   const spreadsheetId = process.env.PORTFOLIO_SPREADSHEET_ID;
 
   if (!email || !key || !spreadsheetId) return null;

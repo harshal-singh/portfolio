@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero animation demos — Harshal Singh portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #09090b;
+      --fg: #fafafa;
+      --muted: #a1a1aa;
+      --accent: #4caf50;
+      --border: rgba(255,255,255,0.1);
+      --surface: #18181b;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: Inter, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+    .heading { font-family: "Space Grotesk", sans-serif; letter-spacing: -0.02em; }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .wrap { max-width: 42rem; margin: 0 auto; }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); margin-bottom: 0.75rem; }
+    p.lead { color: var(--muted); line-height: 1.65; margin-bottom: 2.5rem; }
+    .cards { display: grid; gap: 1rem; }
+    a.card {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      background: var(--surface);
+      color: inherit;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    a.card:hover {
+      border-color: rgba(76, 175, 80, 0.35);
+      transform: translateY(-2px);
+    }
+    a.card h2 { font-size: 1.125rem; margin-bottom: 0.35rem; }
+    a.card p { font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="mono tag">demo / hero</p>
+    <h1 class="heading">Hero animation variations</h1>
+    <p class="lead">Three pure HTML/CSS demos. Open each file directly in the browser — no build step. Pick one to port into <code class="mono">components/sections/Hero.tsx</code>.</p>
+    <div class="cards">
+      <a class="card" href="variation-a-stagger.html">
+        <span class="tag">Variation A</span>
+        <h2 class="heading">Cascade stagger</h2>
+        <p>Sequential fade-up: label → headline → highlight underline draw → body → CTAs → meta. Closest to production default.</p>
+      </a>
+      <a class="card" href="variation-b-words.html">
+        <span class="tag">Variation B</span>
+        <h2 class="heading">Split words + orbit</h2>
+        <p>Headline words reveal one-by-one; floating tech pills orbit on the right. More expressive, still subtle.</p>
+      </a>
+      <a class="card" href="variation-c-ambient.html">
+        <span class="tag">Variation C</span>
+        <h2 class="heading">Ambient glow</h2>
+        <p>Slow gradient drift + unified content fade; live metric strip animates in at the bottom. Premium/minimal.</p>
+      </a>
+    </div>
+    <footer>
+      Production site uses <strong>Variation B</strong> (split words + orbit) in <code class="mono">Hero.tsx</code> + scroll <code class="mono">Reveal</code> on sections.
+    </footer>
+  </div>
+</body>
+</html>

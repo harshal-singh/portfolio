@@ -58,7 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: { signIn: "/admin/login" },
   callbacks: {
     signIn({ user }) {
-      return user.email === ADMIN_EMAIL;
+      return user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
     },
     async jwt({ token, account, user }) {
       if (account) {

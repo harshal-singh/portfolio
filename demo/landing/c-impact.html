@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>C — Impact First · Harshal Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --white:#FFFFFF; --bg:#FBFCFD; --soft:#F4F7F9; --ink:#0A1420; --ink-2:#55606E;
+  --line:#E5EAEF; --line-2:#D6DEE6;
+  --em:#0E9F6E; --em-2:#047857; --em-soft:#ECFDF5; --em-ring:rgba(14,159,110,.18);
+  --shadow-sm:0 1px 2px rgba(10,20,32,.04),0 2px 6px rgba(10,20,32,.05);
+  --shadow-md:0 4px 12px rgba(10,20,32,.05),0 12px 32px rgba(10,20,32,.07);
+  --shadow-lg:0 12px 28px rgba(10,20,32,.07),0 32px 64px rgba(10,20,32,.09);
+  --maxw:1160px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.hd{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.025em}
+.mono{font-family:"JetBrains Mono",monospace}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1rem,4vw,2rem)}
+
+/* nav */
+header{position:sticky;top:0;z-index:60;padding:.85rem 0;background:rgba(251,252,253,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.95rem}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--em),#34D399);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700;box-shadow:0 4px 12px var(--em-ring)}
+.nav nav{display:flex;gap:.35rem}
+.nav nav a{font-size:.875rem;color:var(--ink-2);padding:.45rem .8rem;border-radius:8px;font-weight:500;transition:.2s}
+.nav nav a:hover{color:var(--ink);background:var(--soft)}
+.nav-cta{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;padding:.6rem 1.1rem;border-radius:9px;background:var(--ink);color:#fff;transition:.22s;white-space:nowrap}
+.nav-cta:hover{background:var(--em-2);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+@media(max-width:880px){.nav nav{display:none}}
+
+/* hero */
+.hero{position:relative;text-align:center;padding:clamp(3.5rem,9vw,6.5rem) 0 clamp(3rem,6vw,4.5rem);overflow:hidden}
+.hero::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:min(1000px,130vw);height:700px;z-index:-1;
+  background:radial-gradient(ellipse 50% 45% at 50% 50%,rgba(14,159,110,.14),transparent 70%),radial-gradient(ellipse 38% 40% at 22% 42%,rgba(56,189,248,.12),transparent 70%),radial-gradient(ellipse 38% 40% at 78% 40%,rgba(167,139,250,.11),transparent 70%);filter:blur(20px)}
+.badge{display:inline-flex;align-items:center;gap:.55rem;font-size:.79rem;font-weight:500;padding:.42rem .95rem .42rem .55rem;border-radius:999px;background:var(--white);border:1px solid var(--line-2);box-shadow:var(--shadow-sm);color:var(--ink-2);margin-bottom:1.75rem}
+.badge b{display:inline-flex;align-items:center;gap:.35rem;background:var(--em-soft);color:var(--em-2);font-weight:600;font-size:.72rem;padding:.2rem .5rem;border-radius:999px}
+.badge .pin{width:6px;height:6px;border-radius:50%;background:var(--em);animation:pl 2.2s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 rgba(14,159,110,.5)}70%{box-shadow:0 0 0 6px rgba(14,159,110,0)}100%{box-shadow:0 0 0 0 rgba(14,159,110,0)}}
+h1.hero-h{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(2.4rem,6.2vw,4.5rem);line-height:1.05;letter-spacing:-.038em;max-width:20ch;margin:0 auto}
+h1.hero-h .grad{background:linear-gradient(100deg,var(--em) 10%,#0EA5E9 55%,#8B5CF6 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{max-width:44rem;margin:1.5rem auto 0;font-size:clamp(1rem,2vw,1.15rem);line-height:1.7;color:var(--ink-2)}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-top:2.25rem}
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-size:.92rem;font-weight:600;padding:.85rem 1.5rem;border-radius:11px;transition:.24s;border:1px solid transparent}
+.btn.p{background:linear-gradient(180deg,#12B981,var(--em-2));color:#fff;box-shadow:0 6px 18px var(--em-ring)}
+.btn.p:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(14,159,110,.3)}
+.btn.s{background:var(--white);border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow-sm)}
+.btn.s:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--em)}
+.microcopy{margin-top:1.1rem;font-size:.79rem;color:var(--ink-2)}
+
+/* stack strip */
+.strip{margin-top:clamp(2.5rem,5vw,3.5rem);padding-top:2rem;border-top:1px solid var(--line)}
+.strip p{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1.1rem}
+/* Auto-scrolling logo marquee. The track carries the icon set twice so the
+   -50% translate loops with no visible seam. */
+.strip .marquee{overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.strip .track{display:flex;align-items:center;width:max-content;animation:stackscroll 34s linear infinite;will-change:transform}
+.strip .marquee:hover .track{animation-play-state:paused}
+.strip .set{display:flex;align-items:center}
+@keyframes stackscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tech{flex:0 0 auto;width:5.5rem;display:grid;place-items:center}
+.tech svg{width:30px;height:30px;display:block;color:var(--ink-2);opacity:.62;
+  transition:color .25s,opacity .25s,transform .25s}
+.tech:hover svg{color:var(--em);opacity:1;transform:translateY(-3px)}
+@media(prefers-reduced-motion:reduce){
+  .strip .track{animation:none;width:100%;flex-wrap:wrap;justify-content:center}
+  .strip .set.dup{display:none}
+}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+@media(min-width:820px){.metrics{grid-template-columns:repeat(4,1fr)}}
+.metric{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.5rem 1.4rem;box-shadow:var(--shadow-sm);transition:.26s;position:relative;overflow:hidden}
+.metric::after{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--em),#38BDF8);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.metric:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.metric:hover::after{transform:scaleX(1)}
+.metric b{font-family:"Space Grotesk",sans-serif;display:block;font-size:clamp(1.9rem,3.6vw,2.6rem);font-weight:700;letter-spacing:-.035em;line-height:1;color:var(--ink)}
+.metric small{display:block;margin-top:.5rem;font-size:.8rem;line-height:1.45;color:var(--ink-2)}
+.metric .src{display:block;margin-top:.6rem;font-family:"JetBrains Mono",monospace;font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;color:var(--em)}
+
+/* sections */
+section{padding:clamp(3.5rem,8vw,6rem) 0}
+.sec-top{text-align:center;max-width:38rem;margin:0 auto clamp(2rem,4vw,3rem)}
+.kicker{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--em-2);background:var(--em-soft);padding:.32rem .7rem;border-radius:999px;margin-bottom:1rem}
+.sec-top h2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(1.75rem,4vw,2.6rem);letter-spacing:-.035em;line-height:1.15}
+.sec-top p{margin-top:.9rem;color:var(--ink-2);line-height:1.7;font-size:1rem}
+
+/* value cards */
+.vals{display:grid;gap:.9rem;grid-template-columns:1fr}
+@media(min-width:820px){.vals{grid-template-columns:repeat(3,1fr)}}
+.val{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.6rem;box-shadow:var(--shadow-sm);transition:.26s}
+.val:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--em-ring)}
+.val .ic{width:38px;height:38px;border-radius:11px;background:var(--em-soft);color:var(--em-2);display:grid;place-items:center;margin-bottom:1rem}
+.val h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem;letter-spacing:-.015em}
+.val p{font-size:.9rem;line-height:1.65;color:var(--ink-2)}
+
+/* case cards */
+.cases{display:grid;gap:1rem;grid-template-columns:1fr}
+@media(min-width:900px){.cases{grid-template-columns:repeat(2,1fr)}}
+.case{background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);transition:.28s;display:flex;flex-direction:column}
+.case:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--em-ring)}
+.case .thumb{height:170px;position:relative;overflow:hidden}
+.case .thumb.t1{background:linear-gradient(135deg,#0E9F6E,#34D399 45%,#0EA5E9)}
+.case .thumb.t2{background:linear-gradient(135deg,#6366F1,#8B5CF6 45%,#EC4899)}
+.case .thumb.t3{background:linear-gradient(135deg,#0EA5E9,#38BDF8 50%,#22D3EE)}
+.case .thumb.t4{background:linear-gradient(135deg,#F59E0B,#FBBF24 50%,#FB7185)}
+.case .thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 55%),linear-gradient(180deg,transparent 55%,rgba(0,0,0,.18))}
+.case .thumb .yr{position:absolute;top:.85rem;right:.95rem;z-index:2;font-family:"JetBrains Mono",monospace;font-size:.66rem;color:#fff;background:rgba(0,0,0,.28);backdrop-filter:blur(6px);padding:.25rem .6rem;border-radius:999px}
+.case .body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.case h3{font-family:"Space Grotesk",sans-serif;font-size:1.3rem;font-weight:600;letter-spacing:-.025em}
+.case .tl{font-size:.9rem;color:var(--ink-2);margin-top:.4rem;line-height:1.6}
+.outcomes{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.55rem}
+.outcomes li{display:flex;gap:.6rem;font-size:.85rem;line-height:1.55;color:var(--ink-2)}
+.outcomes li svg{flex-shrink:0;margin-top:3px;color:var(--em)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+.chip{font-family:"JetBrains Mono",monospace;font-size:.66rem;padding:.28rem .6rem;border-radius:6px;background:var(--soft);color:var(--ink-2)}
+.chip.win{background:var(--em-soft);color:var(--em-2);font-weight:600}
+
+/* timeline */
+.tl-wrap{max-width:46rem;margin:0 auto;position:relative;padding-left:1.9rem}
+.tl-wrap::before{content:"";position:absolute;left:6px;top:.6rem;bottom:.6rem;width:2px;background:linear-gradient(180deg,var(--em),var(--line-2))}
+.job{position:relative;padding-bottom:2.25rem}
+.job:last-child{padding-bottom:0}
+.job::before{content:"";position:absolute;left:calc(-1.9rem + 1px);top:.35rem;width:13px;height:13px;border-radius:50%;background:var(--white);border:2.5px solid var(--line-2)}
+.job.cur::before{border-color:var(--em);box-shadow:0 0 0 4px var(--em-ring)}
+.job .when{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-2)}
+.job h3{font-size:1.1rem;font-weight:600;margin-top:.3rem;letter-spacing:-.015em}
+.job h3 .co{color:var(--em-2)}
+.job p{font-size:.89rem;line-height:1.7;color:var(--ink-2);margin-top:.55rem}
+
+/* quote */
+.quote{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:clamp(1.75rem,4vw,3rem);box-shadow:var(--shadow-sm);max-width:48rem;margin:0 auto;text-align:center}
+.quote .qm{font-family:"Space Grotesk",sans-serif;font-size:3rem;line-height:1;color:var(--em);opacity:.28}
+.quote blockquote{font-size:clamp(1.05rem,2.3vw,1.4rem);line-height:1.6;font-weight:500;letter-spacing:-.015em;margin:.5rem 0 1.5rem}
+.quote .who{display:flex;align-items:center;justify-content:center;gap:.75rem}
+.quote .av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--em),#34D399);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.quote .who div{text-align:left}
+.quote .who b{display:block;font-size:.88rem}
+.quote .who small{font-size:.78rem;color:var(--ink-2)}
+
+/* cta band */
+.band{background:linear-gradient(135deg,#062E22,#0A1420 55%,#0B2B3D);border-radius:24px;padding:clamp(2.25rem,5vw,4rem);text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.band::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 300px at 50% 0%,rgba(14,159,110,.3),transparent 65%);pointer-events:none}
+.band h2{position:relative;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(1.7rem,4vw,2.7rem);letter-spacing:-.035em;line-height:1.15}
+.band p{position:relative;color:rgba(255,255,255,.72);max-width:38rem;margin:1rem auto 0;line-height:1.7;font-size:.98rem}
+.band .hero-btns{position:relative}
+.btn.w{background:#fff;color:var(--ink)}
+.btn.w:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.btn.o{border-color:rgba(255,255,255,.28);color:#fff;background:rgba(255,255,255,.06)}
+.btn.o:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+
+footer{border-top:1px solid var(--line);margin-top:clamp(3rem,6vw,5rem);padding:1.75rem 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.79rem;color:var(--ink-2)}
+footer .fl{display:flex;gap:1.25rem;flex-wrap:wrap}
+footer a:hover{color:var(--em-2)}
+
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:.25rem;padding:.3rem;border-radius:999px;background:rgba(10,20,32,.92);backdrop-filter:blur(10px);box-shadow:var(--shadow-lg)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:rgba(255,255,255,.6);padding:.4rem .72rem;border-radius:999px;transition:.2s;white-space:nowrap}
+.switch a:hover{color:#fff}
+.switch a.on{background:#fff;color:#0A1420;font-weight:600}
+.sw-t{display:none}
+.switch a.on .sw-t{display:inline}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#"><span class="mark">HS</span> Harshal Singh</a>
+    <nav><a href="#impact">Impact</a><a href="#work">Work</a><a href="#experience">Experience</a><a href="#contact">Contact</a></nav>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="badge"><b><span class="pin"></span> Open to work</b> Frontend roles &middot; remote &middot; sponsorship welcome</div>
+      <h1 class="hero-h">I build product interfaces that <span class="grad">ship faster and scale.</span></h1>
+      <p class="sub">Frontend engineer with 3+ years shipping production React, Next.js and TypeScript applications &mdash; reusable UI architecture, SSR, API integration and the performance work that keeps it all fast.</p>
+      <div class="hero-btns">
+        <a class="btn p" href="#work">View selected work &rarr;</a>
+        <a class="btn s" href="#contact">Download resume &darr;</a>
+      </div>
+      <p class="microcopy">Currently at Webol Solutions (UK, remote) &middot; based in Mumbai &middot; replies within 48 hours</p>
+
+      <div class="strip">
+        <p>Production stack</p>
+        <div class="marquee">
+        <div class="track">
+          <span class="set">
+          <span class="tech" title="React"><svg viewBox="0 0 24 24" role="img" aria-label="React" fill="currentColor"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg></span>
+          <span class="tech" title="Next.js"><svg viewBox="0 0 24 24" role="img" aria-label="Next.js" fill="currentColor"><path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"/></svg></span>
+          <span class="tech" title="TypeScript"><svg viewBox="0 0 24 24" role="img" aria-label="TypeScript" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></svg></span>
+          <span class="tech" title="Tailwind CSS"><svg viewBox="0 0 24 24" role="img" aria-label="Tailwind CSS" fill="currentColor"><path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></svg></span>
+          <span class="tech" title="Vue.js"><svg viewBox="0 0 24 24" role="img" aria-label="Vue.js" fill="currentColor"><path d="M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z"/></svg></span>
+          <span class="tech" title="Node.js"><svg viewBox="0 0 24 24" role="img" aria-label="Node.js" fill="currentColor"><path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></svg></span>
+          <span class="tech" title="GraphQL"><svg viewBox="0 0 24 24" role="img" aria-label="GraphQL" fill="currentColor"><path d="M12.002 0a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.54 4.931a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm0 9.862a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm-8.54 4.931a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.276zm-8.542-4.93a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.277zm0-9.863a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.542-3.378L2.953 6.777v10.448l9.049 5.224 9.047-5.224V6.777zm0 1.601 7.66 13.27H4.34zm-1.387.371L3.97 15.037V7.363zm2.774 0 6.646 3.838v7.674zM5.355 17.44h13.293l-6.646 3.836z"/></svg></span>
+          <span class="tech" title="MongoDB"><svg viewBox="0 0 24 24" role="img" aria-label="MongoDB" fill="currentColor"><path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/></svg></span>
+          <span class="tech" title="MySQL"><svg viewBox="0 0 24 24" role="img" aria-label="MySQL" fill="currentColor"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.18.214.273.054.107.1.214.154.32l.014-.015c.094-.066.14-.172.14-.333-.04-.047-.046-.094-.08-.14-.04-.067-.126-.1-.18-.153zM5.77 18.695h-.927a50.854 50.854 0 00-.27-4.41h-.008l-1.41 4.41H2.45l-1.4-4.41h-.01a72.892 72.892 0 00-.195 4.41H0c.055-1.966.192-3.81.41-5.53h1.15l1.335 4.064h.008l1.347-4.064h1.095c.242 2.015.384 3.86.428 5.53zm4.017-4.08c-.378 2.045-.876 3.533-1.492 4.46-.482.716-1.01 1.073-1.583 1.073-.153 0-.34-.046-.566-.138v-.494c.11.017.24.026.386.026.268 0 .483-.075.647-.222.197-.18.295-.382.295-.605 0-.155-.077-.47-.23-.944L6.23 14.615h.91l.727 2.36c.164.536.233.91.205 1.123.4-1.064.678-2.227.835-3.483zm12.325 4.08h-2.63v-5.53h.885v4.85h1.745zm-3.32.135l-1.016-.5c.09-.076.177-.158.255-.25.433-.506.648-1.258.648-2.253 0-1.83-.718-2.746-2.155-2.746-.704 0-1.254.232-1.65.697-.43.508-.646 1.256-.646 2.245 0 .972.19 1.686.574 2.14.35.41.877.615 1.583.615.264 0 .506-.033.725-.098l1.325.772.36-.622zM15.5 17.588c-.225-.36-.337-.94-.337-1.736 0-1.393.424-2.09 1.27-2.09.443 0 .77.167.977.5.224.362.336.936.336 1.723 0 1.404-.424 2.108-1.27 2.108-.445 0-.77-.167-.978-.5zm-1.658-.425c0 .47-.172.856-.516 1.156-.344.3-.803.45-1.384.45-.543 0-1.064-.172-1.573-.515l.237-.476c.438.22.833.328 1.19.328.332 0 .593-.073.783-.22a.754.754 0 00.3-.615c0-.33-.23-.61-.648-.845-.388-.213-1.163-.657-1.163-.657-.422-.307-.632-.636-.632-1.177 0-.45.157-.81.47-1.085.315-.278.72-.415 1.22-.415.512 0 .98.136 1.4.41l-.213.476a2.726 2.726 0 00-1.064-.23c-.283 0-.502.068-.654.206a.685.685 0 00-.248.524c0 .328.234.61.666.85.393.215 1.187.67 1.187.67.433.305.648.63.648 1.168zm9.382-5.852c-.535-.014-.95.04-1.297.188-.1.04-.26.04-.274.167.055.053.063.14.11.214.08.134.218.313.346.407.14.11.28.216.427.31.26.16.555.255.81.416.145.094.293.213.44.313.073.05.12.14.214.172v-.02c-.046-.06-.06-.147-.105-.214-.067-.067-.134-.127-.2-.193a3.223 3.223 0 00-.695-.675c-.214-.146-.682-.35-.77-.595l-.013-.014c.146-.013.32-.066.46-.106.227-.06.435-.047.67-.106.106-.027.213-.06.32-.094v-.06c-.12-.12-.21-.283-.334-.395a8.867 8.867 0 00-1.104-.823c-.21-.134-.476-.22-.697-.334-.08-.04-.214-.06-.26-.127-.12-.146-.19-.34-.275-.514a17.69 17.69 0 01-.547-1.163c-.12-.262-.193-.523-.34-.763-.69-1.137-1.437-1.826-2.586-2.5-.247-.14-.543-.2-.856-.274-.167-.008-.334-.02-.5-.027-.11-.047-.216-.174-.31-.235-.38-.24-1.364-.76-1.644-.072-.18.434.267.862.422 1.082.115.153.26.328.34.5.047.116.06.235.107.356.106.294.207.622.347.897.073.14.153.287.247.413.054.073.146.107.167.227-.094.136-.1.334-.154.5-.24.757-.146 1.693.194 2.25.107.166.362.534.703.393.3-.12.234-.5.32-.835.02-.08.007-.133.048-.187v.015c.094.188.188.367.274.555.206.328.566.668.867.895.16.12.287.328.487.402v-.02h-.015c-.043-.058-.1-.086-.154-.133a3.445 3.445 0 01-.35-.4 8.76 8.76 0 01-.747-1.218c-.11-.21-.202-.436-.29-.643-.04-.08-.04-.2-.107-.24-.1.146-.247.273-.32.453-.127.288-.14.642-.188 1.01-.027.007-.014 0-.027.014-.214-.052-.287-.274-.367-.46-.2-.475-.233-1.238-.06-1.785.047-.14.247-.582.167-.716-.042-.127-.174-.2-.247-.303a2.478 2.478 0 01-.24-.427c-.16-.374-.24-.788-.414-1.162-.08-.173-.22-.354-.334-.513-.127-.18-.267-.307-.368-.52-.033-.073-.08-.194-.027-.274.014-.054.042-.075.094-.09.088-.072.335.022.422.062.247.1.455.194.662.334.094.066.195.193.315.226h.14c.214.047.455.014.655.073.355.114.675.28.962.46a5.953 5.953 0 012.085 2.286c.08.154.115.295.188.455.14.33.313.663.455.982.14.315.275.636.476.897.1.14.502.213.682.286.133.06.34.115.46.188.23.14.454.3.67.454.11.076.443.243.463.378z"/></svg></span>
+          <span class="tech" title="Docker"><svg viewBox="0 0 24 24" role="img" aria-label="Docker" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg></span>
+          <span class="tech" title="AWS"><svg viewBox="0 0 24 24" role="img" aria-label="AWS" fill="currentColor"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 0 1-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 0 1-.287-.375 6.18 6.18 0 0 1-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 0 1-.28.104.488.488 0 0 1-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 0 1 .224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 0 1 1.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 0 0-.735-.136 6.02 6.02 0 0 0-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 0 1-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 0 1 .32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 0 1 .311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 0 1-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 0 1-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 0 1-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 0 0 .415-.758.777.777 0 0 0-.215-.559c-.144-.151-.416-.287-.807-.415l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 0 1-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 0 1 .24.2.43.43 0 0 1 .071.263v.375c0 .168-.064.256-.184.256a.83.83 0 0 1-.303-.096 3.652 3.652 0 0 0-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167zM21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.272-.351 3.384 1.963 7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.383.607zM22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088-.327-.151.32-.79 1.03-2.57.695-2.994z"/></svg></span>
+          <span class="tech" title="Git"><svg viewBox="0 0 24 24" role="img" aria-label="Git" fill="currentColor"><path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></svg></span>
+          </span>
+          <span class="set dup" aria-hidden="true">
+          <span class="tech" title="React"><svg viewBox="0 0 24 24" role="img" aria-label="React" fill="currentColor"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg></span>
+          <span class="tech" title="Next.js"><svg viewBox="0 0 24 24" role="img" aria-label="Next.js" fill="currentColor"><path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"/></svg></span>
+          <span class="tech" title="TypeScript"><svg viewBox="0 0 24 24" role="img" aria-label="TypeScript" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></svg></span>
+          <span class="tech" title="Tailwind CSS"><svg viewBox="0 0 24 24" role="img" aria-label="Tailwind CSS" fill="currentColor"><path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></svg></span>
+          <span class="tech" title="Vue.js"><svg viewBox="0 0 24 24" role="img" aria-label="Vue.js" fill="currentColor"><path d="M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z"/></svg></span>
+          <span class="tech" title="Node.js"><svg viewBox="0 0 24 24" role="img" aria-label="Node.js" fill="currentColor"><path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/></svg></span>
+          <span class="tech" title="GraphQL"><svg viewBox="0 0 24 24" role="img" aria-label="GraphQL" fill="currentColor"><path d="M12.002 0a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.54 4.931a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm0 9.862a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm-8.54 4.931a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.276zm-8.542-4.93a2.138 2.138 0 1 0 0 4.276 2.138 2.138 0 1 0 0-4.277zm0-9.863a2.138 2.138 0 1 0 0 4.277 2.138 2.138 0 1 0 0-4.277zm8.542-3.378L2.953 6.777v10.448l9.049 5.224 9.047-5.224V6.777zm0 1.601 7.66 13.27H4.34zm-1.387.371L3.97 15.037V7.363zm2.774 0 6.646 3.838v7.674zM5.355 17.44h13.293l-6.646 3.836z"/></svg></span>
+          <span class="tech" title="MongoDB"><svg viewBox="0 0 24 24" role="img" aria-label="MongoDB" fill="currentColor"><path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/></svg></span>
+          <span class="tech" title="MySQL"><svg viewBox="0 0 24 24" role="img" aria-label="MySQL" fill="currentColor"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.18.214.273.054.107.1.214.154.32l.014-.015c.094-.066.14-.172.14-.333-.04-.047-.046-.094-.08-.14-.04-.067-.126-.1-.18-.153zM5.77 18.695h-.927a50.854 50.854 0 00-.27-4.41h-.008l-1.41 4.41H2.45l-1.4-4.41h-.01a72.892 72.892 0 00-.195 4.41H0c.055-1.966.192-3.81.41-5.53h1.15l1.335 4.064h.008l1.347-4.064h1.095c.242 2.015.384 3.86.428 5.53zm4.017-4.08c-.378 2.045-.876 3.533-1.492 4.46-.482.716-1.01 1.073-1.583 1.073-.153 0-.34-.046-.566-.138v-.494c.11.017.24.026.386.026.268 0 .483-.075.647-.222.197-.18.295-.382.295-.605 0-.155-.077-.47-.23-.944L6.23 14.615h.91l.727 2.36c.164.536.233.91.205 1.123.4-1.064.678-2.227.835-3.483zm12.325 4.08h-2.63v-5.53h.885v4.85h1.745zm-3.32.135l-1.016-.5c.09-.076.177-.158.255-.25.433-.506.648-1.258.648-2.253 0-1.83-.718-2.746-2.155-2.746-.704 0-1.254.232-1.65.697-.43.508-.646 1.256-.646 2.245 0 .972.19 1.686.574 2.14.35.41.877.615 1.583.615.264 0 .506-.033.725-.098l1.325.772.36-.622zM15.5 17.588c-.225-.36-.337-.94-.337-1.736 0-1.393.424-2.09 1.27-2.09.443 0 .77.167.977.5.224.362.336.936.336 1.723 0 1.404-.424 2.108-1.27 2.108-.445 0-.77-.167-.978-.5zm-1.658-.425c0 .47-.172.856-.516 1.156-.344.3-.803.45-1.384.45-.543 0-1.064-.172-1.573-.515l.237-.476c.438.22.833.328 1.19.328.332 0 .593-.073.783-.22a.754.754 0 00.3-.615c0-.33-.23-.61-.648-.845-.388-.213-1.163-.657-1.163-.657-.422-.307-.632-.636-.632-1.177 0-.45.157-.81.47-1.085.315-.278.72-.415 1.22-.415.512 0 .98.136 1.4.41l-.213.476a2.726 2.726 0 00-1.064-.23c-.283 0-.502.068-.654.206a.685.685 0 00-.248.524c0 .328.234.61.666.85.393.215 1.187.67 1.187.67.433.305.648.63.648 1.168zm9.382-5.852c-.535-.014-.95.04-1.297.188-.1.04-.26.04-.274.167.055.053.063.14.11.214.08.134.218.313.346.407.14.11.28.216.427.31.26.16.555.255.81.416.145.094.293.213.44.313.073.05.12.14.214.172v-.02c-.046-.06-.06-.147-.105-.214-.067-.067-.134-.127-.2-.193a3.223 3.223 0 00-.695-.675c-.214-.146-.682-.35-.77-.595l-.013-.014c.146-.013.32-.066.46-.106.227-.06.435-.047.67-.106.106-.027.213-.06.32-.094v-.06c-.12-.12-.21-.283-.334-.395a8.867 8.867 0 00-1.104-.823c-.21-.134-.476-.22-.697-.334-.08-.04-.214-.06-.26-.127-.12-.146-.19-.34-.275-.514a17.69 17.69 0 01-.547-1.163c-.12-.262-.193-.523-.34-.763-.69-1.137-1.437-1.826-2.586-2.5-.247-.14-.543-.2-.856-.274-.167-.008-.334-.02-.5-.027-.11-.047-.216-.174-.31-.235-.38-.24-1.364-.76-1.644-.072-.18.434.267.862.422 1.082.115.153.26.328.34.5.047.116.06.235.107.356.106.294.207.622.347.897.073.14.153.287.247.413.054.073.146.107.167.227-.094.136-.1.334-.154.5-.24.757-.146 1.693.194 2.25.107.166.362.534.703.393.3-.12.234-.5.32-.835.02-.08.007-.133.048-.187v.015c.094.188.188.367.274.555.206.328.566.668.867.895.16.12.287.328.487.402v-.02h-.015c-.043-.058-.1-.086-.154-.133a3.445 3.445 0 01-.35-.4 8.76 8.76 0 01-.747-1.218c-.11-.21-.202-.436-.29-.643-.04-.08-.04-.2-.107-.24-.1.146-.247.273-.32.453-.127.288-.14.642-.188 1.01-.027.007-.014 0-.027.014-.214-.052-.287-.274-.367-.46-.2-.475-.233-1.238-.06-1.785.047-.14.247-.582.167-.716-.042-.127-.174-.2-.247-.303a2.478 2.478 0 01-.24-.427c-.16-.374-.24-.788-.414-1.162-.08-.173-.22-.354-.334-.513-.127-.18-.267-.307-.368-.52-.033-.073-.08-.194-.027-.274.014-.054.042-.075.094-.09.088-.072.335.022.422.062.247.1.455.194.662.334.094.066.195.193.315.226h.14c.214.047.455.014.655.073.355.114.675.28.962.46a5.953 5.953 0 012.085 2.286c.08.154.115.295.188.455.14.33.313.663.455.982.14.315.275.636.476.897.1.14.502.213.682.286.133.06.34.115.46.188.23.14.454.3.67.454.11.076.443.243.463.378z"/></svg></span>
+          <span class="tech" title="Docker"><svg viewBox="0 0 24 24" role="img" aria-label="Docker" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg></span>
+          <span class="tech" title="AWS"><svg viewBox="0 0 24 24" role="img" aria-label="AWS" fill="currentColor"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 0 1-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 0 1-.287-.375 6.18 6.18 0 0 1-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 0 1-.28.104.488.488 0 0 1-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 0 1 .224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 0 1 1.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 0 0-.735-.136 6.02 6.02 0 0 0-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 0 1-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 0 1 .32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 0 1 .311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 0 1-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 0 1-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 0 1-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 0 0 .415-.758.777.777 0 0 0-.215-.559c-.144-.151-.416-.287-.807-.415l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 0 1-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 0 1 .24.2.43.43 0 0 1 .071.263v.375c0 .168-.064.256-.184.256a.83.83 0 0 1-.303-.096 3.652 3.652 0 0 0-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167zM21.698 16.207c-2.626 1.94-6.442 2.969-9.722 2.969-4.598 0-8.74-1.7-11.87-4.526-.247-.223-.024-.527.272-.351 3.384 1.963 7.559 3.153 11.877 3.153 2.914 0 6.114-.607 9.06-1.852.439-.2.814.287.383.607zM22.792 14.961c-.336-.43-2.22-.207-3.074-.103-.255.032-.295-.192-.063-.36 1.5-1.053 3.967-.75 4.254-.399.287.36-.08 2.826-1.485 4.007-.215.184-.423.088-.327-.151.32-.79 1.03-2.57.695-2.994z"/></svg></span>
+          <span class="tech" title="Git"><svg viewBox="0 0 24 24" role="img" aria-label="Git" fill="currentColor"><path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></svg></span>
+          </span>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div id="impact" class="metrics">
+      <div class="metric rv"><b>40%</b><small>Faster team onboarding from docs I authored</small><span class="src">Atrina</span></div>
+      <div class="metric rv"><b>35%</b><small>Faster page loads after the SSR re-platform</small><span class="src">Atrina CMS</span></div>
+      <div class="metric rv"><b>9 min</b><small>Deploy time, down from 18 with Docker CI</small><span class="src">Atrina CMS</span></div>
+      <div class="metric rv"><b>3+</b><small>Years shipping with cross-functional teams</small><span class="src">Career</span></div>
+    </div>
+
+    <!-- VALUE -->
+    <section>
+      <div class="sec-top rv">
+        <span class="kicker">Why teams keep me</span>
+        <h2>Not just components &mdash; outcomes you can measure.</h2>
+        <p>I care about the boring fundamentals: architecture that survives the second year, load times users actually feel, and pipelines that let a team ship on a Friday.</p>
+      </div>
+      <div class="vals">
+        <div class="val rv">
+          <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+          <h3>Performance as a habit</h3>
+          <p>Cut a Next.js route from 4&ndash;5s to ~1.2s through rendering strategy, AVIF image pipelines and priority loading &mdash; not guesswork.</p>
+        </div>
+        <div class="val rv">
+          <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3>Architecture that scales</h3>
+          <p>Reusable React and Tailwind component systems that keep UI consistent and let new features land in days, not sprints.</p>
+        </div>
+        <div class="val rv">
+          <div class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Cross-functional by default</h3>
+          <p>Comfortable owning a roadmap with product and design, negotiating API contracts with backend, and writing the docs that unblock everyone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work">
+      <div class="sec-top rv">
+        <span class="kicker">Selected work</span>
+        <h2>Things I&rsquo;ve built.</h2>
+        <p>A small set, chosen for the technical depth or the problem they solved.</p>
+      </div>
+      <div class="cases">
+        <a class="case rv" href="#">
+          <div class="thumb t1"><span class="yr">2024</span></div>
+          <div class="body">
+            <h3>Atrina CMS</h3>
+            <p class="tl">SSR-first re-platform of a legacy client-rendered marketing site.</p>
+            <ul class="outcomes">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Cut lab LCP 35% and hero payloads 60% with next/image + AVIF</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Per-route rendering: SSG/ISR for marketing, client-only for dashboards</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Editor onboarding down from 2 weeks to 3 days</li>
+            </ul>
+            <div class="chips"><span class="chip win">35% faster LCP</span><span class="chip">Next.js</span><span class="chip">SSR</span><span class="chip">Docker</span><span class="chip">Azure DevOps</span></div>
+          </div>
+        </a>
+        <a class="case rv" href="#">
+          <div class="thumb t2"><span class="yr">2024</span></div>
+          <div class="body">
+            <h3>Pragnyapan.ai</h3>
+            <p class="tl">AI-powered marketing platform built on Gemini.</p>
+            <ul class="outcomes">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Owned the frontend architecture end to end</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Responsive interfaces for AI-driven content workflows</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Integrated generative AI into the product surface</li>
+            </ul>
+            <div class="chips"><span class="chip win">Live product</span><span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">Gemini AI</span><span class="chip">Tailwind</span></div>
+          </div>
+        </a>
+        <a class="case rv" href="#">
+          <div class="thumb t3"><span class="yr">2023</span></div>
+          <div class="body">
+            <h3>MeetSpace</h3>
+            <p class="tl">Real-time peer-to-peer video meeting platform.</p>
+            <ul class="outcomes">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>WebRTC peer connections with Socket.io signalling</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Backend APIs for meeting and session management</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Optimised for speed-to-room: paste a link, you&rsquo;re in a call</li>
+            </ul>
+            <div class="chips"><span class="chip win">Full-stack</span><span class="chip">WebRTC</span><span class="chip">Node.js</span><span class="chip">Socket.io</span><span class="chip">MongoDB</span></div>
+          </div>
+        </a>
+        <a class="case rv" href="#">
+          <div class="thumb t4"><span class="yr">2023</span></div>
+          <div class="body">
+            <h3>CI/CD Pipeline Kit</h3>
+            <p class="tl">Reusable Docker images and GitHub Actions templates.</p>
+            <ul class="outcomes">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Commit-to-production without re-solving the same problems</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Nginx and Bash provisioning baked in</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Used as the deploy baseline across later projects</li>
+            </ul>
+            <div class="chips"><span class="chip win">Halved release time</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">Nginx</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="sec-top rv">
+        <span class="kicker">Experience</span>
+        <h2>Where I&rsquo;ve shipped.</h2>
+      </div>
+      <div class="tl-wrap">
+        <div class="job cur rv">
+          <div class="when">Jul 2025 — Present &middot; Remote, UK</div>
+          <h3>Frontend Developer, <span class="co">Webol Solutions</span></h3>
+          <p>Building production applications with Next.js, React and TypeScript. Integrating REST APIs with backend engineers on contracts and data flows, translating Figma designs into scalable frontend systems, and speeding up delivery with Cursor, Claude Code and Figma MCP.</p>
+        </div>
+        <div class="job rv">
+          <div class="when">Aug 2024 — May 2025 &middot; Mumbai, India</div>
+          <h3>Next.js Developer, <span class="co">Atrina Technologies</span></h3>
+          <p>Led a CMS frontend rebuild with SSR, improving page-load performance and SEO. Architected reusable React and Tailwind components, owned a three-month delivery roadmap, and wrote onboarding docs that cut ramp-up ~40%.</p>
+        </div>
+        <div class="job rv">
+          <div class="when">Feb 2021 — Feb 2022 &middot; Remote, India</div>
+          <h3>Web Developer, <span class="co">Quadb Technologies</span></h3>
+          <p>Built responsive interfaces from Figma and Adobe XD, engineered Node and Express APIs with JWT authentication, and independently shipped KaiOS applications for performance-constrained feature phones.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section>
+      <div class="quote rv">
+        <div class="qm">&ldquo;</div>
+        <blockquote>Harshal owned the CMS rebuild end to end &mdash; the roadmap, the architecture, and the documentation that let the rest of the team move faster afterwards.</blockquote>
+        <div class="who"><span class="av">AT</span><div><b>Engineering Manager</b><small>Atrina Technologies</small></div></div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" style="padding-top:0">
+      <div class="band rv">
+        <h2>Let&rsquo;s talk about your next hire.</h2>
+        <p>Frontend engineering roles at remote product companies &mdash; React, Next.js, TypeScript, and teams offering visa sponsorship. Tell me the role, team and stack; I&rsquo;ll reply within 48 hours.</p>
+        <div class="hero-btns">
+          <a class="btn w" href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+          <a class="btn o" href="#">Download resume &darr;</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>&copy; <span id="yr"></span> Harshal Singh &middot; Variation C — Impact First</span>
+      <span class="fl"><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">X / Twitter</a><a href="#">Resume</a></span>
+    </footer>
+  </div>
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-editorial.html">A<span class="sw-t"> · Designer</span></a>
+  <a href="b-terminal.html">B<span class="sw-t"> · Engineer</span></a>
+  <a class="on" href="c-impact.html">C<span class="sw-t"> · Recruiter</span></a>
+  <a href="d-bento.html">D<span class="sw-t"> · Bento</span></a>
+  <a href="e-brutalist.html">E<span class="sw-t"> · Brutalist</span></a>
+  <a href="f-sidebar.html">F<span class="sw-t"> · Sidebar</span></a>
+  <a href="g-timeline.html">G<span class="sw-t"> · Timeline</span></a>
+  <a href="h-gallery.html">H<span class="sw-t"> · Gallery</span></a>
+  <a href="i-split.html">I<span class="sw-t"> · Split</span></a>
+  <a href="j-dashboard.html">J<span class="sw-t"> · Dashboard</span></a>
+  <a href="k-magazine.html">K<span class="sw-t"> · Magazine</span></a>
+  <a href="l-kinetic.html">L<span class="sw-t"> · Kinetic</span></a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px' });
+document.querySelectorAll('.rv').forEach(function (el, i) {
+  el.style.transitionDelay = (i % 4) * 70 + 'ms';
+  io.observe(el);
+});
+</script>
+</body>
+</html>

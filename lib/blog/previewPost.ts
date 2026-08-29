@@ -25,8 +25,10 @@ export function draftToPreviewPost(
       year: "numeric",
     }),
     cover: normalizeBlogCover(draft.cover),
+    imageUrl: "",
     tags: draft.tags,
     published: false,
+    featured: false,
     content: draft.content,
   };
 }

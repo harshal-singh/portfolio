@@ -1,6 +1,7 @@
 "use client";
 
 import { AdminField } from "@/components/admin/AdminField";
+import { BlogCoverMedia } from "@/components/blog/BlogCoverMedia";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -83,6 +84,23 @@ export function BlogPostForm({
           })}
         </div>
       </AdminField>
+      <AdminField label="Cover image (public folder, optional)">
+        <Input
+          value={post.imageUrl ?? ""}
+          onChange={(e) => update({ imageUrl: e.target.value })}
+          placeholder="/images/blog/nextjs-page-load-cover.png"
+        />
+        <p className="text-xs text-zinc-500 mt-1.5">
+          Overrides the gradient when set. File in{" "}
+          <code className="text-zinc-400">public/images/blog/</code> →{" "}
+          <code className="text-zinc-400">/images/blog/your-cover.png</code>
+        </p>
+        {post.imageUrl?.trim() ? (
+          <div className="mt-3 relative aspect-video overflow-hidden rounded-lg border border-white/10">
+            <BlogCoverMedia post={post} showCategoryWatermark={false} />
+          </div>
+        ) : null}
+      </AdminField>
       <AdminField label="Tags (comma-separated)">
         <Input
           value={post.tags.join(", ")}
@@ -100,6 +118,11 @@ export function BlogPostForm({
         label="Published (visible on site)"
         checked={post.published}
         onChange={(e) => update({ published: e.target.checked })}
+      />
+      <Checkbox
+        label="Featured on homepage"
+        checked={post.featured}
+        onChange={(e) => update({ featured: e.target.checked })}
       />
       <AdminField
         label={`Content blocks (${post.content.length} blocks — type|text per line)`}
@@ -135,8 +158,10 @@ export function createEmptyPost(overrides?: Partial<BlogPost>): BlogPost {
     readTime: "5 min read",
     date: formatBlogDate(new Date()),
     cover: "gradient-1",
+    imageUrl: "",
     tags: [],
     published: false,
+    featured: false,
     content: [{ type: "p", text: "" }],
     ...overrides,
   };

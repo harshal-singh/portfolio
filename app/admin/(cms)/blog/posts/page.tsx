@@ -90,6 +90,11 @@ export default function BlogPostsListPage() {
                       >
                         {post.published ? "Published" : "Draft"}
                       </span>
+                      {post.featured ? (
+                        <span className="mono text-[10px] px-2 py-0.5 rounded border border-accent/30 text-accent">
+                          Featured
+                        </span>
+                      ) : null}
                       <span className="mono text-[10px] text-zinc-600">
                         {post.category}
                       </span>

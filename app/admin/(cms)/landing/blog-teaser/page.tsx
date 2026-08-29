@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "sonner";
 import { AdminField } from "@/components/admin/AdminField";
+import { useAdmin } from "@/components/admin/AdminProvider";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { SaveBar } from "@/components/admin/SaveBar";
-import { useAdmin } from "@/components/admin/AdminProvider";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { saveContent } from "@/lib/admin/client";
+import { saveSectionHeaders } from "@/lib/admin/saveSectionHeaders";
 import type { SectionMeta } from "@/lib/types";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function BlogTeaserEditorPage() {
   const { content, refresh } = useAdmin();
@@ -24,10 +24,7 @@ export default function BlogTeaserEditorPage() {
   async function handleSave() {
     setSaving(true);
     try {
-      await saveContent("sections", {
-        sections,
-        aboutParagraphs: content.aboutParagraphs,
-      });
+      await saveSectionHeaders({ blogTeaser: sections.blogTeaser });
       toast.success("Blog teaser saved");
       await refresh();
     } catch (e) {
@@ -40,14 +37,20 @@ export default function BlogTeaserEditorPage() {
   return (
     <AdminShell
       title="Writing teaser"
-      description="05 — Homepage blog block: heading and copy above your latest posts."
+      description="Homepage blog block: heading and copy above your latest posts."
     >
       <div className="space-y-4">
         <AdminField label="Section label">
-          <Input value={blogTeaser.label} onChange={(e) => updateTeaser({ label: e.target.value })} />
+          <Input
+            value={blogTeaser.label}
+            onChange={(e) => updateTeaser({ label: e.target.value })}
+          />
         </AdminField>
         <AdminField label="Title">
-          <Input value={blogTeaser.title} onChange={(e) => updateTeaser({ title: e.target.value })} />
+          <Input
+            value={blogTeaser.title}
+            onChange={(e) => updateTeaser({ title: e.target.value })}
+          />
         </AdminField>
         <AdminField label="Description">
           <Textarea

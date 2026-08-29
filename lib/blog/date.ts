@@ -1,3 +1,10 @@
+/** Parse stored blog date string → Date (for sitemap / structured data). */
+export function parseBlogDate(date: string): Date | undefined {
+  if (!date.trim()) return undefined;
+  const parsed = Date.parse(date);
+  return Number.isNaN(parsed) ? undefined : new Date(parsed);
+}
+
 /** Display format used on the site and in the sheet, e.g. "Jun 24, 2025". */
 export function formatBlogDate(date: Date): string {
   return date.toLocaleDateString("en-US", {

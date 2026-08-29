@@ -1,5 +1,6 @@
 import { seedContent } from "@/lib/seed";
 import type { PortfolioContent } from "@/lib/types";
+import { projectsToRows } from "./serialize";
 import { getDriveClient } from "./sheetsClient";
 import { getSheetsClient } from "./sheetsClient";
 import {
@@ -104,6 +105,13 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
       website: c.profile.website,
       status: c.profile.status,
       heroCurrentRole: c.profile.heroCurrentRole,
+      heroHeadline: c.profile.heroHeadline,
+      heroHighlight: c.profile.heroHighlight,
+      heroValueProp: c.profile.heroValueProp,
+      heroPrimaryCtaLabel: c.profile.heroPrimaryCtaLabel,
+      heroPrimaryCtaHref: c.profile.heroPrimaryCtaHref,
+      heroSecondaryCtaLabel: c.profile.heroSecondaryCtaLabel,
+      heroSecondaryCtaHref: c.profile.heroSecondaryCtaHref,
       footerTagline: c.profile.footerTagline,
       socialGithub: c.profile.socials.github,
       socialLinkedin: c.profile.socials.linkedin,
@@ -131,6 +139,18 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
     ...c.stats.map((s, i) => [s.id, s.value, s.label, String(i)]),
   ];
 
+  const achievementsRows = [
+    header(SHEET_TABS.ACHIEVEMENTS),
+    ...c.achievements.map((a, i) => [
+      a.id,
+      a.metric,
+      a.label,
+      a.description,
+      a.context,
+      String(i),
+    ]),
+  ];
+
   const marqueeRows = [
     header(SHEET_TABS.MARQUEE),
     ...c.marquee.map((text, i) => [uuid(), text, String(i)]),
@@ -152,6 +172,8 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
       e.location,
       e.period,
       e.current ? "true" : "false",
+      e.overview,
+      e.technologies.join("|"),
       String(i),
     ]),
   ];
@@ -159,22 +181,65 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
   const experiencePointRows = [
     header(SHEET_TABS.EXPERIENCE_POINTS),
     ...c.experience.flatMap((e) =>
-      e.points.map((text, i) => [uuid(), e.id, text, String(i)])
+      e.points.map((text, i) => [uuid(), e.id, text, String(i)]),
+    ),
+  ];
+
+  const experienceImpactRows = [
+    header(SHEET_TABS.EXPERIENCE_IMPACT),
+    ...c.experience.flatMap((e) =>
+      e.impact.map((text, i) => [uuid(), e.id, text, String(i)]),
+    ),
+  ];
+
+  const experienceMetricRows = [
+    header(SHEET_TABS.EXPERIENCE_METRICS),
+    ...c.experience.flatMap((e) =>
+      e.metrics.map((m, i) => [m.id, e.id, m.value, m.label, String(i)]),
     ),
   ];
 
   const projectRows = [
     header(SHEET_TABS.PROJECTS),
-    ...c.projects.map((p, i) => [
-      p.id,
-      p.name,
-      p.tagline,
-      p.description,
-      p.stack.join("|"),
-      p.year,
-      p.role,
-      p.link,
-      p.accent,
+    ...projectsToRows(c.projects).jobs,
+  ];
+
+  const projectOutcomeRows = [
+    header(SHEET_TABS.PROJECT_OUTCOMES),
+    ...c.projects.flatMap((p) =>
+      (p.outcomes ?? []).map((text, i) => [uuid(), p.id, text, String(i)]),
+    ),
+  ];
+
+  const projectMetricRows = [
+    header(SHEET_TABS.PROJECT_METRICS),
+    ...c.projects.flatMap((p) =>
+      (p.metrics ?? []).map((m, i) => [m.id, p.id, m.value, m.label, String(i)]),
+    ),
+  ];
+
+  const projectContentRows = [
+    header(SHEET_TABS.PROJECT_CONTENT),
+    ...c.projects.flatMap((p) =>
+      (p.content ?? []).map((block, i) => [
+        uuid(),
+        p.slug || p.id,
+        String(i),
+        block.type,
+        block.text,
+      ]),
+    ),
+  ];
+
+  const testimonialRows = [
+    header(SHEET_TABS.TESTIMONIALS),
+    ...c.testimonials.map((t, i) => [
+      t.id,
+      t.quote,
+      t.author,
+      t.role,
+      t.company,
+      t.published ? "true" : "false",
       String(i),
     ]),
   ];
@@ -196,6 +261,8 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
       p.cover,
       p.tags.join("|"),
       p.published ? "true" : "false",
+      p.featured ? "true" : "false",
+      p.imageUrl ?? "",
       String(i),
     ]),
   ];
@@ -224,11 +291,18 @@ function buildSeedRanges(ownerEmail: string | null | undefined) {
     { range: `${SHEET_TABS.SECTIONS}!A1`, values: sectionRows },
     { range: `${SHEET_TABS.ABOUT}!A1`, values: aboutRows },
     { range: `${SHEET_TABS.STATS}!A1`, values: statsRows },
+    { range: `${SHEET_TABS.ACHIEVEMENTS}!A1`, values: achievementsRows },
     { range: `${SHEET_TABS.MARQUEE}!A1`, values: marqueeRows },
     { range: `${SHEET_TABS.SKILLS}!A1`, values: skillRows },
     { range: `${SHEET_TABS.EXPERIENCE}!A1`, values: experienceRows },
     { range: `${SHEET_TABS.EXPERIENCE_POINTS}!A1`, values: experiencePointRows },
+    { range: `${SHEET_TABS.EXPERIENCE_IMPACT}!A1`, values: experienceImpactRows },
+    { range: `${SHEET_TABS.EXPERIENCE_METRICS}!A1`, values: experienceMetricRows },
     { range: `${SHEET_TABS.PROJECTS}!A1`, values: projectRows },
+    { range: `${SHEET_TABS.PROJECT_OUTCOMES}!A1`, values: projectOutcomeRows },
+    { range: `${SHEET_TABS.PROJECT_METRICS}!A1`, values: projectMetricRows },
+    { range: `${SHEET_TABS.PROJECT_CONTENT}!A1`, values: projectContentRows },
+    { range: `${SHEET_TABS.TESTIMONIALS}!A1`, values: testimonialRows },
     { range: `${SHEET_TABS.EDUCATION}!A1`, values: educationRows },
     { range: `${SHEET_TABS.BLOG_POSTS}!A1`, values: blogPostRows },
     { range: `${SHEET_TABS.BLOG_CONTENT}!A1`, values: blogContentRows },

@@ -1,11 +1,22 @@
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { inter, jetbrainsMono, spaceGrotesk } from "@/lib/fonts";
+import { getSiteUrl } from "@/lib/metadata/site";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Harshal Singh — Software Engineer",
-  description:
-    "Full-stack engineer building scalable web apps with React, Next.js & Node.",
+  metadataBase: new URL(getSiteUrl()),
+  robots: {
+    index: true,
+    follow: true,
+  },
+  formatDetection: {
+    email: false,
+    telephone: false,
+  },
 };
 
 export default function RootLayout({
@@ -14,10 +25,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="grain">
-        <div className="relative min-h-screen flex flex-col">{children}</div>
-        <Toaster />
+        <ThemeProvider>
+          <div className="relative min-h-screen flex flex-col">{children}</div>
+
+          <Toaster />
+        </ThemeProvider>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

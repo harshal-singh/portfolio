@@ -1,6 +1,9 @@
 import "server-only";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
 import type { sheets_v4 } from "googleapis";
+import { ADMIN_EMAIL } from "@/lib/constants";
 import { getGoogleToken } from "@/lib/auth/getGoogleToken";
 import { getSheetsClient } from "@/lib/google/sheetsClient";
 
@@ -22,16 +25,31 @@ export function withGoogleAuth<RouteParams = unknown>(
   handler: (req: NextRequest, ctx: ApiContext, routeParams: RouteParams) => Promise<NextResponse>
 ) {
   return async (req: NextRequest, routeParams: RouteParams) => {
-    const token = await getGoogleToken(req);
-    if (!token) {
+    const token = await getToken({
+      req,
+      secret: process.env.AUTH_SECRET,
+      secureCookie: process.env.NODE_ENV === "production",
+    });
+
+    if (!token?.accessToken) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    if (token.error || !token.spreadsheetId) {
-      return NextResponse.json({ error: token.error ?? "SpreadsheetSetupError" }, { status: 401 });
+
+    const email = token.email?.toLowerCase();
+    if (email !== ADMIN_EMAIL.toLowerCase()) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const googleToken = await getGoogleToken(req);
+    if (!googleToken) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (googleToken.error || !googleToken.spreadsheetId) {
+      return NextResponse.json({ error: googleToken.error ?? "SpreadsheetSetupError" }, { status: 401 });
     }
     try {
-      const sheets = getSheetsClient(token.accessToken);
-      return await handler(req, { sheets, spreadsheetId: token.spreadsheetId }, routeParams);
+      const sheets = getSheetsClient(googleToken.accessToken);
+      return await handler(req, { sheets, spreadsheetId: googleToken.spreadsheetId }, routeParams);
     } catch (err) {
       console.error("[api] request failed:", err);
       const status = googleErrorStatus(err);

@@ -6,5 +6,10 @@ import { CONTENT_CACHE_TAG } from "@/lib/constants";
 export function revalidatePortfolioContent() {
   revalidateTag(CONTENT_CACHE_TAG, "max");
   revalidatePath("/");
+  revalidatePath("/about");
+  revalidatePath("/experience");
+  revalidatePath("/projects");
+  revalidatePath("/contact");
+  revalidatePath("/resume");
   revalidatePath("/blog");
 }

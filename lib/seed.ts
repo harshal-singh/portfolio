@@ -6,16 +6,35 @@ export const seedContent: PortfolioContent = {
     name: "Harshal Singh",
     firstName: "Harshal",
     lastName: "Singh",
-    role: "Software Engineer",
+    role: "Frontend Engineer",
     shortBio:
-      "Full-stack engineer with 5+ years building scalable web apps. I craft fast, accessible interfaces and ship reliable systems with React, Next.js & Node.",
-    location: "Mumbai, India",
+      "Frontend Engineer with 3+ years of experience building production web applications using React.js, Next.js, TypeScript, and JavaScript.",
+    location: "Mumbai, India · Open to remote",
     email: "harshal.wrk@gmail.com",
     phone: "+91 88289 84985",
     website: "harshal-singh.vercel.app",
-    status: "Open to Opportunities",
-    heroCurrentRole: "Frontend Engineer @ Webol",
-    footerTagline: "Software engineer based in Mumbai.",
+    status: "Open to opportunities",
+    heroCurrentRole: "Frontend Developer @ Webol Solutions",
+    heroHeadline: "I build product interfaces that",
+    heroHighlight: "ship faster and scale.",
+    heroValueProp:
+      "Experienced in reusable UI architecture, SSR-based applications, API integration, performance optimization, and CI/CD. Strong cross-functional experience with product, design, and backend teams, plus hands-on work in Node.js, AWS, Docker, and AI-assisted development.",
+    heroPrimaryCtaLabel: "View selected work",
+    heroPrimaryCtaHref: "/projects",
+    heroSecondaryCtaLabel: "Discuss a role",
+    heroSecondaryCtaHref: "/contact",
+    footerTagline:
+      "Frontend engineer based in Mumbai, open to remote product teams.",
+    contactAvailabilityDescription:
+      "Open to frontend engineering roles at remote product companies — React, Next.js, TypeScript, and full-stack collaboration. International roles with visa sponsorship welcome.",
+    contactFormLabel: "Send a message",
+    contactFormHint:
+      "Recruiters and hiring managers — include role, team, and stack if you can.",
+    contactFormSuccessMessage: "Message sent — I'll respond within 48 hours.",
+    headerContactLabel: "Get in touch",
+    contactCtaButtonLabel: "Get in touch",
+    photoUrl: "/images/profile.jpg",
+    resumePdfUrl: "/resume/Harshal Singh - Resume - 2027.pdf",
     socials: {
       github: "https://github.com/harshal-singh",
       linkedin: "https://linkedin.com/in/harshal-singh-56a55a236",
@@ -23,13 +42,19 @@ export const seedContent: PortfolioContent = {
     },
   },
   aboutParagraphs: [
-    "I've spent the last four years shipping web products end‑to‑end — from messy legacy CMS revamps to peer‑to‑peer video apps. The thread that runs through all of it is a stubborn focus on the unsexy parts: rendering strategy, build pipelines, image budgets, error boundaries.",
-    "Most of my recent work sits at the intersection of Next.js, TypeScript and DevOps — where small modeling decisions and tight feedback loops compound into shippable speed.",
+    "Frontend Engineer with 3+ years of experience building production web applications using React.js, Next.js, TypeScript, and JavaScript. Experienced in reusable UI architecture, SSR-based applications, API integration, performance optimization, and CI/CD.",
+    "Strong cross-functional experience working with product, design, and backend teams, with additional hands-on experience in Node.js, AWS, Docker, and AI-assisted development using tools like Cursor and Claude Code.",
   ],
   sections: {
     about: {
       label: "01 — About",
       title: "Engineer who cares about the boring fundamentals.",
+      description:
+        "Production-focused frontend engineer — performance, architecture, and shipping velocity.",
+    },
+    achievements: {
+      label: "Impact",
+      title: "Measurable outcomes from recent work.",
       description: "",
     },
     skills: {
@@ -49,6 +74,12 @@ export const seedContent: PortfolioContent = {
       description:
         "A small set, chosen for the technical depth or the problem they solved.",
     },
+    testimonials: {
+      label: "07 — Endorsements",
+      title: "What colleagues say.",
+      description:
+        "Recommendations from managers and teammates — add yours via the admin when ready.",
+    },
     blogTeaser: {
       label: "05 — Writing",
       title: "Notes from the trench.",
@@ -65,69 +96,124 @@ export const seedContent: PortfolioContent = {
       description:
         "Pragmatic notes from the trench — architecture decisions, performance work, and the small patterns that make codebases pleasant to live in.",
     },
+    contact: {
+      label: "Contact",
+      title: "Let's connect.",
+      description:
+        "Recruiting for a frontend role, or want to discuss a product team? I'd like to hear from you.",
+    },
+    resume: {
+      label: "Resume",
+      title: "Experience at a glance.",
+      description:
+        "Experience, skills, and education — download the full PDF with one click.",
+    },
+    contactCta: {
+      label: "Open to opportunities",
+      title: "Let's talk about your next hire.",
+      description:
+        "Frontend engineering roles at remote product companies — React, Next.js, TypeScript, and teams offering visa sponsorship.",
+    },
   },
   stats: [
-    { id: "years", value: "5+", label: "Years building products" },
-    { id: "projects", value: "30+", label: "Shipped projects" },
-    { id: "perf", value: "35%", label: "Avg. perf. uplift" },
-    { id: "sgpa", value: "10", label: "M.Sc. SGPA" },
+    { id: "years", value: "3+", label: "Years in production" },
+    { id: "roles", value: "3", label: "Product teams shipped with" },
+    { id: "tech", value: "20+", label: "Technologies in use" },
+    { id: "onboarding", value: "40%", label: "Faster team onboarding" },
+  ],
+  achievements: [
+    {
+      id: "onboarding",
+      metric: "40%",
+      label: "Faster team onboarding",
+      description:
+        "Authored developer onboarding documentation that reduced ramp-up time and improved knowledge transfer.",
+      context: "Atrina Technologies",
+    },
+    {
+      id: "cms-ssr",
+      metric: "SSR",
+      label: "CMS rebuild shipped",
+      description:
+        "Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance, SEO, and application structure.",
+      context: "Atrina Technologies",
+    },
+    {
+      id: "roadmap",
+      metric: "3 mo",
+      label: "Delivery roadmap owned",
+      description:
+        "Owned technical planning for a quarterly delivery roadmap, aligning frontend execution with product and leadership requirements.",
+      context: "Atrina Technologies",
+    },
+    {
+      id: "ai-workflow",
+      metric: "AI",
+      label: "Faster dev workflows",
+      description:
+        "Streamlined implementation and debugging with Cursor, Claude Code, and Figma MCP for design-to-code delivery.",
+      context: "Webol Solutions",
+    },
   ],
   marquee: [
     "React.js",
     "Next.js",
     "TypeScript",
     "Node.js",
-    "Docker",
-    "PostgreSQL",
+    "Tailwind CSS",
     "GraphQL",
-    "AWS",
-    "Tailwind",
-    "WebRTC",
-    "Vue.js",
+    "MySQL",
     "MongoDB",
+    "Docker",
+    "AWS",
+    "Azure DevOps",
+    "WebRTC",
   ],
   skills: {
-    Frontend: [
-      "React.js",
-      "Next.js",
-      "Vue.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "HTML5",
-      "CSS3",
+    Languages: ["TypeScript", "JavaScript", "HTML5", "CSS3"],
+    Frontend: ["React.js", "Next.js", "Tailwind CSS", "Vue.js"],
+    Backend: ["Node.js", "Express.js", "REST APIs", "GraphQL", "Hasura", "PHP"],
+    Databases: ["MySQL", "MongoDB"],
+    DevOps: ["AWS", "Docker", "Azure DevOps", "CI/CD", "Bash Scripting"],
+    Tooling: [
+      "Git",
+      "GitHub",
+      "Jira",
+      "Figma",
+      "Sketch",
+      "Postman",
+      "Cursor",
+      "Claude Code",
     ],
-    Backend: [
-      "Node.js",
-      "Express.js",
-      "GraphQL",
-      "Hasura",
-      "Socket.io",
-      "PHP / Laravel",
-    ],
-    Database: ["MongoDB", "PostgreSQL", "MySQL"],
-    DevOps: [
-      "AWS",
-      "Docker",
-      "Nginx",
-      "Azure DevOps",
-      "GitHub Actions",
-      "Bash",
-    ],
-    Tooling: ["Git", "Figma", "REST", "JWT", "Postman"],
   },
   experience: [
     {
       id: "webol",
-      company: "Webol",
+      company: "Webol Solutions",
       role: "Frontend Developer",
-      location: "Mumbai, India",
+      location: "Remote, UK",
       period: "Jul 2025 — Present",
       current: true,
+      overview:
+        "Building production web applications with Next.js, React, and TypeScript — from reusable UI components to API-integrated product features.",
       points: [
-        "Building dynamic web apps with Vue.js, Laravel, PHP and MySQL.",
-        "Translating Sketch designs into pixel-perfect, cross-browser UIs.",
-        "Integrating Vue components into Laravel for reactive UX with clean separation.",
+        "Engineer production web applications with Next.js, React.js, and TypeScript, building reusable components and responsive interfaces for product features.",
+        "Integrate REST APIs and collaborate with backend engineers on API contracts, debugging, data flows, and production issue resolution.",
+        "Translate product and Figma designs into scalable frontend experiences with product, design, and engineering teams from requirements through delivery.",
+        "Streamline development workflows using Cursor, Claude Code, and Figma MCP for codebase exploration, implementation, debugging, and design-to-code tasks.",
+        "Contribute to end-to-end feature delivery across frontend, APIs, and supporting infrastructure when required to ship production functionality.",
       ],
+      impact: [],
+      technologies: [
+        "Next.js",
+        "React.js",
+        "TypeScript",
+        "REST APIs",
+        "Figma",
+        "Cursor",
+        "Claude Code",
+      ],
+      metrics: [],
     },
     {
       id: "atrina",
@@ -136,107 +222,281 @@ export const seedContent: PortfolioContent = {
       location: "Mumbai, India",
       period: "Aug 2024 — May 2025",
       current: false,
+      overview:
+        "Owned frontend delivery for a Next.js CMS rebuild — SSR architecture, reusable UI components, and cross-functional product execution.",
       points: [
-        "Led a full CMS revamp on Next.js with SSR — 35% faster page loads, better SEO.",
-        "Containerized apps with Docker, automated CI/CD via Azure DevOps & GitHub Actions — 50% faster releases.",
-        "Defined API contracts with backend, cutting integration issues by 90%.",
-        "Authored onboarding playbook reducing new-joiner ramp-up by 40%.",
+        "Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance and SEO while establishing a scalable application structure.",
+        "Architected reusable React/Next.js and Tailwind CSS components to improve UI consistency and accelerate responsive feature development.",
+        "Partnered with product, design, and backend teams to turn requirements and UI designs into production-ready features and API integrations.",
+        "Owned technical planning for a 3-month delivery roadmap, defining implementation timelines and aligning frontend execution with product and leadership requirements.",
+        "Authored developer onboarding documentation that reduced ramp-up time by approximately 40%, improving knowledge transfer and team productivity.",
       ],
-    },
-    {
-      id: "freelance",
-      company: "Independent Contractor",
-      role: "Full-Stack Developer",
-      location: "Mumbai, India",
-      period: "Jul 2022 — Sep 2024",
-      current: false,
-      points: [
-        "Shipped scalable apps with React, Next.js, TypeScript, Hasura, GraphQL & Postgres.",
-        "Optimized REST APIs with AWS Lambda & Express — 25% latency reduction.",
-        "Drove code-review culture across freelance teams to lift overall quality.",
+      impact: [],
+      technologies: [
+        "Next.js",
+        "React.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "SSR",
+      ],
+      metrics: [
+        { id: "atrina-onboarding", value: "40%", label: "Faster ramp-up" },
       ],
     },
     {
       id: "quadb",
       company: "Quadb Technologies",
       role: "Web Developer",
-      location: "Ludhiana, India",
+      location: "Remote, India",
       period: "Feb 2021 — Feb 2022",
       current: false,
+      overview:
+        "Built responsive web interfaces and Node.js APIs — translating design files into production-ready experiences and shipping fixes in a fast-moving product team.",
       points: [
-        "Engineered secure server-side apps with Node.js, Express & JWT.",
-        "Mentored a small dev team — sprint planning, task delegation, reviews.",
-        "Translated Figma / Adobe XD designs into responsive HTML/CSS/JS.",
+        "Crafted responsive web interfaces from Figma and Adobe XD designs using HTML, CSS, and JavaScript, translating designs into production-ready experiences.",
+        "Engineered Node.js and Express.js APIs with JWT authentication to support secure communication between frontend applications and backend services.",
+        "Implemented maintainable frontend features with a focus on responsive behavior, usability, and reliable product delivery.",
+        "Designed and built KaiOS applications independently for feature phones, adapting interfaces and functionality for performance-constrained devices.",
+        "Resolved frontend and backend issues and delivered production fixes in collaboration with the development team within a fast-moving product environment.",
       ],
+      impact: [],
+      technologies: [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Node.js",
+        "Express.js",
+        "JWT",
+        "Figma",
+        "Adobe XD",
+        "KaiOS",
+      ],
+      metrics: [],
     },
   ],
   projects: [
     {
       id: "pragnyapan",
+      slug: "pragnyapan",
       name: "Pragnyapan.ai",
-      tagline: "AI marketing platform rooted in ancient wisdom.",
+      tagline: "AI-powered marketing platform.",
       description:
-        "An AI-powered marketing platform that fuses Gemini-driven content generation with timeless philosophical frameworks — helping brands craft value-aligned, emotionally resonant messaging.",
-      stack: ["Next.js", "TypeScript", "Tailwind", "Gemini AI"],
+        "Built an AI-powered marketing platform using Next.js, TypeScript, Tailwind CSS, and Gemini AI.",
+      overview:
+        "AI-powered marketing platform with responsive interfaces for AI-driven content creation and marketing workflows.",
+      stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini AI"],
       year: "2024",
-      role: "Lead Engineer",
+      role: "Frontend Engineer",
       link: "https://pragnyapan-ai.vercel.app/",
+      imageUrl: "/images/projects/pragnyapan-ai.jpg",
+      imageScrollEnabled: true,
+      imageScrollDurationMs: 45_000,
+      imageScrollReturnMs: 5_000,
       accent: "lime",
+      cover: "gradient-4",
+      featured: true,
+      outcomes: [
+        "Built an AI-powered marketing platform using Next.js, TypeScript, Tailwind CSS, and Gemini AI.",
+        "Developed responsive interfaces for AI-driven content creation and marketing workflows.",
+        "Owned frontend architecture and integrated generative AI capabilities into the application.",
+      ],
+      metrics: [],
+      content: [],
     },
     {
       id: "meetspace",
+      slug: "meetspace",
       name: "MeetSpace",
-      tagline: "Real-time WebRTC video meetings, instant rooms.",
+      tagline: "Real-time video meeting platform.",
       description:
-        "A peer-to-peer video conferencing platform with instant room creation, low-latency signaling and persistent rooms — built end-to-end with WebRTC and Socket.io.",
-      stack: ["WebRTC", "Node.js", "Socket.io", "MongoDB"],
+        "Built a WebRTC-based peer-to-peer video and audio platform using Node.js, Socket.io, and MongoDB.",
+      overview:
+        "Real-time video meeting platform with WebRTC peer connections, Socket.io signaling, backend APIs, and a responsive frontend. Code on GitHub: github.com/harshal-singh/meet",
+      stack: ["WebRTC", "Node.js", "Socket.io", "MongoDB", "Tailwind CSS"],
       year: "2023",
-      role: "Solo Build",
+      role: "Full-Stack Developer",
       link: "https://meet-spacee.vercel.app/",
       accent: "white",
+      cover: "gradient-4",
+      featured: true,
+      outcomes: [
+        "Built a WebRTC-based peer-to-peer video/audio platform using Node.js, Socket.io, and MongoDB.",
+        "Implemented real-time signaling and backend APIs for meeting and session management.",
+        "Developed the responsive frontend and integrated real-time communication workflows.",
+      ],
+      metrics: [],
+      content: [
+        {
+          type: "p",
+          text: "Most video tools optimize for enterprise features. MeetSpace optimizes for speed-to-room: paste a link, you're in a call. That constraint shaped every architectural decision.",
+        },
+        { type: "h2", text: "Signaling over Socket.io" },
+        {
+          type: "p",
+          text: "WebRTC needs a signaling channel for SDP exchange and ICE candidates. I used Socket.io rooms keyed by meeting ID — each join triggers offer/answer negotiation with the first peer in the room acting as initiator.",
+        },
+        { type: "h2", text: "P2P with graceful fallback" },
+        {
+          type: "p",
+          text: "Direct peer connections keep server costs near zero, but corporate firewalls often block UDP. STUN discovers public addresses; TURN relays media when P2P fails — configured via environment, not hardcoded.",
+        },
+        { type: "h2", text: "What I'd do differently" },
+        {
+          type: "p",
+          text: "Screen sharing and recording would need SFU architecture (Livekit or mediasoup) — P2P doesn't scale past ~4 participants. For 1:1 and small rooms, the current stack is the right trade-off.",
+        },
+      ],
     },
     {
       id: "cms-revamp",
+      slug: "cms-revamp",
       name: "Atrina CMS",
       tagline: "SSR-first CMS revamp, 35% faster.",
       description:
         "Re-platformed a legacy company website on Next.js with full SSR, image optimization and a clean editor workflow — measurable SEO and Core Web Vitals gains.",
+      overview:
+        "Led the re-platform of Atrina's marketing site from a client-rendered legacy stack to Next.js with SSR, ISR, and a Google Sheets–backed CMS — delivering measurable Core Web Vitals improvements and a workflow editors could adopt in days.",
       stack: ["Next.js", "SSR", "Docker", "Azure DevOps"],
       year: "2024",
       role: "Tech Lead",
       link: "#",
       accent: "lime",
+      cover: "gradient-1",
+      featured: false,
+      outcomes: [
+        "Cut lab LCP by 35% and reduced hero image payload by 60% with next/image + AVIF.",
+        "Per-route rendering strategy: SSG/ISR for marketing, client-only for dashboards.",
+        "Editor onboarding dropped from 2 weeks to 3 days with spreadsheet-based CMS.",
+        "Docker + Azure DevOps pipeline cut deploy time from 18 min to under 9.",
+      ],
+      metrics: [
+        { id: "cms-1", value: "35%", label: "Faster LCP (lab)" },
+        { id: "cms-2", value: "60%", label: "Smaller hero images" },
+        { id: "cms-3", value: "9 min", label: "Deploy time" },
+      ],
+      content: [
+        {
+          type: "p",
+          text: "When I joined to lead the CMS revamp, the legacy stack was client-side rendering, oversized hero images, and a CDN doing minimal work. The brief: make it fast, make it Google-friendly, ship in a quarter.",
+        },
+        { type: "h2", text: "Rendering strategy per route" },
+        {
+          type: "p",
+          text: "Marketing pages use SSG with ISR. The blog uses ISR with hourly revalidation. Internal dashboards stay client-side. Treating rendering as a per-route decision — not a global default — was the biggest architectural win.",
+        },
+        {
+          type: "code",
+          text: "export const revalidate = 3600; // ISR — refresh in the background",
+        },
+        { type: "h2", text: "Image pipeline" },
+        {
+          type: "p",
+          text: "Most regressions on Next sites come from images. AVIF output, responsive sizes, and priority loading on LCP candidates beat almost any JS optimization. Hero images went from 1.2MB JPEGs to ~180KB AVIF.",
+        },
+        { type: "h2", text: "CMS without a CMS vendor" },
+        {
+          type: "p",
+          text: "Google Sheets as the content store let editors work in a familiar tool while the site stayed fully static/ISR at the edge. Schema versioning and seed fallbacks keep the site running even when tabs are empty.",
+        },
+      ],
     },
     {
       id: "pipeline",
+      slug: "pipeline",
       name: "CI/CD Pipeline Kit",
       tagline: "Reusable Docker + GitHub Actions templates.",
       description:
-        "A set of opinionated CI/CD templates and Docker images that take new projects from commit to production in under a day. Used internally across freelance projects.",
+        "Reusable CI/CD templates and Docker images for shipping projects from commit to production faster.",
+      overview: "",
       stack: ["Docker", "GitHub Actions", "Bash", "Nginx"],
       year: "2023",
       role: "Solo Build",
       link: "#",
       accent: "white",
+      cover: "gradient-5",
+      featured: false,
+      outcomes: [],
+      metrics: [],
+      content: [],
     },
   ],
   education: [
     {
       id: "kc",
-      school: "Kishinchand Chellaram College",
-      degree: "M.Sc. Information Technology",
+      school: "Kishinchand Chellaram College, Mumbai",
+      degree: "Master of Science in Information Technology",
       period: "Sep 2022 — Apr 2024",
-      grade: "O · 10 SGPA",
+      grade: "Grade: O+",
     },
     {
       id: "llrc",
-      school: "Lala Lajpat Rai College",
-      degree: "B.Sc. Information Technology",
+      school: "Lala Lajpat Rai College, Mumbai",
+      degree: "Bachelor of Science in Information Technology",
       period: "Jul 2019 — Apr 2022",
-      grade: "A+ · 9.5 CGPI",
+      grade: "Grade: A+",
     },
   ],
   blogPosts: [
+    {
+      slug: "nextjs-page-load-4s-to-1-2s",
+      title: "How I Reduced a Next.js Page Load from 4–5s to ~1.2s",
+      excerpt:
+        "A practical breakdown of improving SSR, caching, and performance for faster page loads.",
+      category: "Next.js",
+      readTime: "9 min read",
+      date: "Aug 12, 2025",
+      cover: "gradient-1",
+      imageUrl: "/images/blog/nextjs-page-load-cover.png",
+      tags: ["Next.js", "Performance", "Tailwind CSS"],
+      published: true,
+      featured: true,
+      content: [
+        {
+          type: "p",
+          text: "When a marketing page takes four or five seconds to become usable, you lose trust before anyone reads a word. Here is the stack of changes that brought a Next.js route down to about 1.2 seconds.",
+        },
+        { type: "h2", text: "Start with the render path" },
+        {
+          type: "p",
+          text: "SSR is not free. Audit what runs on the server, what blocks HTML, and what can move to static generation or incremental revalidation instead.",
+        },
+        { type: "h2", text: "Cache with intent" },
+        {
+          type: "p",
+          text: "CDN headers, Next.js fetch caching, and image optimization compound quickly. Measure LCP in the field, not only in Lighthouse.",
+        },
+      ],
+    },
+    {
+      slug: "graphql-hasura-modern-frontend",
+      title: "Why GraphQL and Hasura Can Simplify Modern Frontend Development",
+      excerpt:
+        "Using GraphQL and Hasura to reduce repetitive API work, handle relational data, and give frontend teams more control.",
+      category: "GraphQL",
+      readTime: "8 min read",
+      date: "Jul 28, 2025",
+      cover: "gradient-4",
+      imageUrl: "/images/blog/graphql-hasura-cover.png",
+      tags: ["GraphQL", "Hasura", "Frontend"],
+      published: true,
+      featured: true,
+      content: [
+        {
+          type: "p",
+          text: "REST endpoints multiply fast when products grow. GraphQL with Hasura gives frontend teams a typed contract over relational data without rebuilding CRUD for every screen.",
+        },
+        { type: "h2", text: "One query, many relations" },
+        {
+          type: "p",
+          text: "Nested selections replace multiple round trips. That matters on mobile networks and in dashboard-style UIs where lists and detail panels share data.",
+        },
+        { type: "h2", text: "Permissions at the data layer" },
+        {
+          type: "p",
+          text: "Row-level rules in Hasura keep authorization close to the database instead of scattered across dozens of API handlers.",
+        },
+      ],
+    },
     {
       slug: "shipping-ssr-nextjs-35-percent-faster",
       title: "Shipping SSR on Next.js: how I cut page loads by 35%",
@@ -248,6 +508,8 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-1",
       tags: ["Next.js", "Performance", "SSR"],
       published: true,
+      featured: false,
+      imageUrl: "",
       content: [
         {
           type: "p",
@@ -285,6 +547,7 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-2",
       tags: ["Docker", "CI/CD", "Azure"],
       published: true,
+      featured: false,
       content: [
         {
           type: "p",
@@ -317,6 +580,7 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-3",
       tags: ["Tailwind", "Design Systems", "React"],
       published: true,
+      featured: false,
       content: [
         {
           type: "p",
@@ -346,6 +610,7 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-4",
       tags: ["WebRTC", "Node.js", "Real-time"],
       published: true,
+      featured: false,
       content: [
         {
           type: "p",
@@ -374,6 +639,7 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-5",
       tags: ["TypeScript", "Patterns"],
       published: true,
+      featured: false,
       content: [
         {
           type: "p",
@@ -401,6 +667,7 @@ export const seedContent: PortfolioContent = {
       cover: "gradient-6",
       tags: ["React", "Next.js", "RSC"],
       published: true,
+      featured: false,
       content: [
         {
           type: "p",
@@ -414,9 +681,11 @@ export const seedContent: PortfolioContent = {
       ],
     },
   ],
+  testimonials: [],
   blogCategories: [
     "All",
     "Next.js",
+    "GraphQL",
     "DevOps",
     "Design Systems",
     "Engineering",

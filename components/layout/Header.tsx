@@ -1,17 +1,14 @@
 "use client";
 
+import { useCommandPalette } from "@/components/command/CommandPaletteProvider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { primaryNav } from "@/lib/navigation";
 import type { Profile } from "@/lib/types";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ArrowUpRight, Menu, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const navItems = [
-  // { label: "About", href: "/#about" },
-  // { label: "Work", href: "/#work" },
-  // { label: "Experience", href: "/#experience" },
-  { label: "Blog", href: "/blog" },
-];
 
 interface HeaderProps {
   profile: Profile;
@@ -20,7 +17,14 @@ interface HeaderProps {
 export default function Header({ profile }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [modKey, setModKey] = useState("Ctrl+K");
   const pathname = usePathname();
+  const { toggle: toggleCommand } = useCommandPalette();
+  const contactLabel = profile.headerContactLabel || "Get in touch";
+
+  useEffect(() => {
+    setModKey(/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘+K" : "Ctrl+K");
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -33,130 +37,122 @@ export default function Header({ profile }: HeaderProps) {
   }, [pathname]);
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = open ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [open]);
 
-  const handleAnchor = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    if (href.startsWith("/#")) {
-      const id = href.replace("/#", "");
-      if (pathname === "/") {
-        e.preventDefault();
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-    setOpen(false);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   return (
     <header
-      className={`border-b fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={cn(
+        "border-b fixed top-0 inset-x-0 z-50 transition-all duration-300",
         open
           ? "bg-background border-transparent"
           : scrolled
-            ? "backdrop-blur-md bg-background/95 border-white/5"
-            : "border-transparent"
-      }`}
+            ? "backdrop-blur-md bg-background/95 border-border-subtle"
+            : "border-transparent",
+      )}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+      <div className="site-container h-16 flex items-center justify-between">
         <Link
           href="/"
-          onClick={() => setOpen(false)}
-          className="heading uppercase text-2xl text-zinc-300 font-bold group hover:text-white transition-colors relative z-50"
+          className="heading lowercase text-2xl font-bold text-foreground hover:text-muted transition-colors relative z-50"
         >
-          HRS
+          harshal singh
           <span className="text-accent">.</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 ml-auto mr-8">
-          {navItems.map((item) =>
-            item.href.startsWith("/#") ? (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleAnchor(e, item.href)}
-                className="text-sm text-zinc-400 hover:text-white link-underline"
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`text-sm link-underline ${
-                  pathname === item.href
-                    ? "text-white"
-                    : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+        <nav className="hidden lg:flex items-center gap-8" aria-label="Primary">
+          {primaryNav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "text-sm link-underline py-1",
+                isActive(item.href)
+                  ? "text-foreground nav-link-active"
+                  : "text-muted hover:text-foreground",
+              )}
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3 relative z-50">
-          <a
-            href={`mailto:${profile.email}`}
-            className="hidden md:inline-flex items-center gap-1.5 text-sm bg-accent text-background px-4 py-2 rounded-md font-medium hover:bg-accent-hover transition-colors"
-          >
-            Get in touch <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
           <button
+            type="button"
+            onClick={toggleCommand}
+            className="hidden lg:inline-flex items-center gap-2 h-9 px-3 rounded-md border border-border bg-transparent text-muted hover:text-foreground hover:border-accent/30 hover:bg-accent-muted transition-colors"
+            aria-label="Open command palette"
+          >
+            <Search className="w-3.5 h-3.5" aria-hidden />
+            <kbd className="mono text-[10px]">{modKey}</kbd>
+          </button>
+          <ThemeToggle className="hidden lg:flex" />
+          <Link
+            href="/contact"
+            className="hidden lg:inline-flex items-center gap-1.5 text-sm bg-accent text-accent-foreground px-4 py-2 rounded-md font-medium hover:bg-accent-hover transition-colors"
+          >
+            {contactLabel} <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
+          </Link>
+          <ThemeToggle className="lg:hidden" />
+          <button
+            type="button"
             onClick={() => setOpen(!open)}
-            className="md:hidden text-zinc-200 p-2"
-            aria-label="Menu"
+            className="lg:hidden text-foreground p-2 min-w-11 min-h-11 flex items-center justify-center"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
           >
             {open ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
           </button>
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden fixed inset-0 top-16 bg-background flex flex-col h-[calc(100vh-4rem)]">
-          <div className="px-6 pt-4 pb-10 flex flex-col gap-8 flex-1 overflow-y-auto">
-            <span className="border-t border-white/10" />
-            {navItems.map((item) =>
-              item.href.startsWith("/#") ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => handleAnchor(e, item.href)}
-                  className="text-zinc-300 text-3xl font-medium heading hover:text-accent transition-colors"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-zinc-300 text-3xl font-medium heading hover:text-accent transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
-            <div className="mt-auto border-t border-white/10 pt-8">
-              <a
-                href={`mailto:${profile.email}`}
-                className="inline-flex items-center justify-center gap-2 bg-accent text-background px-6 py-4 rounded-xl font-medium text-lg w-full"
+      {open ? (
+        <div
+          id="mobile-nav"
+          className="lg:hidden fixed inset-0 top-16 bg-background flex flex-col h-[calc(100dvh-4rem)]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+        >
+          <nav className="px-6 pt-4 pb-10 flex flex-col gap-8 flex-1 overflow-y-auto">
+            <span className="border-t border-border-subtle" />
+            {primaryNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "text-3xl font-medium heading transition-colors",
+                  isActive(item.href)
+                    ? "text-accent"
+                    : "text-foreground hover:text-accent",
+                )}
+                aria-current={isActive(item.href) ? "page" : undefined}
               >
-                Get in touch <ArrowUpRight className="w-5 h-5" />
-              </a>
+                {item.label}
+              </Link>
+            ))}
+            <div className="mt-auto border-t border-border-subtle pt-8">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-6 py-4 rounded-xl font-medium text-lg w-full"
+              >
+                {contactLabel} <ArrowUpRight className="w-5 h-5" aria-hidden />
+              </Link>
             </div>
-          </div>
+          </nav>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }

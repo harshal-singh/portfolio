@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero A — Cascade stagger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-demo.css" />
+  <style>
+    .stagger > * {
+      opacity: 0;
+      animation: riseIn 0.65s ease-out forwards;
+    }
+    .stagger > *:nth-child(1) { animation-delay: 0ms; }
+    .stagger > *:nth-child(2) { animation-delay: 90ms; }
+    .stagger > *:nth-child(3) { animation-delay: 180ms; }
+    .stagger > *:nth-child(4) { animation-delay: 270ms; }
+    .stagger > *:nth-child(5) { animation-delay: 360ms; }
+    .stagger > *:nth-child(6) { animation-delay: 450ms; }
+
+    .highlight-wrap {
+      display: inline-block;
+      position: relative;
+    }
+
+    .highlight-wrap::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0.08em;
+      height: 3px;
+      width: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: drawLine 0.55s ease-out 0.55s forwards;
+    }
+
+    @keyframes drawLine {
+      to { width: 100%; }
+    }
+
+    .grid {
+      display: grid;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .tech-col {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      opacity: 0;
+      animation: riseIn 0.8s ease-out 0.5s forwards;
+    }
+
+    .tech-pill {
+      padding: 0.5rem 0.85rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(24, 24, 27, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <nav class="demo-nav">
+    <a href="index.html">All demos</a>
+    <a href="variation-b-words.html">B</a>
+    <a href="variation-c-ambient.html">C</a>
+  </nav>
+
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="grid">
+        <div class="stagger">
+          <p class="label">Senior Frontend Engineer</p>
+          <h1 class="display heading">
+            I build products that<br />
+            <span class="highlight-wrap accent">scale with clarity.</span>
+          </h1>
+          <p class="body-lg">
+            4+ years shipping React, Next.js, and TypeScript for startups and enterprise teams — from zero-to-one MVPs to platforms serving millions.
+          </p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#">View projects</a>
+            <a class="btn btn-secondary" href="#">Download resume</a>
+          </div>
+          <div class="meta">
+            <div>
+              <p class="label" style="margin-bottom:0.35rem">Location</p>
+              <p>India · Remote-friendly</p>
+            </div>
+            <div>
+              <p class="label" style="margin-bottom:0.35rem">Focus</p>
+              <p>Frontend · Design systems · Performance</p>
+            </div>
+          </div>
+        </div>
+        <div class="tech-col" aria-hidden="true">
+          <div class="tech-pill">React</div>
+          <div class="tech-pill">Next.js</div>
+          <div class="tech-pill">TypeScript</div>
+          <div class="tech-pill">Node</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

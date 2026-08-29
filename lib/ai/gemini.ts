@@ -454,8 +454,10 @@ export function ideaToBlogPost(
       year: "numeric",
     }),
     cover: normalizeBlogCover(draft?.cover ?? base.cover),
+    imageUrl: "",
     tags: base.tags ?? idea.tags,
     published: false,
+    featured: false,
     content,
   };
 }

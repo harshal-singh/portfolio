@@ -1,85 +1,173 @@
+import { HeroHighlightTypewriter } from "@/components/hero/HeroHighlightTypewriter";
+import { HeroSplitWords } from "@/components/hero/HeroSplitWords";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { TechLogoScrollColumns } from "@/components/ui/tech-logo-columns";
+import { heroAnimationTiming } from "@/lib/hero/animation";
 import type { Profile } from "@/lib/types";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
+import Link from "next/link";
 
 interface HeroProps {
   profile: Profile;
 }
 
-export default function Hero({ profile }: HeroProps) {
+function CtaLink({
+  href,
+  label,
+  variant,
+}: {
+  href: string;
+  label: string;
+  variant: "primary" | "secondary";
+}) {
+  if (!href || !label) return null;
+
+  const className =
+    variant === "primary"
+      ? "inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors active:scale-[0.98]"
+      : "inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-md hover:border-accent/30 hover:bg-accent-muted transition-colors active:scale-[0.98]";
+
+  const icon =
+    variant === "primary" ? (
+      <ArrowRight className="w-4 h-4" />
+    ) : (
+      <ArrowUpRight className="w-4 h-4" />
+    );
+
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={className}>
+        {label} {icon}
+      </a>
+    );
+  }
+
+  if (href.startsWith("mailto:")) {
+    return (
+      <a href={href} className={className}>
+        {label} {icon}
+      </a>
+    );
+  }
+
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center px-6 md:px-10 max-w-7xl mx-auto py-12">
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/[0.04] rounded-full blur-3xl pointer-events-none" />
+    <Link href={href} className={className}>
+      {label} {icon}
+    </Link>
+  );
+}
 
-      <div className="relative z-10 rise-in">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm mb-8">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-          </span>
-          <span className="mono text-xs text-zinc-300">{profile.status}</span>
+export default function Hero({ profile }: HeroProps) {
+  const primaryHref = profile.heroPrimaryCtaHref || "/projects";
+  const primaryLabel = profile.heroPrimaryCtaLabel || "View selected work";
+  const secondaryHref = profile.heroSecondaryCtaHref || "/contact";
+  const secondaryLabel = profile.heroSecondaryCtaLabel || "Get in touch";
+  const headline = profile.heroHeadline || "I build product interfaces that";
+  const valueProp =
+    profile.heroValueProp ||
+    profile.shortBio ||
+    "Senior frontend engineer building production React and Next.js systems.";
+
+  const timing = heroAnimationTiming(headline, profile.heroHighlight || "");
+
+  return (
+    <section className="relative min-h-202.5 flex flex-col justify-center site-container py-16 lg:py-20 overflow-hidden bg-background">
+      <div
+        className="absolute inset-0 bg-background pointer-events-none"
+        aria-hidden
+      />
+      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[min(700px,100vw)] h-95 bg-accent-muted rounded-full blur-3xl pointer-events-none opacity-90" />
+
+      <div className="relative z-10 w-full">
+        <div className="grid lg:grid-cols-[1fr_auto] gap-10 xl:gap-16 items-center w-full mt-16">
+          <div className="max-w-3xl">
+            <p
+              className="hero-fade-block text-label text-muted mb-4"
+              style={{ animationDelay: "0ms" }}
+            >
+              {profile.name} · {profile.role}
+            </p>
+
+            <h1 className="text-display text-foreground font-semibold leading-[1.05] max-w-3xl mt-4">
+              <span className="block space-x-3 xl:space-x-6">
+                <HeroSplitWords
+                  words={timing.headlineWords}
+                  startDelay={timing.headlineStart}
+                />
+              </span>
+              <span className="block min-h-[1.05em] mt-1">
+                <HeroHighlightTypewriter startDelay={timing.highlightStart} />
+              </span>
+            </h1>
+
+            <p
+              className="hero-fade-block mt-8 text-body-lg text-muted max-w-2xl leading-relaxed"
+              style={{ animationDelay: `${timing.bodyDelay}ms` }}
+            >
+              {valueProp}
+            </p>
+
+            <div
+              className="hero-fade-block mt-10 flex flex-wrap items-center gap-3"
+              style={{ animationDelay: `${timing.ctaDelay}ms` }}
+            >
+              <CtaLink
+                href={primaryHref}
+                label={primaryLabel}
+                variant="primary"
+              />
+              <CtaLink
+                href={secondaryHref}
+                label={secondaryLabel}
+                variant="secondary"
+              />
+            </div>
+
+            <div
+              className="hero-fade-block mt-12 pt-8 border-t border-border-subtle flex flex-wrap items-center justify-between gap-6"
+              style={{ animationDelay: `${timing.metaDelay}ms` }}
+            >
+              <div>
+                <p className="text-label mb-1.5">Currently</p>
+                <p className="text-foreground font-medium">
+                  {profile.heroCurrentRole}
+                </p>
+                <p className="mono text-xs text-muted mt-1 flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3" />
+                  {profile.location}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href={profile.socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
+                  aria-label="GitHub"
+                >
+                  <GithubIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={profile.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-stagger-aside hidden lg:flex justify-center lg:justify-end w-69 shrink-0 self-stretch min-h-90 lg:min-h-105 pl-6 xl:pl-10">
+            <TechLogoScrollColumns className="w-full" />
+          </div>
         </div>
 
-        <h1 className="heading uppercase font-bold text-zinc-100 leading-[1] text-[clamp(4.2rem,10vw,11rem)]">
-          {profile.firstName}{" "}
-          <span className="text-zinc-400">{profile.lastName}</span>
-          <span className="text-accent">.</span>
-        </h1>
-
-        <div className="mt-10 grid md:grid-cols-12 gap-8 items-end">
-          <div className="md:col-span-7">
-            <p className="text-zinc-300 text-lg md:text-xl leading-relaxed max-w-xl">
-              Software Engineer building scalable web apps. I craft fast,
-              accessible interfaces and ship reliable systems with React,
-              Next.js, TypeScript, Tailwind CSS and Node.js
-            </p>
-          </div>
-          <div className="md:col-span-5 md:text-right">
-            <p className="mono text-xs uppercase tracking-widest text-zinc-500 mb-2">
-              Currently
-            </p>
-            <p className="text-zinc-200">{profile.heroCurrentRole}</p>
-            <p className="mono text-xs text-zinc-500 mt-1 flex md:justify-end items-center gap-1.5">
-              <MapPin className="w-3 h-3" />
-              {profile.location}
-            </p>
-          </div>
+        <div className="lg:hidden mt-16 -mx-4 sm:-mx-6">
+          <TechLogoScrollColumns />
         </div>
-
-        <div className="mt-12 flex flex-wrap items-start md:items-center justify-between gap-4">
-          <div className="flex items-start md:items-center flex-col md:flex-row gap-3 md:ml-2">
-            <a
-              href="#work"
-              className="inline-flex items-center gap-2 bg-accent text-background px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors"
-            >
-              See selected work <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 border border-white/15 text-zinc-200 px-6 py-3 rounded-md hover:border-white/30 hover:bg-white/[0.03] transition-colors"
-            >
-              Start a project <ArrowUpRight className="w-4 h-4" />
-            </a>
-          </div>
-          <div className="flex items-center gap-3 md:ml-2">
-            <a
-              href={profile.socials.github}
-              className="w-10 h-10 rounded-md border border-white/10 flex items-center justify-center text-zinc-400 hover:text-accent hover:border-accent/30 transition-colors"
-            >
-              <GithubIcon className="w-4 h-4" />
-            </a>
-            <a
-              href={profile.socials.linkedin}
-              className="w-10 h-10 rounded-md border border-white/10 flex items-center justify-center text-zinc-400 hover:text-accent hover:border-accent/30 transition-colors"
-            >
-              <LinkedinIcon className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 left-6 md:left-10 mono text-[10px] uppercase tracking-[0.3em] text-zinc-600 hidden md:block">
-        scroll —
       </div>
     </section>
   );

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero C — Ambient glow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-demo.css" />
+  <style>
+    .mesh {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.55;
+      animation: drift 18s ease-in-out infinite;
+    }
+
+    .blob-a {
+      width: 420px;
+      height: 420px;
+      background: rgba(76, 175, 80, 0.22);
+      top: -10%;
+      left: 20%;
+    }
+
+    .blob-b {
+      width: 320px;
+      height: 320px;
+      background: rgba(76, 175, 80, 0.08);
+      bottom: 10%;
+      right: 10%;
+      animation-delay: -6s;
+      animation-duration: 22s;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -30px) scale(1.05); }
+      66% { transform: translate(-25px, 20px) scale(0.95); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 42rem;
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.15s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .metrics {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: clamp(1.5rem, 6vw, 4rem);
+      flex-wrap: wrap;
+    }
+
+    .metric {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: riseIn 0.5s ease-out forwards;
+    }
+
+    .metric:nth-child(1) { animation-delay: 0.6s; }
+    .metric:nth-child(2) { animation-delay: 0.72s; }
+    .metric:nth-child(3) { animation-delay: 0.84s; }
+    .metric:nth-child(4) { animation-delay: 0.96s; }
+
+    .metric-value {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="demo-nav">
+    <a href="index.html">All demos</a>
+    <a href="variation-a-stagger.html">A</a>
+    <a href="variation-b-words.html">B</a>
+  </nav>
+
+  <section class="hero">
+    <div class="mesh" aria-hidden="true">
+      <div class="blob blob-a"></div>
+      <div class="blob blob-b"></div>
+    </div>
+    <div class="container">
+      <div class="content">
+        <p class="label">Senior Frontend Engineer</p>
+        <h1 class="display heading" style="margin-top:1rem">
+          I build products that<br />
+          <span class="accent">scale with clarity.</span>
+        </h1>
+        <p class="body-lg" style="margin-top:1.5rem">
+          4+ years shipping React, Next.js, and TypeScript for startups and enterprise teams — from zero-to-one MVPs to platforms serving millions.
+        </p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#">View projects</a>
+          <a class="btn btn-secondary" href="#">Download resume</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="metrics" aria-label="Key metrics">
+    <div class="metric">
+      <div class="metric-value mono" data-target="4" data-suffix="+">0</div>
+      <div class="metric-label">Years experience</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value mono" data-target="35" data-suffix="%">0</div>
+      <div class="metric-label">Perf improvement</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value mono" data-target="30" data-suffix="+">0</div>
+      <div class="metric-label">Projects shipped</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value mono" data-target="9" data-suffix=" min">0</div>
+      <div class="metric-label">Build time cut</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.querySelectorAll("[data-target]").forEach(function (el) {
+          el.textContent = el.dataset.target + (el.dataset.suffix || "");
+        });
+        return;
+      }
+      var started = false;
+      function countUp() {
+        if (started) return;
+        started = true;
+        document.querySelectorAll("[data-target]").forEach(function (el) {
+          var target = parseFloat(el.dataset.target);
+          var suffix = el.dataset.suffix || "";
+          var start = performance.now();
+          var duration = 900;
+          function tick(now) {
+            var t = Math.min(1, (now - start) / duration);
+            var eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(target * eased) + suffix;
+            if (t < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }
+      setTimeout(countUp, 700);
+    })();
+  </script>
+</body>
+</html>

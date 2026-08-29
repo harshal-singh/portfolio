@@ -39,6 +39,8 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
       p.cover,
       p.tags.join("|"),
       p.published ? "true" : "false",
+      p.featured ? "true" : "false",
+      p.imageUrl ?? "",
       String(i),
     ]),
   );

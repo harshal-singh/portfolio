@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>I — Split Screen · Harshal Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#0D1014; --ink-2:#151A20; --paper:#FCFCFA; --paper-2:#F1F1ED;
+  --fg-d:#F2F4F6; --dim-d:#8D97A5;
+  --fg-l:#12161B; --dim-l:#5F6875;
+  --line-d:rgba(255,255,255,.1); --line-l:rgba(18,22,27,.11);
+  --acc:#4ADE80;
+  --split:42%;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--fg-l);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.dp{font-family:Sora,sans-serif;letter-spacing:-.035em}
+.mono{font-family:"JetBrains Mono",monospace}
+
+.split{display:flex;flex-direction:column}
+@media(min-width:960px){.split{flex-direction:row;align-items:flex-start}}
+
+/* ---------- LEFT (fixed, reacts to scroll) ---------- */
+.left{background:var(--ink);color:var(--fg-d);position:relative;overflow:hidden;padding:clamp(1.5rem,4vw,2.75rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
+@media(min-width:960px){.left{width:var(--split);flex-shrink:0;position:sticky;top:0;height:100vh}}
+.left::before{content:"";position:absolute;inset:0;pointer-events:none;transition:background 1s cubic-bezier(.22,1,.36,1);
+  background:radial-gradient(ellipse 70% 50% at 30% 12%,rgba(74,222,128,.2),transparent 62%)}
+.left[data-sec="work"]::before{background:radial-gradient(ellipse 70% 50% at 70% 22%,rgba(167,139,250,.24),transparent 62%)}
+.left[data-sec="experience"]::before{background:radial-gradient(ellipse 70% 50% at 25% 70%,rgba(56,189,248,.22),transparent 62%)}
+.left[data-sec="writing"]::before{background:radial-gradient(ellipse 70% 50% at 75% 65%,rgba(251,191,36,.2),transparent 62%)}
+.left[data-sec="contact"]::before{background:radial-gradient(ellipse 80% 60% at 50% 45%,rgba(244,114,182,.22),transparent 64%)}
+.left > *{position:relative;z-index:2}
+
+.ltop{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.mark{display:flex;align-items:center;gap:.65rem;font-family:Sora,sans-serif;font-weight:600;font-size:.92rem;letter-spacing:-.02em}
+.mark i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc);animation:pb 2.2s infinite}
+@keyframes pb{0%,100%{opacity:1}50%{opacity:.3}}
+.lstat{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-d)}
+
+.lmid h1{font-family:Sora,sans-serif;font-weight:600;font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.06;letter-spacing:-.04em}
+.lmid h1 .hl{color:var(--acc)}
+.lmid p{color:var(--dim-d);line-height:1.75;margin-top:1.1rem;font-size:.95rem;max-width:30rem}
+
+/* the readout that changes with the scrolled section */
+.readout{border-top:1px solid var(--line-d);padding-top:1.15rem;margin-top:1.75rem}
+.readout .rlbl{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim-d);margin-bottom:.5rem}
+.readout .rval{font-family:Sora,sans-serif;font-size:1.15rem;font-weight:500;letter-spacing:-.02em;min-height:1.6em;transition:opacity .35s}
+.readout .rval.fade{opacity:0}
+
+.lbot{display:flex;flex-direction:column;gap:1.25rem}
+.lnav{display:flex;flex-wrap:wrap;gap:.35rem}
+.lnav a{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim-d);padding:.45rem .8rem;border:1px solid var(--line-d);border-radius:999px;transition:.2s}
+.lnav a:hover{color:var(--fg-d);border-color:var(--fg-d)}
+.lnav a.cur{background:var(--fg-d);color:var(--ink);border-color:var(--fg-d)}
+.lcta{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-size:.87rem;font-weight:600;padding:.85rem 1.3rem;border-radius:10px;background:var(--acc);color:#06210F;transition:.22s;align-self:flex-start}
+.lcta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(74,222,128,.28)}
+
+/* ---------- RIGHT (scrolls) ---------- */
+.right{flex:1;min-width:0;padding:clamp(2rem,4vw,4rem) clamp(1.25rem,3.5vw,3.25rem) 6rem}
+.sec{scroll-margin-top:2rem;padding-bottom:clamp(3rem,6vw,5rem)}
+.shd{display:flex;align-items:baseline;gap:.8rem;padding-bottom:1rem;margin-bottom:1.75rem;border-bottom:1px solid var(--line-l)}
+.shd h2{font-family:Sora,sans-serif;font-size:1.15rem;font-weight:600;letter-spacing:-.025em}
+.shd .n{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim-l);letter-spacing:.1em}
+.shd .fl{flex:1}
+
+/* stats */
+.stg{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+@media(min-width:640px){.stg{grid-template-columns:repeat(4,1fr)}}
+.stc{border:1px solid var(--line-l);border-radius:12px;padding:1.1rem;background:#fff;transition:.24s}
+.stc:hover{transform:translateY(-3px);border-color:var(--fg-l)}
+.stc b{font-family:Sora,sans-serif;display:block;font-size:1.75rem;font-weight:700;letter-spacing:-.035em;line-height:1}
+.stc small{display:block;margin-top:.45rem;font-size:.74rem;color:var(--dim-l);line-height:1.45}
+
+/* work */
+.wk{display:block;border:1px solid var(--line-l);border-radius:14px;padding:1.25rem;background:#fff;margin-bottom:.7rem;transition:.26s;position:relative;overflow:hidden}
+.wk:hover{transform:translateY(-3px);border-color:var(--fg-l);box-shadow:0 14px 34px rgba(13,16,20,.08)}
+.wk .swatch{position:absolute;left:0;top:0;bottom:0;width:4px}
+.wk.s1 .swatch{background:linear-gradient(180deg,#10B981,#38BDF8)}
+.wk.s2 .swatch{background:linear-gradient(180deg,#8B5CF6,#EC4899)}
+.wk.s3 .swatch{background:linear-gradient(180deg,#0EA5E9,#22D3EE)}
+.wk.s4 .swatch{background:linear-gradient(180deg,#F59E0B,#FCD34D)}
+.wk .top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.wk h3{font-family:Sora,sans-serif;font-size:1.12rem;font-weight:600;letter-spacing:-.025em}
+.wk .yr{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim-l)}
+.wk p{font-size:.875rem;line-height:1.65;color:var(--dim-l);margin-top:.5rem}
+.tags{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:.9rem}
+.tg{font-family:"JetBrains Mono",monospace;font-size:.65rem;padding:.2rem .5rem;border-radius:5px;background:var(--paper-2);color:var(--dim-l)}
+.tg.w{background:rgba(74,222,128,.16);color:#12603A;font-weight:500}
+
+/* experience */
+.xp{display:grid;gap:0}
+.xr{padding:1.3rem 0;border-bottom:1px solid var(--line-l);display:grid;gap:.35rem}
+@media(min-width:720px){.xr{grid-template-columns:8.5rem 1fr;gap:1.5rem}}
+.xw{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--dim-l);padding-top:.2rem;line-height:1.5}
+.xrole{font-family:Sora,sans-serif;font-size:1rem;font-weight:600;letter-spacing:-.02em}
+.xco{font-size:.83rem;color:var(--dim-l);margin-top:.12rem}
+.xd{font-size:.87rem;line-height:1.7;color:var(--dim-l);margin-top:.55rem}
+
+/* writing */
+.wr{display:flex;justify-content:space-between;align-items:center;gap:1.25rem;padding:.95rem 0;border-bottom:1px solid var(--line-l);transition:.2s}
+.wr:hover{padding-left:.5rem}
+.wr h3{font-size:.9rem;font-weight:500;line-height:1.5}
+.wr time{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim-l);white-space:nowrap}
+
+/* contact */
+.cbx{border:1px solid var(--line-l);border-radius:16px;background:#fff;padding:clamp(1.4rem,3vw,2.2rem)}
+.cbx h3{font-family:Sora,sans-serif;font-size:1.3rem;font-weight:600;letter-spacing:-.03em}
+.cbx p{font-size:.9rem;line-height:1.7;color:var(--dim-l);margin-top:.65rem}
+.cbtns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.35rem}
+.bt{display:inline-flex;align-items:center;gap:.45rem;font-size:.86rem;font-weight:600;padding:.7rem 1.2rem;border-radius:9px;border:1px solid var(--line-l);transition:.22s}
+.bt.p{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bt.p:hover{background:var(--acc);color:#06210F;border-color:var(--acc)}
+.bt.s:hover{border-color:var(--ink)}
+.ftr{margin-top:2.25rem;padding-top:1.2rem;border-top:1px solid var(--line-l);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim-l)}
+
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+
+.switch{position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:.2rem;padding:.28rem;border-radius:999px;background:rgba(13,16,20,.93);backdrop-filter:blur(12px);max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;box-shadow:0 10px 32px rgba(0,0,0,.25)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:rgba(255,255,255,.58);padding:.4rem .72rem;border-radius:999px;transition:.18s;white-space:nowrap}
+.switch a:hover{color:#fff}
+.switch a.on{background:var(--acc);color:#06210F;font-weight:600}
+.sw-t{display:none}
+.switch a.on .sw-t{display:inline}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="split">
+
+  <!-- ================= LEFT: fixed, reacts to the scrolled section ================= -->
+  <aside class="left" id="left" data-sec="intro">
+    <div class="ltop">
+      <span class="mark"><i></i> Harshal Singh</span>
+      <span class="lstat">Open to work</span>
+    </div>
+
+    <div class="lmid">
+      <h1>Interfaces that <span class="hl">ship faster</span> and scale.</h1>
+      <p>Frontend engineer, 3+ years in production React, Next.js and TypeScript. Reusable UI architecture, SSR, and the performance work that makes it feel instant.</p>
+      <div class="readout">
+        <div class="rlbl" id="rlbl">Now viewing</div>
+        <div class="rval" id="rval">Introduction &mdash; who I am and what I build</div>
+      </div>
+    </div>
+
+    <div class="lbot">
+      <nav class="lnav" id="lnav">
+        <a href="#intro" data-t="intro">Intro</a>
+        <a href="#impact" data-t="impact">Impact</a>
+        <a href="#work" data-t="work">Work</a>
+        <a href="#experience" data-t="experience">Experience</a>
+        <a href="#writing" data-t="writing">Writing</a>
+        <a href="#contact" data-t="contact">Contact</a>
+      </nav>
+      <a class="lcta" href="mailto:harshal.wrk@gmail.com">Get in touch &rarr;</a>
+    </div>
+  </aside>
+
+  <!-- ================= RIGHT: scrolls ================= -->
+  <div class="right">
+
+    <section class="sec" id="intro">
+      <div class="shd"><h2>Introduction</h2><span class="fl"></span><span class="n">01</span></div>
+      <p style="font-size:1.02rem;line-height:1.8;color:var(--dim-l);max-width:42rem">
+        I build production web applications with React.js, Next.js and TypeScript &mdash; reusable UI architecture, SSR-based applications, API integration, performance optimisation and CI/CD. I work closely with product, design and backend teams, and I&rsquo;m comfortable going past the frontend when shipping requires it.
+      </p>
+      <p style="font-size:1.02rem;line-height:1.8;color:var(--dim-l);max-width:42rem;margin-top:1.1rem">
+        Currently at Webol Solutions, working remotely with a UK team from Mumbai. Open to frontend roles at remote product companies, including international roles with visa sponsorship.
+      </p>
+    </section>
+
+    <section class="sec" id="impact">
+      <div class="shd"><h2>Impact</h2><span class="fl"></span><span class="n">02</span></div>
+      <div class="stg">
+        <div class="stc rv"><b>40%</b><small>Faster team onboarding</small></div>
+        <div class="stc rv"><b>35%</b><small>Faster page loads</small></div>
+        <div class="stc rv"><b>9 min</b><small>Deploys, down from 18</small></div>
+        <div class="stc rv"><b>3+</b><small>Years in production</small></div>
+      </div>
+    </section>
+
+    <section class="sec" id="work">
+      <div class="shd"><h2>Selected work</h2><span class="fl"></span><span class="n">03</span></div>
+      <a class="wk s1 rv" href="#"><span class="swatch"></span>
+        <span class="top"><h3>Atrina CMS</h3><span class="yr">2024</span></span>
+        <p>SSR-first re-platform of a legacy client-rendered site. Per-route rendering strategy, AVIF image pipeline, and a spreadsheet-backed CMS editors adopted in three days instead of two weeks.</p>
+        <span class="tags"><span class="tg w">35% faster LCP</span><span class="tg">Next.js</span><span class="tg">SSR</span><span class="tg">Docker</span></span>
+      </a>
+      <a class="wk s2 rv" href="#"><span class="swatch"></span>
+        <span class="top"><h3>Pragnyapan.ai</h3><span class="yr">2024</span></span>
+        <p>AI-powered marketing platform built on Gemini. Responsive interfaces for AI-driven content creation, with frontend architecture owned end to end.</p>
+        <span class="tags"><span class="tg w">Live product</span><span class="tg">TypeScript</span><span class="tg">Gemini AI</span></span>
+      </a>
+      <a class="wk s3 rv" href="#"><span class="swatch"></span>
+        <span class="top"><h3>MeetSpace</h3><span class="yr">2023</span></span>
+        <p>Peer-to-peer video meeting platform. WebRTC connections with Socket.io signalling, backend session APIs, and a frontend optimised for speed-to-room.</p>
+        <span class="tags"><span class="tg w">Full-stack</span><span class="tg">WebRTC</span><span class="tg">Node.js</span></span>
+      </a>
+      <a class="wk s4 rv" href="#"><span class="swatch"></span>
+        <span class="top"><h3>CI/CD Pipeline Kit</h3><span class="yr">2023</span></span>
+        <p>Reusable Docker images and GitHub Actions templates for taking a project from first commit to production without re-solving the same problems.</p>
+        <span class="tags"><span class="tg w">Halved releases</span><span class="tg">Docker</span><span class="tg">Nginx</span></span>
+      </a>
+    </section>
+
+    <section class="sec" id="experience">
+      <div class="shd"><h2>Experience</h2><span class="fl"></span><span class="n">04</span></div>
+      <div class="xp">
+        <div class="xr rv">
+          <div class="xw">Jul 2025 —<br />Present</div>
+          <div>
+            <div class="xrole">Frontend Developer</div>
+            <div class="xco">Webol Solutions &middot; Remote, UK</div>
+            <p class="xd">Engineering production applications with Next.js, React and TypeScript. Owning API contracts and data flows with backend engineers, translating Figma into scalable frontend systems, and cutting delivery time with Cursor, Claude Code and Figma MCP.</p>
+          </div>
+        </div>
+        <div class="xr rv">
+          <div class="xw">Aug 2024 —<br />May 2025</div>
+          <div>
+            <div class="xrole">Next.js Developer</div>
+            <div class="xco">Atrina Technologies &middot; Mumbai, India</div>
+            <p class="xd">Led a CMS frontend rebuild on SSR, improving page-load performance and SEO. Architected reusable React and Tailwind components, owned a three-month delivery roadmap, and authored onboarding docs that cut ramp-up ~40%.</p>
+          </div>
+        </div>
+        <div class="xr rv">
+          <div class="xw">Feb 2021 —<br />Feb 2022</div>
+          <div>
+            <div class="xrole">Web Developer</div>
+            <div class="xco">Quadb Technologies &middot; Remote, India</div>
+            <p class="xd">Built responsive interfaces from Figma and Adobe XD, engineered Node and Express APIs with JWT authentication, and independently shipped KaiOS applications for performance-constrained feature phones.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="writing">
+      <div class="shd"><h2>Writing</h2><span class="fl"></span><span class="n">05</span></div>
+      <a class="wr rv" href="#"><h3>How I reduced a Next.js page load from 4&ndash;5s to ~1.2s</h3><time>6 min</time></a>
+      <a class="wr rv" href="#"><h3>A working mental model for React Server Components</h3><time>9 min</time></a>
+      <a class="wr rv" href="#"><h3>Why GraphQL and Hasura can simplify modern frontend development</h3><time>7 min</time></a>
+      <a class="wr rv" href="#"><h3>TypeScript discriminated unions: the pattern I reach for daily</h3><time>5 min</time></a>
+    </section>
+
+    <section class="sec" id="contact" style="padding-bottom:0">
+      <div class="shd"><h2>Contact</h2><span class="fl"></span><span class="n">06</span></div>
+      <div class="cbx rv">
+        <h3>Let&rsquo;s talk about your next hire.</h3>
+        <p>Frontend engineering roles at remote product companies &mdash; React, Next.js, TypeScript, and teams offering visa sponsorship. Tell me the role, team and stack if you can. I reply within 48 hours.</p>
+        <div class="cbtns">
+          <a class="bt p" href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+          <a class="bt s" href="#">Download resume</a>
+        </div>
+      </div>
+      <div class="ftr"><span>&copy; <span id="yr"></span> Harshal Singh</span><span>Variation I — Split Screen</span></div>
+    </section>
+
+  </div>
+</div>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-editorial.html">A<span class="sw-t"> · Editorial</span></a>
+  <a href="b-terminal.html">B<span class="sw-t"> · Terminal</span></a>
+  <a href="c-impact.html">C<span class="sw-t"> · Impact</span></a>
+  <a href="d-bento.html">D<span class="sw-t"> · Bento</span></a>
+  <a href="e-brutalist.html">E<span class="sw-t"> · Brutalist</span></a>
+  <a href="f-sidebar.html">F<span class="sw-t"> · Sidebar</span></a>
+  <a href="g-timeline.html">G<span class="sw-t"> · Timeline</span></a>
+  <a href="h-gallery.html">H<span class="sw-t"> · Gallery</span></a>
+  <a class="on" href="i-split.html">I<span class="sw-t"> · Split</span></a>
+  <a href="j-dashboard.html">J<span class="sw-t"> · Dashboard</span></a>
+  <a href="k-magazine.html">K<span class="sw-t"> · Magazine</span></a>
+  <a href="l-kinetic.html">L<span class="sw-t"> · Kinetic</span></a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* The left panel reacts to whichever section is in view.
+   Driven by scroll position (not IntersectionObserver) so it stays
+   accurate on resize, on load, and when jumped to via an anchor. */
+(function () {
+  var COPY = {
+    intro:      ['Now viewing', 'Introduction — who I am and what I build'],
+    impact:     ['Now viewing', 'Impact — outcomes I can point at'],
+    work:       ['Now viewing', 'Selected work — four things I built'],
+    experience: ['Now viewing', 'Experience — Webol, Atrina, Quadb'],
+    writing:    ['Now viewing', 'Writing — notes from the trench'],
+    contact:    ['Now viewing', 'Contact — replies within 48 hours']
+  };
+  var left = document.getElementById('left');
+  var lbl = document.getElementById('rlbl');
+  var val = document.getElementById('rval');
+  var navs = {};
+  document.querySelectorAll('#lnav a').forEach(function (a) { navs[a.dataset.t] = a; });
+  var secs = [].slice.call(document.querySelectorAll('.sec[id]'));
+  var current = null;
+
+  function pick() {
+    var line = window.innerHeight * 0.35;
+    var found = secs[0].id;
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().top <= line) found = secs[i].id;
+    }
+    if (found === current) return;
+    current = found;
+    left.setAttribute('data-sec', found);
+    Object.keys(navs).forEach(function (k) { navs[k].classList.toggle('cur', k === found); });
+    var c = COPY[found];
+    if (!c) return;
+    val.classList.add('fade');
+    setTimeout(function () {
+      lbl.textContent = c[0];
+      val.textContent = c[1];
+      val.classList.remove('fade');
+    }, 180);
+  }
+  pick();
+  window.addEventListener('scroll', pick, { passive: true });
+  window.addEventListener('resize', pick);
+})();
+
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px' });
+document.querySelectorAll('.rv').forEach(function (el, i) {
+  el.style.transitionDelay = (i % 4) * 50 + 'ms';
+  io.observe(el);
+});
+</script>
+</body>
+</html>

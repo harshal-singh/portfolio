@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero B — Split words + orbit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-demo.css" />
+  <style>
+    .layout {
+      display: grid;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .layout { grid-template-columns: 1.1fr 0.9fr; }
+    }
+
+    .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: riseIn 0.5s ease-out forwards;
+    }
+
+    .line1 .word:nth-child(1) { animation-delay: 0.05s; }
+    .line1 .word:nth-child(2) { animation-delay: 0.12s; }
+    .line1 .word:nth-child(3) { animation-delay: 0.19s; }
+    .line1 .word:nth-child(4) { animation-delay: 0.26s; }
+    .line2 .word:nth-child(1) { animation-delay: 0.38s; }
+    .line2 .word:nth-child(2) { animation-delay: 0.45s; }
+    .line2 .word:nth-child(3) { animation-delay: 0.52s; }
+
+    .fade-block {
+      opacity: 0;
+      animation: riseIn 0.55s ease-out forwards;
+    }
+
+    .label-fade { animation-delay: 0s; }
+    .body-fade { animation-delay: 0.65s; }
+    .cta-fade { animation-delay: 0.78s; margin-top: 2.5rem; }
+
+    .orbit-stage {
+      position: relative;
+      width: min(340px, 90vw);
+      height: 340px;
+      margin: 0 auto;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
+      border: 1px dashed var(--border-subtle);
+      border-radius: 50%;
+      animation: spinSlow 40s linear infinite;
+    }
+
+    .orbit-ring:nth-child(2) {
+      inset: 2.5rem;
+      animation-direction: reverse;
+      animation-duration: 28s;
+    }
+
+    @keyframes spinSlow {
+      to { transform: rotate(360deg); }
+    }
+
+    .orbit-pill {
+      position: absolute;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.7rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      white-space: nowrap;
+      opacity: 0;
+      animation: pillIn 0.6s ease-out forwards, float 4s ease-in-out infinite;
+    }
+
+    @keyframes pillIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .orbit-pill:nth-child(3) { top: 8%; left: 50%; margin-left: -2rem; animation-delay: 0.4s, 0.4s; }
+    .orbit-pill:nth-child(4) { top: 42%; right: 0; animation-delay: 0.55s, 0.55s; }
+    .orbit-pill:nth-child(5) { bottom: 18%; left: 5%; animation-delay: 0.7s, 0.7s; }
+    .orbit-pill:nth-child(6) { bottom: 8%; right: 18%; animation-delay: 0.85s, 0.85s; }
+
+    .orbit-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      background: var(--accent-muted);
+      border: 1px solid rgba(76, 175, 80, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      animation: pulseCore 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseCore {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.2); }
+      50% { box-shadow: 0 0 40px 8px rgba(76, 175, 80, 0.15); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="demo-nav">
+    <a href="index.html">All demos</a>
+    <a href="variation-a-stagger.html">A</a>
+    <a href="variation-c-ambient.html">C</a>
+  </nav>
+
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="layout">
+        <div>
+          <p class="label fade-block label-fade">Senior Frontend Engineer</p>
+          <h1 class="display heading" style="margin-top:1rem">
+            <span class="line1">
+              <span class="word">I</span>
+              <span class="word">build</span>
+              <span class="word">products</span>
+              <span class="word">that</span>
+            </span><br />
+            <span class="line2 accent">
+              <span class="word">scale</span>
+              <span class="word">with</span>
+              <span class="word">clarity.</span>
+            </span>
+          </h1>
+          <p class="body-lg fade-block body-fade" style="margin-top:1.5rem">
+            4+ years shipping React, Next.js, and TypeScript for startups and enterprise teams.
+          </p>
+          <div class="ctas fade-block cta-fade">
+            <a class="btn btn-primary" href="#">View projects</a>
+            <a class="btn btn-secondary" href="#">Download resume</a>
+          </div>
+        </div>
+        <div class="orbit-stage" aria-hidden="true">
+          <div class="orbit-ring"></div>
+          <div class="orbit-ring"></div>
+          <div class="orbit-pill mono">React</div>
+          <div class="orbit-pill mono">Next.js</div>
+          <div class="orbit-pill mono">TypeScript</div>
+          <div class="orbit-pill mono">Node</div>
+          <div class="orbit-core">⚡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

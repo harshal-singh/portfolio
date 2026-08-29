@@ -7,6 +7,7 @@ import { SaveBar } from "@/components/admin/SaveBar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { saveContent } from "@/lib/admin/client";
+import { saveSectionHeaders } from "@/lib/admin/saveSectionHeaders";
 import type { SectionMeta } from "@/lib/types";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,10 +26,7 @@ export default function BlogListingPage() {
   async function handleSave() {
     setSaving(true);
     try {
-      await saveContent("sections", {
-        sections: { ...content.sections, blog },
-        aboutParagraphs: content.aboutParagraphs,
-      });
+      await saveSectionHeaders({ blog });
       toast.success("Blog listing page saved");
       await refresh();
     } catch (e) {
@@ -44,6 +42,18 @@ export default function BlogListingPage() {
       description="/blog page header and category filters."
     >
       <div className="space-y-8">
+        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
+          <p className="text-sm text-zinc-300 leading-relaxed">
+            <strong className="text-zinc-100">Blog strategy tip:</strong> Your posts
+            read AI-generated today. Until you publish 2–3 personal write-ups (MeetSpace
+            debugging, Atrina migration, etc.), keep the blog in the nav but consider
+            unpublishing generic posts in{" "}
+            <a href="/admin/blog/posts" className="text-accent underline">
+              All posts
+            </a>
+            . Quality beats quantity for hiring managers.
+          </p>
+        </div>
         <section className="space-y-4">
           <p className="mono text-xs text-zinc-500 uppercase">/blog page</p>
           <AdminField label="Section label">

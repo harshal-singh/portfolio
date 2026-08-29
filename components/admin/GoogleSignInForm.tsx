@@ -51,7 +51,7 @@ export function GoogleSignInForm({ initialError }: { initialError?: string }) {
     <>
       {errorMessage ? (
         <p
-          className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-sm text-red-300"
+          className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-sm text-red-700 dark:text-red-300"
           role="alert"
         >
           {errorMessage}
@@ -62,7 +62,7 @@ export function GoogleSignInForm({ initialError }: { initialError?: string }) {
         type="button"
         disabled={pending}
         onClick={handleSignIn}
-        className="relative cursor-pointer inline-flex w-full items-center justify-center gap-3 rounded-lg border bg-white px-5 py-3 text-sm font-medium text-black hover:bg-white/90 disabled:opacity-60"
+        className="relative cursor-pointer inline-flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-surface-elevated px-5 py-3 text-sm font-medium text-foreground shadow-sm hover:bg-surface disabled:opacity-60"
       >
         <GoogleIcon />
         {pending ? "Signing in…" : "Sign in with Google"}

@@ -1,5 +1,7 @@
+import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import { CopyEmailButton } from "@/components/ui/copy-email-button";
+import { footerNav } from "@/lib/navigation";
 import type { Profile } from "@/lib/types";
-import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/ui/brand-icons";
 import Link from "next/link";
 
 interface FooterProps {
@@ -8,48 +10,45 @@ interface FooterProps {
 
 export default function Footer({ profile }: FooterProps) {
   return (
-    <footer className="relative border-t border-white/5 mt-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-14 grid md:grid-cols-3 gap-10">
+    <footer className="relative border-t border-border-subtle mt-24 print:hidden">
+      <div className="site-container py-14 grid md:grid-cols-3 gap-10">
         <div>
           <Link
             href="/"
-            className="heading uppercase text-2xl text-zinc-300 font-bold group hover:text-white transition-colors"
+            className="heading text-2xl text-muted font-bold hover:text-foreground transition-colors"
           >
-            HRS
+            harshal singh
             <span className="text-accent">.</span>
           </Link>
-          <p className="mt-4 text-sm text-zinc-500 max-w-xs leading-relaxed">
+          <p className="mt-4 text-sm text-muted max-w-xs leading-relaxed">
             {profile.footerTagline}
           </p>
         </div>
 
         <div>
-          <p className="mono text-xs uppercase tracking-widest text-zinc-500 mb-4">Navigate</p>
-          <ul className="space-y-2 text-sm text-zinc-300">
-            <li>
-              <Link href="/" className="hover:text-accent transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/blog" className="hover:text-accent transition-colors">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <a href="/#work" className="hover:text-accent transition-colors">
-                Work
-              </a>
-            </li>
+          <p className="text-label mb-4">Navigate</p>
+          <ul className="space-y-2 text-sm text-foreground">
+            {footerNav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="hover:text-accent transition-colors"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
-          <p className="mono text-xs uppercase tracking-widest text-zinc-500 mb-4">Elsewhere</p>
-          <ul className="space-y-2 text-sm text-zinc-300">
+          <p className="text-label mb-4">Elsewhere</p>
+          <ul className="space-y-2 text-sm text-foreground">
             <li>
               <a
                 href={profile.socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-accent transition-colors"
               >
                 <GithubIcon className="w-4 h-4" /> GitHub
@@ -57,27 +56,26 @@ export default function Footer({ profile }: FooterProps) {
             </li>
             <li>
               <a
-                href={profile.socials.twitter}
-                className="flex items-center gap-2 hover:text-accent transition-colors"
-              >
-                <TwitterIcon className="w-4 h-4" /> Twitter / X
-              </a>
-            </li>
-            <li>
-              <a
                 href={profile.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-accent transition-colors"
               >
                 <LinkedinIcon className="w-4 h-4" /> LinkedIn
               </a>
             </li>
+            <li>
+              <CopyEmailButton email={profile.email} variant="ghost" />
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-6 flex items-start md:items-center justify-between gap-3 text-xs text-zinc-500">
-          <p>© {new Date().getFullYear()} {profile.name}.</p>
+      <div className="border-t border-border-subtle">
+        <div className="site-container py-6 flex items-start md:items-center justify-between gap-3 text-xs text-muted">
+          <p>
+            © {new Date().getFullYear()} {profile.name}.
+          </p>
           <p className="mono">All rights reserved.</p>
         </div>
       </div>

@@ -1,11 +1,24 @@
 import { NextResponse } from "next/server";
 import { revalidatePortfolioContent } from "@/lib/content/revalidate";
 import { withGoogleAuth } from "@/lib/api/withGoogleAuth";
-import { batchGetAllTabs, replaceTabData } from "@/lib/google/rows";
-import { buildAdminContent, profileToRows, sectionsToRows } from "@/lib/google/serialize";
+import { replaceTabData } from "@/lib/google/rows";
+import {
+  achievementsToRows,
+  buildAdminContent,
+  experienceToRows,
+  profileToRows,
+  projectsToRows,
+  sectionsToRows,
+  testimonialsToRows,
+} from "@/lib/google/serialize";
+import {
+  ensureSpreadsheetSchema,
+  readAllTabsWithFallback,
+} from "@/lib/google/migrate";
 import { BOOTSTRAP_TABS } from "@/lib/google/spreadsheet";
 import { SHEET_HEADERS, SHEET_TABS } from "@/lib/google/schema";
 import type {
+  Achievement,
   BlogPost,
   Education,
   Experience,
@@ -13,10 +26,29 @@ import type {
   Project,
   SectionMeta,
   Stat,
+  Testimonial,
 } from "@/lib/types";
 
+async function mergeSectionHeaders(
+  sheets: Parameters<typeof readAllTabsWithFallback>[0],
+  spreadsheetId: string,
+  partial: Record<string, SectionMeta>,
+) {
+  const tabs = await readAllTabsWithFallback(sheets, spreadsheetId, BOOTSTRAP_TABS);
+  const current = buildAdminContent(tabs).sections;
+  const merged = { ...current, ...partial };
+  await replaceTabData(
+    sheets,
+    spreadsheetId,
+    SHEET_TABS.SECTIONS,
+    SHEET_HEADERS[SHEET_TABS.SECTIONS],
+    sectionsToRows(merged),
+  );
+}
+
 export const GET = withGoogleAuth(async (_req, { sheets, spreadsheetId }) => {
-  const tabs = await batchGetAllTabs(sheets, spreadsheetId, BOOTSTRAP_TABS);
+  await ensureSpreadsheetSchema(sheets, spreadsheetId);
+  const tabs = await readAllTabsWithFallback(sheets, spreadsheetId, BOOTSTRAP_TABS);
   const content = buildAdminContent(tabs);
   return NextResponse.json({
     content,
@@ -45,6 +77,11 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
         SHEET_HEADERS[SHEET_TABS.PROFILE],
         profileToRows(profile)
       );
+      break;
+    }
+    case "sectionHeaders": {
+      const partial = data as Record<string, SectionMeta>;
+      await mergeSectionHeaders(sheets, spreadsheetId, partial);
       break;
     }
     case "sections": {
@@ -79,6 +116,34 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
       );
       break;
     }
+    case "achievements": {
+      const achievements = data as Achievement[];
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.ACHIEVEMENTS,
+        SHEET_HEADERS[SHEET_TABS.ACHIEVEMENTS],
+        achievementsToRows(achievements)
+      );
+      break;
+    }
+    case "impact": {
+      const { achievements, sections } = data as {
+        achievements: Achievement[];
+        sections: Record<string, SectionMeta>;
+      };
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.ACHIEVEMENTS,
+        SHEET_HEADERS[SHEET_TABS.ACHIEVEMENTS],
+        achievementsToRows(achievements)
+      );
+      await mergeSectionHeaders(sheets, spreadsheetId, {
+        achievements: sections.achievements,
+      });
+      break;
+    }
     case "marquee": {
       const items = data as string[];
       await replaceTabData(
@@ -106,52 +171,84 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
     }
     case "experience": {
       const jobs = data as Experience[];
+      const rows = experienceToRows(jobs);
       await replaceTabData(
         sheets,
         spreadsheetId,
         SHEET_TABS.EXPERIENCE,
         SHEET_HEADERS[SHEET_TABS.EXPERIENCE],
-        jobs.map((e, i) => [
-          e.id || crypto.randomUUID(),
-          e.company,
-          e.role,
-          e.location,
-          e.period,
-          e.current ? "true" : "false",
-          String(i),
-        ])
-      );
-      const pointRows = jobs.flatMap((e) =>
-        e.points.map((text, i) => [crypto.randomUUID(), e.id, text, String(i)])
+        rows.jobs,
       );
       await replaceTabData(
         sheets,
         spreadsheetId,
         SHEET_TABS.EXPERIENCE_POINTS,
         SHEET_HEADERS[SHEET_TABS.EXPERIENCE_POINTS],
-        pointRows
+        rows.points,
+      );
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.EXPERIENCE_IMPACT,
+        SHEET_HEADERS[SHEET_TABS.EXPERIENCE_IMPACT],
+        rows.impact,
+      );
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.EXPERIENCE_METRICS,
+        SHEET_HEADERS[SHEET_TABS.EXPERIENCE_METRICS],
+        rows.metrics,
       );
       break;
     }
     case "projects": {
       const projects = data as Project[];
+      const rows = projectsToRows(projects);
       await replaceTabData(
         sheets,
         spreadsheetId,
         SHEET_TABS.PROJECTS,
         SHEET_HEADERS[SHEET_TABS.PROJECTS],
-        projects.map((p, i) => [
-          p.id || crypto.randomUUID(),
-          p.name,
-          p.tagline,
-          p.description,
-          p.stack.join("|"),
-          p.year,
-          p.role,
-          p.link,
-          p.accent,
-          String(i),
-        ])
+        rows.jobs,
+      );
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.PROJECT_OUTCOMES,
+        SHEET_HEADERS[SHEET_TABS.PROJECT_OUTCOMES],
+        rows.outcomes,
+      );
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.PROJECT_METRICS,
+        SHEET_HEADERS[SHEET_TABS.PROJECT_METRICS],
+        rows.metrics,
+      );
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.PROJECT_CONTENT,
+        SHEET_HEADERS[SHEET_TABS.PROJECT_CONTENT],
+        rows.content,
+      );
+      break;
+    }
+    case "testimonials": {
+      const payload = data as {
+        section: SectionMeta;
+        testimonials: Testimonial[];
+      };
+      await mergeSectionHeaders(sheets, spreadsheetId, {
+        testimonials: payload.section,
+      });
+      await replaceTabData(
+        sheets,
+        spreadsheetId,
+        SHEET_TABS.TESTIMONIALS,
+        SHEET_HEADERS[SHEET_TABS.TESTIMONIALS],
+        testimonialsToRows(payload.testimonials),
       );
       break;
     }
@@ -197,6 +294,8 @@ export const POST = withGoogleAuth(async (req, { sheets, spreadsheetId }) => {
           p.cover,
           p.tags.join("|"),
           p.published ? "true" : "false",
+          p.featured ? "true" : "false",
+          p.imageUrl ?? "",
           String(i),
         ])
       );

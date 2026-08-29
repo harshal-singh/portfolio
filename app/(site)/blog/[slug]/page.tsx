@@ -1,8 +1,12 @@
 import BlogPostClient from "@/components/blog/BlogPostClient";
 import { BlogContentBlocks } from "@/components/blog/BlogContentBlocks";
-import { BlogDraftAdminBar } from "@/components/blog/BlogDraftAdminBar";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { buildToc, stripBlogPostContent } from "@/lib/blog/postMeta";
 import { getBlogPostView } from "@/lib/content/getBlogPostView";
+import { blogPostingJsonLd, breadcrumbJsonLd } from "@/lib/metadata/jsonLd";
+import { createPageMetadata } from "@/lib/metadata/page";
+import { absoluteUrl } from "@/lib/metadata/site";
+import { notFound } from "next/navigation";
 
 export const revalidate = 3600;
 
@@ -16,22 +20,50 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const { post } = await getBlogPostView(slug);
+  if (!post) {
+    return createPageMetadata("Post not found", "Blog article", {
+      path: `/blog/${slug}`,
+      noIndex: true,
+    });
+  }
+  return createPageMetadata(post.title, post.excerpt, {
+    path: `/blog/${slug}`,
+    type: "article",
+    publishedTime: post.date,
+    tags: post.tags,
+  });
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const { post, profile, related, isDraftPreview } = await getBlogPostView(slug);
+  const { post, profile, related } = await getBlogPostView(slug);
+
+  if (!post) {
+    notFound();
+  }
 
   return (
     <>
-      {isDraftPreview && post ? (
-        <BlogDraftAdminBar slug={post.slug} title={post.title} />
-      ) : null}
+      <JsonLd
+        data={[
+          blogPostingJsonLd(post, profile),
+          breadcrumbJsonLd([
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
       <BlogPostClient
-        post={post ? stripBlogPostContent(post) : null}
+        post={stripBlogPostContent(post)}
         profile={profile}
         related={related}
-        toc={post ? buildToc(post.content) : []}
+        toc={buildToc(post.content)}
+        pageUrl={absoluteUrl(`/blog/${post.slug}`)}
       >
-        {post ? <BlogContentBlocks blocks={post.content} withHeadingIds /> : null}
+        <BlogContentBlocks blocks={post.content} withHeadingIds />
       </BlogPostClient>
     </>
   );
