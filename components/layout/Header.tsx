@@ -77,7 +77,7 @@ export default function Header({ profile }: HeaderProps) {
           <span className="text-accent">.</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8 ml-auto mr-8">
           {navItems.map((item) =>
             item.href.startsWith("/#") ? (
               <a
