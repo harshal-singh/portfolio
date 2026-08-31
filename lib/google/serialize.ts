@@ -347,7 +347,7 @@ function projectsFromRows(
         name: name ?? "",
         tagline: tagline ?? "",
         description: description ?? "",
-        overview: overview || fallback?.overview || "",
+        overview: overview ?? "",
         stack: splitPipe(stack).length ? splitPipe(stack) : (fallback?.stack ?? []),
         year: year ?? "",
         role: role ?? "",
@@ -381,11 +381,6 @@ function projectsFromRows(
               project.imageScrollDurationMs ?? fallback?.imageScrollDurationMs,
             imageScrollReturnMs:
               project.imageScrollReturnMs ?? fallback?.imageScrollReturnMs,
-            outcomes: project.outcomes?.length
-              ? project.outcomes
-              : (fallback?.outcomes ?? []),
-            metrics: project.metrics?.length ? project.metrics : (fallback?.metrics ?? []),
-            content: project.content?.length ? project.content : (fallback?.content ?? []),
           };
         })
       : seedContent.projects;
