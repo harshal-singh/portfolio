@@ -25,7 +25,7 @@ export function AuroraExperienceCard({
   className,
   variant = "compact",
 }: AuroraExperienceCardProps) {
-  const points = variant === "full" ? job.points : job.points.slice(0, 4);
+  const points = variant === "full" ? job.points : job.points.slice(0, 5);
 
   return (
     <Reveal delay={index * 80}>
