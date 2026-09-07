@@ -23,7 +23,7 @@ function BlogCard({
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        "group block rounded-2xl border border-border-subtle bg-surface hover:border-accent/25 transition-all overflow-hidden",
+        "group glass block overflow-hidden transition-transform hover:-translate-y-1",
         featured && "md:col-span-2",
       )}
     >
@@ -50,7 +50,7 @@ function BlogCard({
         </div>
         <h3
           className={cn(
-            "heading text-foreground mb-3 group-hover:text-accent transition-colors leading-snug",
+            "jk mb-3 leading-snug text-foreground transition-colors group-hover:text-accent",
             featured ? "text-2xl md:text-3xl" : "text-xl",
           )}
         >

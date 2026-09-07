@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --bg:#060915; --bg2:#0A0F22; --panel:#0D1329; --panel2:#121A36;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.18);
+  --fg:#E9EBF5; --dim:#9BA2BE; --faint:#8B93B0;
+  --cy:#22D3EE; --vi:#A78BFA; --pi:#F472B6;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.012em;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.so{font-family:Sora,Inter,sans-serif;letter-spacing:-.04em;line-height:1.04}
+.wrap{max-width:1160px;margin:0 auto;padding-left:clamp(1rem,4vw,2rem);padding-right:clamp(1rem,4vw,2rem)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cy);outline-offset:3px;border-radius:6px}
+::selection{background:rgba(34,211,238,.28)}
+
+/* ---------- shared 3D primitives ---------- */
+.tilt{transform-style:preserve-3d;transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s,border-color .4s;position:relative}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.16),transparent 62%)}
+.tilt:hover::after{opacity:1}
+.z1{transform:translateZ(26px)}
+.z2{transform:translateZ(48px)}
+.z3{transform:translateZ(74px)}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:90;background:rgba(6,9,21,.72);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.stuck{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:58px}
+.nav .bd{font-family:Sora,sans-serif;font-weight:600;font-size:.95rem;letter-spacing:-.03em}
+.nav .bd i{color:var(--cy);font-style:normal}
+.nav ul{list-style:none;display:flex;gap:1.5rem;padding:0;margin:0;font-size:.86rem}
+.nav ul a{color:var(--dim);transition:color .2s}
+.nav ul a:hover{color:var(--fg)}
+.cta{display:inline-flex;align-items:center;gap:.45rem;font-size:.84rem;font-weight:500;border-radius:8px;padding:.5rem 1rem;
+  background:linear-gradient(135deg,var(--cy),var(--vi));color:#050813;box-shadow:0 10px 26px -10px rgba(34,211,238,.7);transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(34,211,238,.85)}
+@media(max-width:880px){.nav ul{display:none}}
+
+/* ---------- hero scene ---------- */
+.hero{position:relative;overflow:hidden;padding-top:clamp(3rem,8vw,6rem);padding-bottom:clamp(3.5rem,9vw,7rem)}
+.scene{position:absolute;inset:0;z-index:0;pointer-events:none;perspective:900px;transform-style:preserve-3d}
+.floor{position:absolute;left:-30%;right:-30%;bottom:-14%;height:70vh;transform:rotateX(74deg) translateZ(var(--fz,0px));transform-origin:50% 100%;
+  background:
+    repeating-linear-gradient(90deg,rgba(120,150,255,.18) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(0deg,rgba(120,150,255,.18) 0 1px,transparent 1px 72px);
+  -webkit-mask-image:linear-gradient(to top,#000 8%,transparent 78%);mask-image:linear-gradient(to top,#000 8%,transparent 78%)}
+.glow{position:absolute;border-radius:50%;filter:blur(90px)}
+.g1{width:46vw;height:46vw;left:-8%;top:-14%;background:rgba(34,211,238,.3)}
+.g2{width:40vw;height:40vw;right:-6%;top:4%;background:rgba(167,139,250,.32)}
+.g3{width:34vw;height:34vw;left:36%;bottom:-16%;background:rgba(244,114,182,.2)}
+.hero > .wrap{position:relative;z-index:1}
+
+.hgrid{display:grid;grid-template-columns:1fr;gap:2.5rem;align-items:center}
+@media(min-width:960px){.hgrid{grid-template-columns:1.15fr .85fr;gap:clamp(2rem,4vw,3.5rem)}}
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--dim);border:1px solid var(--line2);border-radius:99px;padding:.32rem .85rem;background:rgba(255,255,255,.04)}
+.badge i{width:6px;height:6px;border-radius:50%;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+h1{margin-top:1.3rem;font-size:clamp(2.4rem,6.6vw,4.9rem);font-weight:600}
+h1 .gr{background:linear-gradient(110deg,var(--cy),var(--vi) 55%,var(--pi));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{margin-top:1.4rem;font-size:clamp(1rem,1.6vw,1.16rem);line-height:1.7;color:var(--dim);max-width:50ch}
+.acts{margin-top:2rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.ghost{display:inline-flex;align-items:center;gap:.45rem;font-size:.84rem;font-weight:500;border:1px solid var(--line2);border-radius:8px;padding:.5rem 1rem;color:var(--fg);transition:.25s}
+.ghost:hover{border-color:var(--cy);color:var(--cy);transform:translateY(-2px)}
+
+/* stacked portrait object */
+.obj{perspective:1000px;display:flex;justify-content:center}
+.objin{position:relative;width:min(320px,80vw);aspect-ratio:4/5;transform-style:preserve-3d;
+  transform:perspective(1000px) rotateX(var(--rx,4deg)) rotateY(var(--ry,-12deg));transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.objin img{width:100%;height:100%;object-fit:cover;border-radius:16px;border:1px solid var(--line2);box-shadow:0 40px 80px -28px rgba(0,0,0,.9)}
+.plate{position:absolute;inset:0;border-radius:16px;border:1px solid var(--line2)}
+.p1{transform:translateZ(-40px) scale(1.05);border-color:rgba(34,211,238,.35)}
+.p2{transform:translateZ(-80px) scale(1.1);border-color:rgba(167,139,250,.25)}
+.chip{position:absolute;transform-style:preserve-3d;font-size:.74rem;font-weight:500;border-radius:9px;padding:.42rem .7rem;
+  background:rgba(13,19,41,.9);border:1px solid var(--line2);backdrop-filter:blur(8px);box-shadow:0 14px 30px -14px rgba(0,0,0,.9);white-space:nowrap}
+.chip b{color:var(--cy);font-weight:600}
+.c1{top:8%;left:-16%;transform:translateZ(70px)}
+.c2{bottom:16%;right:-14%;transform:translateZ(90px)}
+.c3{bottom:-4%;left:2%;transform:translateZ(55px)}
+
+/* ---------- stats strip ---------- */
+.strip{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+@media(min-width:860px){.strip{grid-template-columns:repeat(4,1fr)}}
+.strip div{background:var(--panel);padding:1.1rem 1.25rem}
+.strip b{display:block;font-family:Sora,sans-serif;font-size:1.7rem;font-weight:600;letter-spacing:-.04em}
+.strip b.gr{background:linear-gradient(110deg,var(--cy),var(--vi));-webkit-background-clip:text;background-clip:text;color:transparent}
+.strip small{display:block;margin-top:.35rem;font-size:.78rem;color:var(--faint);line-height:1.5}
+
+/* ---------- sections ---------- */
+section{padding-top:clamp(3.5rem,8vw,6rem);padding-bottom:clamp(3.5rem,8vw,6rem)}
+.shd{margin-bottom:clamp(1.75rem,4vw,2.75rem)}
+.kick{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cy)}
+.shd h2{margin-top:.7rem;font-family:Sora,sans-serif;font-weight:600;font-size:clamp(1.7rem,3.8vw,2.7rem);letter-spacing:-.04em;line-height:1.1}
+.shd p{margin-top:.85rem;font-size:.98rem;color:var(--dim);max-width:52ch;line-height:1.7}
+
+/* work */
+.pj{display:grid;grid-template-columns:1fr;gap:clamp(1.25rem,3vw,2rem)}
+@media(min-width:920px){.pj{grid-template-columns:1fr 1fr}}
+.pc{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line2);border-radius:18px;padding:1rem;
+  box-shadow:0 26px 60px -30px rgba(0,0,0,.95)}
+.pc:hover{border-color:rgba(34,211,238,.4);box-shadow:0 40px 80px -32px rgba(34,211,238,.35)}
+.pc .shot{border-radius:12px;overflow:hidden;height:200px;border:1px solid var(--line);background:#05070F;position:relative}
+.pc .shot img{width:100%;height:auto}
+.pc .shot.cover img{height:100%;object-fit:cover;object-position:top center}
+.pc .flag{position:absolute;top:.6rem;left:.6rem;z-index:3;font-size:.68rem;font-weight:600;border-radius:6px;padding:.18rem .5rem;
+  background:rgba(6,9,21,.82);border:1px solid var(--line2);color:var(--cy)}
+.pc .body{padding:1.15rem .35rem .35rem}
+.pc h3{font-family:Sora,sans-serif;font-weight:600;font-size:1.25rem;letter-spacing:-.03em}
+.pc p{margin-top:.55rem;font-size:.9rem;line-height:1.7;color:var(--dim)}
+.tags{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:1rem}
+.tag{font-size:.72rem;color:var(--dim);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:6px;padding:.16rem .5rem}
+.lk{display:flex;gap:.45rem;margin-top:1.15rem;flex-wrap:wrap}
+.lk a{font-size:.8rem;font-weight:500;border:1px solid var(--line2);border-radius:7px;padding:.34rem .7rem;transition:.22s}
+.lk a:hover{border-color:var(--cy);color:var(--cy)}
+.lk .off{color:var(--faint);border-style:dashed}
+
+/* experience — receding stack */
+.stack{perspective:1400px;display:grid;gap:1rem}
+.xc{background:linear-gradient(150deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:1.35rem 1.5rem;
+  transform-style:preserve-3d;transform:perspective(1400px) rotateX(var(--tx,6deg)) translateZ(var(--tz,0px));
+  transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .4s,box-shadow .4s;box-shadow:0 24px 50px -30px rgba(0,0,0,.9)}
+.xc:nth-child(1){--tz:0px}
+.xc:nth-child(2){--tz:-30px}
+.xc:nth-child(3){--tz:-60px}
+.xc:hover{--tx:0deg;--tz:40px;border-color:rgba(167,139,250,.45);box-shadow:0 40px 70px -30px rgba(167,139,250,.4)}
+.xc .top{display:flex;align-items:baseline;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}
+.xc h3{font-family:Sora,sans-serif;font-weight:600;font-size:1.1rem;letter-spacing:-.025em}
+.xc .when{font-size:.78rem;color:var(--faint)}
+.xc .role{font-size:.84rem;color:var(--cy);margin-top:.2rem}
+.xc ul{list-style:none;padding:0;margin:.9rem 0 0;display:grid;gap:.4rem}
+.xc li{font-size:.88rem;line-height:1.65;color:var(--dim);padding-left:1.05rem;position:relative}
+.xc li::before{content:"";position:absolute;left:0;top:.6rem;width:6px;height:1px;background:var(--vi)}
+
+/* skills */
+.sk{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;perspective:1000px}
+@media(min-width:820px){.sk{grid-template-columns:repeat(3,1fr)}}
+.skc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.15rem 1.25rem;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .35s,box-shadow .35s}
+.skc:hover{transform:translateY(-6px) translateZ(30px);border-color:rgba(34,211,238,.4);box-shadow:0 26px 50px -26px rgba(34,211,238,.45)}
+.skc h4{font-family:Sora,sans-serif;font-size:.86rem;font-weight:600;letter-spacing:-.02em}
+.skc .ic{display:flex;gap:.5rem;margin:.8rem 0 .55rem;flex-wrap:wrap}
+.skc .ic img{width:18px;height:18px;filter:brightness(1.7)}
+.skc p{font-size:.85rem;line-height:1.7;color:var(--dim)}
+
+/* about */
+.ab{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center;
+  background:linear-gradient(150deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:clamp(1.4rem,3.5vw,2.5rem)}
+@media(min-width:860px){.ab{grid-template-columns:200px 1fr;gap:2.5rem}}
+.ab img{width:100%;max-width:200px;aspect-ratio:1;object-fit:cover;border-radius:16px;border:1px solid var(--line2)}
+.ab p{font-size:.97rem;line-height:1.76;color:var(--dim)}
+.ab p + p{margin-top:.85rem}
+.ab b{color:var(--fg);font-weight:500}
+.edu{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.2rem}
+
+/* contact */
+.end{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(167,139,250,.16),transparent 62%);
+  border:1px solid var(--line);border-radius:20px;padding:clamp(2rem,5vw,3.5rem)}
+.end h2{font-family:Sora,sans-serif;font-weight:600;font-size:clamp(1.8rem,4.6vw,3rem);letter-spacing:-.045em;line-height:1.1;max-width:18ch;margin:.7rem auto 0}
+.end p{margin:1rem auto 0;font-size:1rem;color:var(--dim);max-width:46ch;line-height:1.7}
+.end .acts{justify-content:center;margin-top:1.9rem}
+.reach{margin-top:1.9rem;display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem}
+footer{padding-top:1.5rem;padding-bottom:6rem;text-align:center;font-size:.8rem;color:var(--faint)}
+
+/* `translate`, not `transform`, so a card keeps its own tilt and hover lift */
+.rv{opacity:0;translate:0 24px;transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;translate:none}
+html:not(.js) .rv{opacity:1;translate:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.15rem;padding:.28rem;border-radius:999px;background:rgba(13,19,41,.9);backdrop-filter:blur(14px);border:1px solid var(--line2)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-size:.7rem;color:var(--dim);padding:.34rem .7rem;border-radius:999px;transition:.2s;white-space:nowrap}
+.switch a:hover{color:var(--fg)}
+.switch a.on{background:linear-gradient(135deg,var(--cy),var(--vi));color:#050813;font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}
+  .tilt,.objin,.xc,.skc{transform:none!important}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="bd" href="#top">Harshal Singh<i>.</i></a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a class="cta" href="mailto:harshal.wrk@gmail.com">Get in touch</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="scene" id="scene">
+      <span class="glow g1"></span><span class="glow g2"></span><span class="glow g3"></span>
+      <div class="floor" id="floor"></div>
+    </div>
+    <div class="wrap hgrid">
+      <div>
+        <span class="badge"><i></i> Open to frontend roles — remote or relocation</span>
+        <h1 class="so">Interfaces with<br/><span class="gr">depth</span> behind them.</h1>
+        <p class="lede">I&rsquo;m Harshal — a frontend engineer with 3+ years in production React and Next.js. What you see is one layer; the component architecture, render strategy and delivery pipeline sit underneath it.</p>
+        <div class="acts">
+          <a class="cta" href="#work">See selected work</a>
+          <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Résumé ⤓</a>
+        </div>
+      </div>
+      <div class="obj">
+        <div class="objin" id="obj">
+          <span class="plate p2"></span>
+          <span class="plate p1"></span>
+          <img src="../../public/images/profile.jpg" alt="Harshal Singh" />
+          <span class="chip c1"><b>3+</b> years in production</span>
+          <span class="chip c2">React · Next.js · <b>TypeScript</b></span>
+          <span class="chip c3">Mumbai — <b>UK hours</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="wrap">
+    <div class="strip rv">
+      <div><b class="gr">3+</b><small>Years shipping production frontends</small></div>
+      <div><b>3</b><small>Product teams since 2021</small></div>
+      <div><b>2</b><small>Products built end to end, solo</small></div>
+      <div><b class="gr">~40%</b><small>Onboarding time cut by docs I wrote</small></div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Selected work</div>
+      <h2>Two products, built end to end</h2>
+      <p>From an empty repository to something you can open in a browser — design, frontend, backend and deploy, solo on both.</p>
+    </div>
+    <div class="pj">
+      <article class="pc tilt rv" data-tilt="7">
+        <div class="shot" data-autoscroll data-duration="16000">
+          <span class="flag">AI platform</span>
+          <img src="../../public/images/projects/pragnyapan-ai.jpg" alt="Pragnyapan.ai" />
+        </div>
+        <div class="body z1">
+          <h3>Pragnyapan.ai</h3>
+          <p>An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Site crawl, AI analysis, a human review step, then white-label PDF export.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">MongoDB</span><span class="tag">Serverless</span></div>
+          <div class="lk"><a href="#">Visit ↗</a><a class="off">Code private</a></div>
+        </div>
+      </article>
+      <article class="pc tilt rv" data-tilt="7">
+        <div class="shot cover">
+          <span class="flag">Real-time video</span>
+          <img src="../../public/images/projects/meet-space.jpg" alt="MeetSpace" />
+        </div>
+        <div class="body z1">
+          <h3>MeetSpace</h3>
+          <p>A browser-based meeting product — start a room, share a code or link, join a live call. Pre-join lobby with a device check, participant grid, people list and in-call chat. Peer-to-peer, no media server in the path.</p>
+          <div class="tags"><span class="tag">Node.js</span><span class="tag">Socket.IO</span><span class="tag">WebRTC</span><span class="tag">MongoDB</span></div>
+          <div class="lk"><a href="#">Visit ↗</a><a href="#">GitHub ↗</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Experience</div>
+      <h2>Three teams, stacked</h2>
+      <p>Hover a card and it comes forward — constraint, then ownership, then pace.</p>
+    </div>
+    <div class="stack">
+      <article class="xc rv">
+        <div class="top"><h3>Webol Solutions</h3><span class="when">Jul 2025 — Present · Remote, UK</span></div>
+        <div class="role">Frontend Developer</div>
+        <ul>
+          <li>Production web applications in Next.js, React and TypeScript — reusable components and responsive interfaces</li>
+          <li>REST integration alongside backend engineers on API contracts, data flows and production issues</li>
+          <li>Figma designs into scalable frontend, accelerated with Cursor, Claude Code and Figma MCP</li>
+        </ul>
+      </article>
+      <article class="xc rv">
+        <div class="top"><h3>Atrina Technologies</h3><span class="when">Aug 2024 — May 2025 · Mumbai, India</span></div>
+        <div class="role">Next.js Developer</div>
+        <ul>
+          <li>Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance and SEO</li>
+          <li>Architected reusable React, Next.js and Tailwind component libraries for UI consistency</li>
+          <li>Owned technical planning for a three-month roadmap; onboarding docs cut ramp-up by ~40%</li>
+        </ul>
+      </article>
+      <article class="xc rv">
+        <div class="top"><h3>Quadb Technologies</h3><span class="when">Feb 2021 — Feb 2022 · Remote, India</span></div>
+        <div class="role">Web Developer</div>
+        <ul>
+          <li>Responsive interfaces from Figma and Adobe XD designs in HTML, CSS and JavaScript</li>
+          <li>Node.js and Express APIs with JWT authentication for secure frontend-to-backend communication</li>
+          <li>KaiOS applications built independently for feature phones — performance-constrained hardware</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Toolkit</div>
+      <h2>What I build with</h2>
+    </div>
+    <div class="sk">
+      <div class="skc rv"><h4>Languages</h4><div class="ic"><img src="../../public/icons/tech/typescript.svg" alt="" /></div><p>TypeScript, JavaScript, HTML5, CSS3</p></div>
+      <div class="skc rv"><h4>Frontend</h4><div class="ic"><img src="../../public/icons/tech/react.svg" alt="" /><img src="../../public/icons/tech/nextdotjs.svg" alt="" /><img src="../../public/icons/tech/tailwindcss.svg" alt="" /><img src="../../public/icons/tech/vuedotjs.svg" alt="" /></div><p>React.js, Next.js, Tailwind CSS, Vue.js</p></div>
+      <div class="skc rv"><h4>Backend</h4><div class="ic"><img src="../../public/icons/tech/nodedotjs.svg" alt="" /><img src="../../public/icons/tech/graphql.svg" alt="" /></div><p>Node.js, Express.js, REST, GraphQL, Hasura, PHP</p></div>
+      <div class="skc rv"><h4>Databases</h4><div class="ic"><img src="../../public/icons/tech/mongodb.svg" alt="" /><img src="../../public/icons/tech/mysql.svg" alt="" /></div><p>MongoDB, MySQL</p></div>
+      <div class="skc rv"><h4>Cloud &amp; DevOps</h4><div class="ic"><img src="../../public/icons/tech/aws.svg" alt="" /><img src="../../public/icons/tech/docker.svg" alt="" /></div><p>AWS, Docker, Azure DevOps, CI/CD, Bash</p></div>
+      <div class="skc rv"><h4>Tools</h4><div class="ic"><img src="../../public/icons/tech/git.svg" alt="" /><img src="../../public/icons/tech/github.svg" alt="" /><img src="../../public/icons/tech/figma.svg" alt="" /><img src="../../public/icons/tech/cursor.svg" alt="" /><img src="../../public/icons/tech/claude.svg" alt="" /></div><p>Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code</p></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="wrap">
+    <div class="ab rv">
+      <img src="../../public/images/profile.jpg" alt="Harshal Singh" />
+      <div>
+        <div class="kick">About</div>
+        <p style="margin-top:.8rem">The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step.</p>
+        <p>That range came from three very different environments: <b>Quadb</b> meant constraint, KaiOS feature phones where a wasted kilobyte shows. <b>Atrina</b> meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. <b>Webol</b> means pace: Figma to production with AI in the loop, without dropping the review bar.</p>
+        <div class="edu">
+          <span class="tag">M.Sc IT · KC College · 2022–2024 · Grade O+</span>
+          <span class="tag">B.Sc IT · Lala Lajpat Rai · 2019–2022 · Grade A+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact" style="padding-top:0">
+    <div class="end rv">
+      <div class="kick">Contact</div>
+      <h2 class="so">Let&rsquo;s talk about what you&rsquo;re building.</h2>
+      <p>Open to frontend engineering roles with product teams. A short brief is as welcome as a job description — I reply within 48 hours.</p>
+      <div class="acts">
+        <a class="cta" href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+        <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Download résumé</a>
+      </div>
+      <div class="reach">
+        <a class="tag" href="tel:+918828984985">+91 88289 84985</a>
+        <a class="tag" href="#">GitHub ↗</a>
+        <a class="tag" href="#">LinkedIn ↗</a>
+      </div>
+    </div>
+    <footer>© <span id="yr"></span> Harshal Singh — Mumbai, India · Direction D — Depth</footer>
+  </section>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a class="on" href="d-depth.html">D · Depth</a>
+  <a href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a href="i-aurora.html">I · Aurora</a>
+  <a href="j-terra.html">J · Terra</a>
+  <a href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var hdr = document.getElementById('hdr');
+addEventListener('scroll', function () { hdr.classList.toggle('stuck', scrollY > 8); }, { passive: true });
+
+/* pointer tilt for anything marked [data-tilt], plus the hero object */
+function bindTilt(el, max, restX, restY) {
+  if (reduced) return;
+  function set(x, y) { el.style.setProperty('--rx', x + 'deg'); el.style.setProperty('--ry', y + 'deg'); }
+  el.addEventListener('pointermove', function (e) {
+    var r = el.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - .5;
+    var py = (e.clientY - r.top) / r.height - .5;
+    set((-py * max).toFixed(2), (px * max).toFixed(2));
+    el.style.setProperty('--gx', ((px + .5) * 100).toFixed(1) + '%');
+    el.style.setProperty('--gy', ((py + .5) * 100).toFixed(1) + '%');
+  });
+  el.addEventListener('pointerleave', function () { set(restX, restY); });
+}
+document.querySelectorAll('[data-tilt]').forEach(function (el) { bindTilt(el, parseFloat(el.dataset.tilt) || 7, 0, 0); });
+
+/* the hero object follows the pointer across the whole hero, not just itself */
+(function () {
+  var obj = document.getElementById('obj'), hero = document.querySelector('.hero'), floor = document.getElementById('floor');
+  if (!obj || reduced) return;
+  hero.addEventListener('pointermove', function (e) {
+    var r = hero.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - .5;
+    var py = (e.clientY - r.top) / r.height - .5;
+    obj.style.setProperty('--rx', (4 - py * 14).toFixed(2) + 'deg');
+    obj.style.setProperty('--ry', (-12 + px * 18).toFixed(2) + 'deg');
+  });
+  hero.addEventListener('pointerleave', function () {
+    obj.style.setProperty('--rx', '4deg'); obj.style.setProperty('--ry', '-12deg');
+  });
+  addEventListener('scroll', function () {
+    floor.style.setProperty('--fz', (scrollY * .35) + 'px');
+  }, { passive: true });
+})();
+
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px' });
+document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+document.querySelectorAll('[data-autoscroll]').forEach(function (box) {
+  var img = box.querySelector('img');
+  var dur = parseInt(box.dataset.duration, 10) || 15000;
+  box.addEventListener('mouseenter', function () {
+    if (reduced) return;
+    var d = Math.max(0, img.offsetHeight - box.clientHeight);
+    if (!d) return;
+    img.style.transition = 'transform ' + dur + 'ms linear';
+    img.style.transform = 'translateY(-' + d + 'px)';
+  });
+  box.addEventListener('mouseleave', function () {
+    img.style.transition = 'transform 700ms cubic-bezier(.22,1,.36,1)';
+    img.style.transform = 'translateY(0)';
+  });
+});
+</script>
+</body>
+</html>

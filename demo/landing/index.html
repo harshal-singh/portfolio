@@ -3,258 +3,249 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Landing page redesign — 12 directions · Harshal Singh</title>
+<title>Portfolio directions — eleven references, eleven builds</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-:root{
-  --bg:#0A0B0D; --fg:#EDEFF2; --dim:#8A929E; --dim2:#5C6470;
-  --card:#111318; --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.18);
-  --em:#4ADE80;
-}
+:root{--bg:#0B0B0D;--panel:#131317;--panel2:#1A1A20;--fg:#EDEDF0;--dim:#9A9AA5;--faint:#63636E;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--acc:#8B7CFF}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--fg);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
-  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
-  background-size:60px 60px}
+body{background:var(--bg);color:var(--fg);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.011em;line-height:1.6}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1280px;margin:0 auto;padding:clamp(2.5rem,6vw,4.5rem) clamp(1rem,4vw,2rem) 5rem}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:clamp(1.1rem,4vw,2rem);padding-right:clamp(1.1rem,4vw,2rem)}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
 
-.kick{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--em);margin-bottom:1rem}
-h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;letter-spacing:-.038em;line-height:1.08;max-width:20ch}
-.lede{margin-top:1.1rem;color:var(--dim);line-height:1.75;max-width:50rem;font-size:1rem}
-.hint{margin-top:1.5rem;display:inline-flex;align-items:center;gap:.6rem;font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--dim);border:1px solid var(--line);background:var(--card);padding:.6rem 1rem;border-radius:9px}
+.hero{padding-top:clamp(3.5rem,9vw,6rem);padding-bottom:clamp(2rem,4vw,3rem);border-bottom:1px solid var(--line)}
+.kick{font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+h1{margin-top:1.1rem;font-size:clamp(2rem,5.2vw,3.4rem);font-weight:600;letter-spacing:-.04em;line-height:1.06;max-width:20ch}
+.lede{margin-top:1.3rem;font-size:clamp(1rem,1.5vw,1.12rem);line-height:1.72;color:var(--dim);max-width:66ch}
+.lede + .lede{margin-top:.9rem}
+.lede b{color:var(--fg);font-weight:500}
+.lede code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:.08em .38em}
 
-.round{display:flex;align-items:center;gap:1rem;margin:clamp(2.5rem,5vw,3.5rem) 0 1.25rem}
-.round h2{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-.round .ln{flex:1;height:1px;background:var(--line)}
+.facts{margin-top:2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+@media(min-width:820px){.facts{grid-template-columns:repeat(4,1fr)}}
+.facts div{background:var(--panel);padding:1rem 1.1rem}
+.facts b{display:block;font-size:1.35rem;font-weight:600;letter-spacing:-.03em}
+.facts small{display:block;font-size:.76rem;color:var(--faint);margin-top:.25rem;line-height:1.5}
 
-.grid{display:grid;gap:1.25rem;grid-template-columns:1fr}
-@media(min-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+.grouphd{padding-top:clamp(2.25rem,5vw,3.25rem);display:flex;align-items:center;gap:1rem}
+.grouphd h2{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);white-space:nowrap;font-weight:500}
+.grouphd i{flex:1;height:1px;background:var(--line);display:block}
 
-.card{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;display:flex;flex-direction:column;transition:.28s}
-.card:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.grid{padding-top:1.25rem;display:grid;grid-template-columns:1fr;gap:1.1rem}
+@media(min-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.grid{grid-template-columns:repeat(3,1fr)}}
 
-.frame{position:relative;height:290px;overflow:hidden;border-bottom:1px solid var(--line);background:#000;display:block}
-.frame iframe{position:absolute;top:0;left:0;width:1440px;height:1460px;border:0;transform:scale(.385);transform-origin:top left;pointer-events:none}
-.frame .veil{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(17,19,24,.85));pointer-events:none}
-.frame .pin{position:absolute;top:.75rem;left:.85rem;z-index:3;font-family:"JetBrains Mono",monospace;font-size:.68rem;font-weight:600;padding:.28rem .65rem;border-radius:999px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);border:1px solid var(--line2)}
+.card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .35s}
+.card:hover{transform:translateY(-4px);border-color:var(--line2)}
+.swatch{height:112px;position:relative;display:flex;align-items:flex-end;padding:.85rem;overflow:hidden}
+.swatch .tag{position:relative;z-index:2;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,0,0,.5);color:#fff;border-radius:99px;padding:.2rem .55rem;backdrop-filter:blur(6px)}
+.sw-a{background:radial-gradient(circle at 25% 30%,rgba(216,255,62,.5),transparent 55%),radial-gradient(circle at 75% 70%,rgba(120,90,255,.5),transparent 55%),#060607}
+.sw-b{background:radial-gradient(ellipse at 50% -30%,rgba(139,124,255,.55),transparent 62%),#08080B}
+.sw-c{background:linear-gradient(90deg,#0F0F13 0 34%,#F4F1EA 34% 67%,#0F0F13 67%)}
+.sw-c::after{content:"";position:absolute;left:0;right:0;bottom:14px;height:2px;background:linear-gradient(90deg,#FF5A2B 0 26%,rgba(255,90,43,.22) 26%)}
+.sw-d{background:radial-gradient(circle at 22% 22%,rgba(34,211,238,.5),transparent 56%),radial-gradient(circle at 78% 70%,rgba(167,139,250,.55),transparent 56%),#060915}
+.sw-d::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-30%;height:120%;transform:rotateX(74deg);transform-origin:50% 100%;
+  background:repeating-linear-gradient(90deg,rgba(140,170,255,.3) 0 1px,transparent 1px 26px),repeating-linear-gradient(0deg,rgba(140,170,255,.3) 0 1px,transparent 1px 26px);
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 70%);mask-image:linear-gradient(to top,#000,transparent 70%)}
+.sw-e{background:linear-gradient(180deg,#FBFBFD 46%,#000 46%)}
+.sw-f{background:linear-gradient(135deg,#FFC93C,#FF6B4A 45%,#A78BFA)}
+.sw-f::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(23,20,16,.28) 1.4px,transparent 1.4px);background-size:16px 16px}
+.sw-g{background:radial-gradient(circle at 22% 78%,rgba(126,231,135,.32),transparent 58%),#0C0F14}
+.sw-g::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(126,231,135,.09) 0 1px,transparent 1px 4px)}
+.sw-h{background:linear-gradient(90deg,#EFECE5 0 44%,#F7F5F1 44%)}
+.sw-h::after{content:"";position:absolute;left:8px;top:10px;bottom:10px;width:36%;border-radius:4px 40px 4px 4px;background:linear-gradient(160deg,#1E5140,#2E6E58);
+  box-shadow:0 8px 18px -10px rgba(30,81,64,.9)}
+.sw-i{background:radial-gradient(circle at 22% 26%,rgba(139,92,246,.85),transparent 58%),radial-gradient(circle at 78% 68%,rgba(236,72,153,.8),transparent 58%),radial-gradient(circle at 62% 14%,rgba(56,189,248,.7),transparent 55%),radial-gradient(circle at 12% 88%,rgba(45,212,191,.7),transparent 55%),#F3F1FE}
+.sw-j{background:linear-gradient(180deg,#F1E8D9,#E6D9C2)}
+.sw-j::after{content:"";position:absolute;left:50%;bottom:-16px;width:74px;height:88px;transform:translateX(-50%);
+  border-radius:999px 999px 8px 8px;background:linear-gradient(170deg,#D9973F,#BC5B32);box-shadow:0 10px 22px -12px rgba(43,37,28,.8)}
+.sw-k{background:#EAE7E0;background-image:radial-gradient(rgba(21,22,26,.09) 1px,transparent 1px);background-size:12px 12px}
+.sw-k::after{content:"";position:absolute;left:14px;right:14px;top:18px;height:64px;
+  background:
+    linear-gradient(#fff,#fff) left 0 top 0/56% 20px no-repeat,
+    linear-gradient(#1F5FE0,#1F5FE0) right 0 top 26px/44% 18px no-repeat,
+    linear-gradient(#fff,#fff) left 0 top 48px/38% 16px no-repeat;
+  border-radius:8px}
 
-.body{padding:1.4rem 1.5rem 1.5rem;flex:1;display:flex;flex-direction:column}
-.body h3{font-family:"Space Grotesk",sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-.025em}
-.body .tag{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--em);margin-top:.35rem;letter-spacing:.04em}
-.body p{font-size:.9rem;line-height:1.7;color:var(--dim);margin-top:.85rem}
+.card .in{padding:1.2rem 1.25rem 1.35rem;display:flex;flex-direction:column;flex:1}
+.card .ref{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.card h3{margin-top:.55rem;font-size:1.16rem;font-weight:600;letter-spacing:-.025em}
+.card p{margin-top:.5rem;font-size:.875rem;line-height:1.68;color:var(--dim);flex:1}
+.card .sig{margin-top:.95rem;padding-top:.85rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--dim)}
+.card .sig b{display:block;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.25rem;font-weight:400}
+.card .open{margin-top:1.1rem;display:inline-flex;align-items:center;justify-content:space-between;font-size:.84rem;font-weight:500;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:8px;padding:.5rem .8rem;transition:background .25s}
+.card:hover .open{background:var(--acc);border-color:var(--acc);color:#0A0A12}
 
-.facts{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.45rem}
-.facts li{display:flex;gap:.6rem;font-size:.82rem;color:var(--dim);line-height:1.55}
-.facts li b{color:var(--fg);font-weight:600;min-width:5.5rem;flex-shrink:0;font-size:.78rem}
-
-.foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.4rem;padding-top:1.15rem;border-top:1px solid var(--line);flex-wrap:wrap}
-.best{font-size:.78rem;color:var(--dim2)}
-.best b{color:var(--fg)}
-.open{display:inline-flex;align-items:center;gap:.45rem;font-size:.82rem;font-weight:600;padding:.6rem 1.1rem;border-radius:9px;background:var(--fg);color:#0A0B0D;transition:.2s}
-.open:hover{background:var(--em)}
-
-.note{margin-top:clamp(2.5rem,5vw,3.5rem);border:1px solid var(--line);border-radius:16px;background:var(--card);padding:clamp(1.5rem,3vw,2rem)}
-.note h3{font-family:"Space Grotesk",sans-serif;font-size:1.1rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.9rem}
-.note p{font-size:.88rem;line-height:1.75;color:var(--dim);max-width:62rem}
-.note p + p{margin-top:.8rem}
-.note code{font-family:"JetBrains Mono",monospace;font-size:.8rem;background:rgba(255,255,255,.06);padding:.15rem .4rem;border-radius:4px;color:var(--em)}
+.note{margin-top:clamp(2.5rem,5vw,3.5rem);border-top:1px solid var(--line);padding-top:clamp(2rem,4vw,3rem);padding-bottom:6rem}
+.note h3{font-size:.95rem;font-weight:600}
+.note ul{margin:.9rem 0 0;padding-left:1.1rem;color:var(--dim);font-size:.9rem;line-height:1.85;max-width:70ch}
+.note ul b{color:var(--fg);font-weight:500}
+.note code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:.08em .38em}
 </style>
 </head>
 <body>
+
+<div class="wrap hero">
+  <div class="kick">Eleven directions</div>
+  <h1>Eleven portfolio sites, one set of facts.</h1>
+  <p class="lede">Each one is a complete site — hero, selected work with the real screenshots, experience, skills, about, contact — built against a <b>different reference point</b> rather than a different colour scheme. The content is deliberately consistent so the art direction is what you&rsquo;re actually comparing.</p>
+  <p class="lede">Every fact comes from the résumé PDF: three roles, two projects, the exact skill groupings, both degrees. The only number claimed anywhere is the <b>~40% onboarding reduction</b>, because it&rsquo;s the only one on the résumé. All eleven use the real <code>pragnyapan-ai.jpg</code> and <code>meet-space.jpg</code> screenshots, the real profile photo, and the real tech icons from <code>public/</code>.</p>
+
+  <div class="facts">
+    <div><b>3+ years</b><small>Production frontend since 2021</small></div>
+    <div><b>3 teams</b><small>Quadb, Atrina, Webol</small></div>
+    <div><b>2 products</b><small>Pragnyapan.ai, MeetSpace</small></div>
+    <div><b>Mumbai</b><small>Remote on UK hours</small></div>
+  </div>
+</div>
+
 <div class="wrap">
-  <div class="kick">Portfolio redesign · 12 directions</div>
-  <h1>Twelve landing page directions.</h1>
-  <p class="lede">Each is a complete, self-contained landing page built with your real content &mdash; the Webol / Atrina / Quadb history, the four projects, the measurable outcomes. They are deliberately different design languages and, from the second round on, different <em>structures</em> too. Nothing in the Next.js app has been touched.</p>
-  <div class="hint">Tip &mdash; open each full-screen, then use the switcher pill at the bottom to jump between all twelve.</div>
 
-  <div class="round"><h2>Round 1 · Visual language</h2><span class="ln"></span></div>
+  <div class="grouphd"><h2>Directions A — F</h2><i></i></div>
   <div class="grid">
 
-    <div class="card">
-      <a class="frame" href="a-editorial.html"><span class="pin">A</span><iframe src="a-editorial.html" loading="lazy" title="Variation A preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Editorial Precision</h3>
-        <div class="tag">warm paper · Fraunces serif · hairline grid</div>
-        <p>A print-magazine language: big serif display line, a dossier column of facts, hairline rules dividing everything. Work is an editorial index, experience is a ledger table.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Taste, restraint, seniority</li>
-          <li><b>Risk</b> Quiet — rewards reading, not skimming</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>design-led product teams</b></span><a class="open" href="a-editorial.html">Open &rarr;</a></div>
+    <a class="card" href="a-creative.html">
+      <div class="swatch sw-a"><span class="tag">Dark · acid lime · Syne</span></div>
+      <div class="in">
+        <div class="ref">A — Awwwards creative</div>
+        <h3>Creative developer</h3>
+        <p>An experience more than a page. Percentage loader, custom cursor, oversized kinetic type that masks in line by line, ambient gradient blobs that drift toward the pointer, and work presented as a drag-scroll gallery.</p>
+        <div class="sig"><b>Signature moment</b>Drag-to-scroll horizontal work rail with a magnetic call to action.</div>
+        <span class="open">Open A <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="b-terminal.html"><span class="pin">B</span><iframe src="b-terminal.html" loading="lazy" title="Variation B preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Engineer&rsquo;s Console</h3>
-        <div class="tag">near-black · mono-forward · IDE chrome</div>
-        <p>The page behaves like your terminal. Editor tabs for nav, a live <code>cat profile.json</code> window, projects as an <code>ls -la</code> listing, experience as a git log with commit refs.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Deep technical credibility</li>
-          <li><b>Risk</b> Reads as niche to non-technical recruiters</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>eng managers &amp; devtools</b></span><a class="open" href="b-terminal.html">Open &rarr;</a></div>
+    <a class="card" href="b-product.html">
+      <div class="swatch sw-b"><span class="tag">Near-black · violet aura · Inter</span></div>
+      <div class="in">
+        <div class="ref">B — Linear / Vercel / Stripe</div>
+        <h3>Product-grade minimal</h3>
+        <p>Reads like a well-funded SaaS landing page. Gradient-masked headline, faint grid lines under an aura, film grain, a six-cell capability grid, and browser-chrome case studies with an animated gradient border.</p>
+        <div class="sig"><b>Signature moment</b>Cursor-tracking radial spotlight inside each capability cell.</div>
+        <span class="open">Open B <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="c-impact.html"><span class="pin">C</span><iframe src="c-impact.html" loading="lazy" title="Variation C preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Impact First</h3>
-        <div class="tag">light · Space Grotesk · SaaS landing page</div>
-        <p>Structured like a well-funded product site. Availability badge, gradient headline, metric cards with attribution, and case-study cards that lead with outcomes rather than stack lists.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Business impact, hireability</li>
-          <li><b>Risk</b> Most conventional of the twelve</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>recruiters &amp; fast scanning</b></span><a class="open" href="c-impact.html">Open &rarr;</a></div>
+    <a class="card" href="c-lateral.html">
+      <div class="swatch sw-c"><span class="tag">Ink ↔ cream · orange · Space Grotesk</span></div>
+      <div class="in">
+        <div class="ref">C — Horizontal deck</div>
+        <h3>Lateral</h3>
+        <p>The whole site moves sideways. Seven full-screen panels alternating ink and cream, one idea each, with a progress rail and position counter along the bottom. Below 960px it quietly becomes an ordinary vertical page.</p>
+        <div class="sig"><b>Signature moment</b>Your scroll wheel drives the page sideways, one panel per gesture.</div>
+        <span class="open">Open C <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="d-bento.html"><span class="pin">D</span><iframe src="d-bento.html" loading="lazy" title="Variation D preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Bento Aurora</h3>
-        <div class="tag">dark glass · aurora gradients · modular grid</div>
-        <p>A modular bento grid of glass cards over a drifting aurora. Cursor spotlight on hover, a live IST clock showing UK overlap, dual-direction stack marquee, projects as first-class tiles.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Modern craft, front-end flair</li>
-          <li><b>Risk</b> Trend-anchored; ages faster</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>memorability</b></span><a class="open" href="d-bento.html">Open &rarr;</a></div>
+    <a class="card" href="d-depth.html">
+      <div class="swatch sw-d"><span class="tag">Indigo · cyan · violet · Sora</span></div>
+      <div class="in">
+        <div class="ref">D — Spatial / 3D</div>
+        <h3>Depth</h3>
+        <p>Everything sits on a z-axis. A perspective grid floor recedes behind the hero, the portrait is a stack of plates with labels floating in front of it, and project cards tilt under the cursor with a moving glare.</p>
+        <div class="sig"><b>Signature moment</b>The experience cards sit recessed behind each other until you pull one forward.</div>
+        <span class="open">Open D <span>→</span></span>
       </div>
-    </div>
+    </a>
+
+    <a class="card" href="e-scroll.html">
+      <div class="swatch sw-e"><span class="tag">White ↔ black · Apple blue</span></div>
+      <div class="in">
+        <div class="ref">E — Apple product page</div>
+        <h3>Scroll storytelling</h3>
+        <p>One idea per screen, driven entirely by scroll position. The hero recedes as you leave it, a pinned counter cycles through the numbers, a paragraph lights up word by word, and the header inverts over dark sections.</p>
+        <div class="sig"><b>Signature moment</b>Pinned case studies where scrolling drives the screenshot and highlights each step.</div>
+        <span class="open">Open E <span>→</span></span>
+      </div>
+    </a>
+
+    <a class="card" href="f-playful.html">
+      <div class="swatch sw-f"><span class="tag">Cream · coral · Bricolage</span></div>
+      <div class="in">
+        <div class="ref">F — Playful / illustrated</div>
+        <h3>Character</h3>
+        <p>Personality over polish. Dotted paper, thick ink outlines and hard offset shadows, a morphing blob portrait ringed with stickers, a tilted marquee, and cards that sit crooked until you hover them straight.</p>
+        <div class="sig"><b>Signature moment</b>Springy hover physics — everything untilts and lifts off its shadow.</div>
+        <span class="open">Open F <span>→</span></span>
+      </div>
+    </a>
+
   </div>
 
-  <div class="round"><h2>Round 2 · Different structures, not just skins</h2><span class="ln"></span></div>
+  <div class="grouphd"><h2>Directions G — K</h2><i></i></div>
   <div class="grid">
 
-    <div class="card">
-      <a class="frame" href="e-brutalist.html"><span class="pin">E</span><iframe src="e-brutalist.html" loading="lazy" title="Variation E preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Brutalist Poster</h3>
-        <div class="tag">black / white / orange · Archivo Black · hard edges</div>
-        <p>Loud and graphic. A scrolling status ticker, oversized uppercase display type, 3px black rules, hard offset shadows and a rotated &ldquo;open to work&rdquo; sticker. Rows invert to black on hover.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Confidence, personality, zero hedging</li>
-          <li><b>Risk</b> Polarising — people love it or find it shouty</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>standing out in a stack of CVs</b></span><a class="open" href="e-brutalist.html">Open &rarr;</a></div>
+    <a class="card" href="g-terminal.html">
+      <div class="swatch sw-g"><span class="tag">Terminal black · green · JetBrains Mono</span></div>
+      <div class="in">
+        <div class="ref">G — Command line</div>
+        <h3>Terminal</h3>
+        <p>A shell you can actually type into. It boots, runs <code style="font-family:'JetBrains Mono',monospace">whoami</code> and <code style="font-family:'JetBrains Mono',monospace">help</code> for you, then hands over the prompt — tab completion, command history, and a <code style="font-family:'JetBrains Mono',monospace">resume</code> command that really downloads the PDF. A conventional page sits underneath for anyone who&rsquo;d rather scroll.</p>
+        <div class="sig"><b>Signature moment</b>A working prompt: type <code style="font-family:'JetBrains Mono',monospace">work</code> and the projects print out.</div>
+        <span class="open">Open G <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="f-sidebar.html"><span class="pin">F</span><iframe src="f-sidebar.html" loading="lazy" title="Variation F preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>App Shell</h3>
-        <div class="tag">fixed sidebar · scroll-spy nav · Linear/Notion feel</div>
-        <p>Not a page &mdash; a product. A persistent left sidebar holds your identity, status and nav, and the nav item highlights itself as you scroll. Content sits in a comfortable reading column.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Product thinking, calm competence</li>
-          <li><b>Risk</b> Understated; no single &ldquo;wow&rdquo; moment</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>everything findable at once</b></span><a class="open" href="f-sidebar.html">Open &rarr;</a></div>
+    <a class="card" href="h-split.html">
+      <div class="swatch sw-h"><span class="tag">Warm neutral · forest green · Manrope</span></div>
+      <div class="in">
+        <div class="ref">H — Agency split screen</div>
+        <h3>Split</h3>
+        <p>The screen is divided in two. A fixed left pane holds the name, the numbers and a large image stage; the right side scrolls through the writing. Calm, warm and high-craft rather than loud.</p>
+        <div class="sig"><b>Signature moment</b>The left image changes to match whichever project you&rsquo;re reading — by scroll or by hover.</div>
+        <span class="open">Open H <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="g-timeline.html"><span class="pin">G</span><iframe src="g-timeline.html" loading="lazy" title="Variation G preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Narrative Timeline</h3>
-        <div class="tag">deep navy · glowing spine · one chronological story</div>
-        <p>The only one with no sections. Your career is a single scroll from 2019 to now &mdash; roles, projects and education interleaved on one spine that fills with light as you read, ending on 2026.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Trajectory and growth, not a list</li>
-          <li><b>Risk</b> Linear — a recruiter can&rsquo;t jump straight to work</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>showing rapid progression</b></span><a class="open" href="g-timeline.html">Open &rarr;</a></div>
+    <a class="card" href="i-aurora.html">
+      <div class="swatch sw-i"><span class="tag">Lavender · glass · Plus Jakarta</span></div>
+      <div class="in">
+        <div class="ref">I — Glassmorphism / aurora</div>
+        <h3>Aurora glass</h3>
+        <p>Light, soft and colourful. A blurred aurora drifts behind everything, frosted panels float on top with real backdrop blur, and a bento block introduces the numbers before the work starts. The only bright direction here.</p>
+        <div class="sig"><b>Signature moment</b>A light sheen tracks your cursor across each glass panel.</div>
+        <span class="open">Open I <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="h-gallery.html"><span class="pin">H</span><iframe src="h-gallery.html" loading="lazy" title="Variation H preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Gallery Studio</h3>
-        <div class="tag">gallery white · Syne · horizontal work gallery</div>
-        <p>Agency-style. A full-bleed animated gradient hero with outlined display type, then work as a drag-and-scroll horizontal gallery with snap points and a progress track. Visual-led throughout.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Craft, art direction, portfolio energy</li>
-          <li><b>Risk</b> Leans on imagery — needs real screenshots</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>creative &amp; product studios</b></span><a class="open" href="h-gallery.html">Open &rarr;</a></div>
+    <a class="card" href="j-terra.html">
+      <div class="swatch sw-j"><span class="tag">Sand · clay · olive · Fraunces</span></div>
+      <div class="in">
+        <div class="ref">J — Warm organic</div>
+        <h3>Terra</h3>
+        <p>Earthy and unhurried. Sand paper with visible grain, arch-topped images, a soft wonky serif, drifting sun and pebble shapes, and wave dividers between bands. The one direction here that feels handmade rather than engineered.</p>
+        <div class="sig"><b>Signature moment</b>Experience drawn as a growing stem, each role a node budding off it.</div>
+        <span class="open">Open J <span>→</span></span>
       </div>
-    </div>
-  </div>
+    </a>
 
-  <div class="round"><h2>Round 3 · New formats</h2><span class="ln"></span></div>
-  <div class="grid">
-
-    <div class="card">
-      <a class="frame" href="i-split.html"><span class="pin">I</span><iframe src="i-split.html" loading="lazy" title="Variation I preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Split Screen</h3>
-        <div class="tag">fixed dark panel · Sora · reacts to scroll</div>
-        <p>The viewport is split. The left half never moves &mdash; it holds your name, status and CTA &mdash; but its glow and its caption change to match whichever section you&rsquo;ve scrolled to on the right.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Control, polish, attention to detail</li>
-          <li><b>Risk</b> Halves the reading width on laptops</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>a permanent call to action</b></span><a class="open" href="i-split.html">Open &rarr;</a></div>
+    <a class="card" href="k-chat.html">
+      <div class="swatch sw-k"><span class="tag">Messenger light · blue · Inter</span></div>
+      <div class="in">
+        <div class="ref">K — Conversational</div>
+        <h3>Chat</h3>
+        <p>The portfolio as a conversation. Harshal opens with a greeting, then you tap a question — or type your own — and he answers with text, project cards and a downloadable CV. The terminal&rsquo;s idea, aimed at people who don&rsquo;t use terminals.</p>
+        <div class="sig"><b>Signature moment</b>Type something it can&rsquo;t answer and it hands you an email with your message already written.</div>
+        <span class="open">Open K <span>→</span></span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
-      <a class="frame" href="j-dashboard.html"><span class="pin">J</span><iframe src="j-dashboard.html" loading="lazy" title="Variation J preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Career Analytics</h3>
-        <div class="tag">light dashboard · Gantt chart · before/after bars</div>
-        <p>Your career as a product dashboard. A real Gantt of roles and study on a 2021&ndash;2026 axis, before/after bars for every measured win, and a project table. All charts hand-built, no libraries.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Analytical, evidence-led, chart-capable</li>
-          <li><b>Risk</b> Cold &mdash; light on personality</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>data-minded hiring managers</b></span><a class="open" href="j-dashboard.html">Open &rarr;</a></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <a class="frame" href="k-magazine.html"><span class="pin">K</span><iframe src="k-magazine.html" loading="lazy" title="Variation K preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>The Magazine</h3>
-        <div class="tag">cream stock · Bodoni Moda · cover &amp; spreads</div>
-        <p>A print issue. Masthead cover with cover-lines and a barcode, a contents page with leader dots, then a three-column feature with a drop cap, a pull quote, plates, and a back-page contact.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Writing ability, editorial taste</li>
-          <li><b>Risk</b> Longest read &mdash; needs your words to carry it</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>showing you can write</b></span><a class="open" href="k-magazine.html">Open &rarr;</a></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <a class="frame" href="l-kinetic.html"><span class="pin">L</span><iframe src="l-kinetic.html" loading="lazy" title="Variation L preview" scrolling="no"></iframe><span class="veil"></span></a>
-      <div class="body">
-        <h3>Kinetic</h3>
-        <div class="tag">near-black · Anton · motion-first</div>
-        <p>Movement carries the page. Marquees running in opposite directions, condensed display type, rows that invert to lime on hover, and a work preview that trails your cursor with easing.</p>
-        <ul class="facts">
-          <li><b>Signals</b> Motion craft, agency energy</li>
-          <li><b>Risk</b> Motion-dependent; quiet without a mouse</li>
-        </ul>
-        <div class="foot"><span class="best">Best for <b>proving front-end chops</b></span><a class="open" href="l-kinetic.html">Open &rarr;</a></div>
-      </div>
-    </div>
   </div>
 
   <div class="note">
-    <h3>How to read these</h3>
-    <p>Static HTML, self-contained apart from Google Fonts. Everything lives in <code>demo/landing/</code>; no app file, route, or component was modified.</p>
-    <p><b>Round 1</b> varies the visual language over roughly the same page structure. <b>Round 2</b> changes the structure itself &mdash; E is a poster, F is an app shell with a persistent sidebar, G abandons sections for a single chronological narrative, and H makes the work gallery a horizontal scroll. If Round 1 all felt like the same page in different clothes, that&rsquo;s why Round 2 exists. <b>Round 3</b> pushes into formats rather than layouts &mdash; a reactive split screen, an analytics dashboard, a print magazine, and a motion-led page.</p>
-    <p>The gradient blocks standing in for project imagery are placeholders in every variation &mdash; H depends on them most, so it will only reach its full effect once real screenshots go in. Once you pick a direction, or a hybrid, the next step is porting it into the real sections and wiring it to the existing Google Sheets CMS.</p>
+    <h3>What&rsquo;s the same in all eleven</h3>
+    <ul>
+      <li><b>Facts</b> — three roles with real dates and locations, two projects, six skill groups, two degrees with grades. Nothing invented, including the numbers behind K&rsquo;s charts.</li>
+      <li><b>Assets</b> — the tall <code>pragnyapan-ai.jpg</code> capture scrolls on hover (or on scroll, in E), <code>meet-space.jpg</code> is cropped to its top, and the real tech SVGs are used throughout.</li>
+      <li><b>Behaviour</b> — keyboard-reachable links with visible focus, <code>prefers-reduced-motion</code> respected, content still readable with JavaScript off, and no framework or build step. Eleven standalone HTML files.</li>
+      <li><b>Switcher</b> — the pill at the bottom of every page jumps straight between directions, so you can compare the same section side by side.</li>
+    </ul>
   </div>
+
 </div>
+
 </body>
 </html>

@@ -15,21 +15,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "cursor-pointer inline-flex items-center justify-center rounded-md font-medium transition-colors active:scale-[0.98]",
+          "inline-flex cursor-pointer items-center justify-center font-medium transition-all active:scale-[0.98]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "disabled:pointer-events-none disabled:opacity-50",
           {
-            default: "bg-accent text-accent-foreground hover:bg-accent-hover",
-            outline:
-              "border border-border text-foreground hover:border-accent/30 hover:bg-accent-muted",
-            ghost: "text-muted hover:text-foreground hover:bg-surface-elevated",
-            secondary:
-              "bg-surface-elevated text-foreground border border-border-subtle hover:bg-surface",
+            default: "aurora-pill",
+            outline: "aurora-ghost",
+            ghost:
+              "rounded-full px-4 py-2 text-sm text-muted hover:bg-white/70 hover:text-foreground dark:hover:bg-white/10",
+            secondary: "aurora-ghost",
           }[variant],
-          {
-            default: "h-10 px-4 py-2 text-sm",
-            sm: "h-9 px-3 text-xs",
-            lg: "h-11 px-6 text-base",
+          variant === "default" && {
+            default: "",
+            sm: "!px-3 !py-1.5 !text-xs",
+            lg: "!px-6 !py-3 !text-base",
+          }[size],
+          variant !== "default" && {
+            default: "h-10 px-4 py-2 text-sm rounded-full",
+            sm: "h-9 px-3 text-xs rounded-full",
+            lg: "h-11 px-6 text-base rounded-full",
           }[size],
           className,
         )}

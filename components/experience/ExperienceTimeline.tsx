@@ -1,7 +1,6 @@
 "use client";
 
-import { ExperienceJobCard } from "@/components/experience/ExperienceJobCard";
-import { Reveal } from "@/components/motion/Reveal";
+import { AuroraExperienceCard } from "@/components/aurora/AuroraExperienceCard";
 import type { Experience } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -9,31 +8,29 @@ interface ExperienceTimelineProps {
   experience: Experience[];
   variant?: "compact" | "full";
   className?: string;
-  /** ms between each job card reveal */
-  staggerMs?: number;
 }
 
 export function ExperienceTimeline({
   experience,
   variant = "full",
   className,
-  staggerMs = 120,
 }: ExperienceTimelineProps) {
+  const jobs = variant === "compact" ? experience.slice(0, 2) : experience;
+
   return (
     <div
       className={cn(
-        "relative border-l border-border ml-3 md:ml-6 max-w-4xl",
+        "grid grid-cols-1 gap-3.5 md:grid-cols-2 xl:grid-cols-3",
         className,
       )}
     >
-      {experience.map((job, index) => (
-        <Reveal key={job.id} delay={index * staggerMs}>
-          <ExperienceJobCard
-            job={job}
-            variant={variant}
-            isLast={index === experience.length - 1}
-          />
-        </Reveal>
+      {jobs.map((job, index) => (
+        <AuroraExperienceCard
+          key={job.id}
+          job={job}
+          index={index}
+          variant={variant}
+        />
       ))}
     </div>
   );

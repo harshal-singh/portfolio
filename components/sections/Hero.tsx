@@ -1,174 +1,107 @@
-import { HeroHighlightTypewriter } from "@/components/hero/HeroHighlightTypewriter";
-import { HeroSplitWords } from "@/components/hero/HeroSplitWords";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
-import { TechLogoScrollColumns } from "@/components/ui/tech-logo-columns";
-import { heroAnimationTiming } from "@/lib/hero/animation";
-import type { Profile } from "@/lib/types";
-import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
-import Link from "next/link";
+import { GlassCard } from "@/components/aurora/GlassCard";
+import { CmsImage } from "@/components/ui/cms-image";
+import { assetFilename, resolvePublicAsset } from "@/lib/assets";
+import type { Profile, Stat } from "@/lib/types";
 
 interface HeroProps {
   profile: Profile;
+  stats: Stat[];
+  dailyStack?: string[];
 }
 
-function CtaLink({
-  href,
-  label,
-  variant,
-}: {
-  href: string;
-  label: string;
-  variant: "primary" | "secondary";
-}) {
-  if (!href || !label) return null;
-
-  const className =
-    variant === "primary"
-      ? "inline-flex items-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors active:scale-[0.98]"
-      : "inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 rounded-md hover:border-accent/30 hover:bg-accent-muted transition-colors active:scale-[0.98]";
-
-  const icon =
-    variant === "primary" ? (
-      <ArrowRight className="w-4 h-4" />
-    ) : (
-      <ArrowUpRight className="w-4 h-4" />
-    );
-
-  if (href.startsWith("#")) {
-    return (
-      <a href={href} className={className}>
-        {label} {icon}
-      </a>
-    );
-  }
-
-  if (href.startsWith("mailto:")) {
-    return (
-      <a href={href} className={className}>
-        {label} {icon}
-      </a>
-    );
-  }
+export default function Hero({ profile, stats, dailyStack = [] }: HeroProps) {
+  const headline = profile.heroHeadline?.trim() || "Frontend that feels";
+  const highlight = profile.heroHighlight?.trim() || "effortless to use.";
+  const resumeHref = resolvePublicAsset(profile.resumePdfUrl);
+  const resumeName = assetFilename(profile.resumePdfUrl, "resume.pdf");
 
   return (
-    <Link href={href} className={className}>
-      {label} {icon}
-    </Link>
-  );
-}
+    <section
+      id="top"
+      className="site-container pb-8 pt-6 text-center md:pb-12 md:pt-18"
+    >
+      {profile.status ? (
+        <span className="aurora-badge">
+          <i className="aurora-badge-dot" aria-hidden />
+          {profile.status}
+        </span>
+      ) : null}
 
-export default function Hero({ profile }: HeroProps) {
-  const primaryHref = profile.heroPrimaryCtaHref || "/projects";
-  const primaryLabel = profile.heroPrimaryCtaLabel || "View selected work";
-  const secondaryHref = profile.heroSecondaryCtaHref || "/contact";
-  const secondaryLabel = profile.heroSecondaryCtaLabel || "Get in touch";
-  const headline = profile.heroHeadline || "I build product interfaces that";
-  const valueProp =
-    profile.heroValueProp ||
-    profile.shortBio ||
-    "Senior frontend engineer building production React and Next.js systems.";
+      <h1 className="jk mx-auto mt-6 max-w-[18ch] text-[clamp(2.3rem,6.6vw,4.6rem)] text-balance font-extrabold leading-[1.06]">
+        {/* {headline}{" "}
+        <span className="text-grad">{highlight.replace(/\.$/, "")}</span>
+        {highlight.endsWith(".") ? "." : ""} */}
+        Software Engineer <span className="text-grad">building production</span>{" "}
+        web apps.
+      </h1>
 
-  const timing = heroAnimationTiming(headline, profile.heroHighlight || "");
+      <p className="mx-auto mt-5 max-w-[60ch] text-[clamp(1rem,1.6vw,1.16rem)] leading-[1.68] text-muted">
+        {profile.heroValueProp || profile.shortBio}
+      </p>
 
-  return (
-    <section className="relative min-h-202.5 flex flex-col justify-center site-container py-16 lg:py-20 overflow-hidden bg-background">
-      <div
-        className="absolute inset-0 bg-background pointer-events-none"
-        aria-hidden
-      />
-      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[min(700px,100vw)] h-95 bg-accent-muted rounded-full blur-3xl pointer-events-none opacity-90" />
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+        <a href="#work" className="aurora-pill">
+          {profile.heroPrimaryCtaLabel || "See selected work"}
+        </a>
+        <a href={resumeHref} download={resumeName} className="aurora-ghost">
+          Download resume ⤓
+        </a>
+      </div>
 
-      <div className="relative z-10 w-full">
-        <div className="grid lg:grid-cols-[1fr_auto] gap-10 xl:gap-16 items-center w-full mt-16">
-          <div className="max-w-3xl">
-            <p
-              className="hero-fade-block text-label text-muted mb-4"
-              style={{ animationDelay: "0ms" }}
-            >
-              {profile.name} · {profile.role}
-            </p>
-
-            <h1 className="text-display text-foreground font-semibold leading-[1.05] max-w-3xl mt-4">
-              <span className="block space-x-3 xl:space-x-6">
-                <HeroSplitWords
-                  words={timing.headlineWords}
-                  startDelay={timing.headlineStart}
-                />
-              </span>
-              <span className="block min-h-[1.05em] mt-1">
-                <HeroHighlightTypewriter startDelay={timing.highlightStart} />
-              </span>
-            </h1>
-
-            <p
-              className="hero-fade-block mt-8 text-body-lg text-muted max-w-2xl leading-relaxed"
-              style={{ animationDelay: `${timing.bodyDelay}ms` }}
-            >
-              {valueProp}
-            </p>
-
-            <div
-              className="hero-fade-block mt-10 flex flex-wrap items-center gap-3"
-              style={{ animationDelay: `${timing.ctaDelay}ms` }}
-            >
-              <CtaLink
-                href={primaryHref}
-                label={primaryLabel}
-                variant="primary"
+      <div className="mt-10 grid grid-cols-2 gap-3.5 md:grid-cols-4">
+        <GlassCard className="col-span-2 p-5 text-left">
+          <div className="flex items-center gap-3.5">
+            {profile.photoUrl ? (
+              <CmsImage
+                src={profile.photoUrl}
+                alt={profile.name}
+                className="h-[52px] w-[52px] rounded-full border-2 border-white object-cover shadow-[0_6px_16px_-6px_rgba(60,40,140,.4)]"
               />
-              <CtaLink
-                href={secondaryHref}
-                label={secondaryLabel}
-                variant="secondary"
-              />
-            </div>
-
-            <div
-              className="hero-fade-block mt-12 pt-8 border-t border-border-subtle flex flex-wrap items-center justify-between gap-6"
-              style={{ animationDelay: `${timing.metaDelay}ms` }}
-            >
-              <div>
-                <p className="text-label mb-1.5">Currently</p>
-                <p className="text-foreground font-medium">
-                  {profile.heroCurrentRole}
-                </p>
-                <p className="mono text-xs text-muted mt-1 flex items-center gap-1.5">
-                  <MapPin className="w-3 h-3" />
-                  {profile.location}
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <a
-                  href={profile.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
-                  aria-label="GitHub"
-                >
-                  <GithubIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href={profile.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <LinkedinIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
+            ) : null}
+            <span className="space-y-0.5">
+              <strong className="jk block text-[1.25rem] font-bold tracking-[-0.02em] mb-2">
+                {profile.name}
+              </strong>
+              <span className="block text-[0.8rem] text-muted-foreground">
+                {profile.heroCurrentRole || profile.role}
+              </span>
+              <span className="block text-[0.8rem] text-muted-foreground">
+                {profile.location} — working remotely.
+              </span>
+            </span>
           </div>
+        </GlassCard>
 
-          <div className="hero-stagger-aside hidden lg:flex justify-center lg:justify-end w-69 shrink-0 self-stretch min-h-90 lg:min-h-105 pl-6 xl:pl-10">
-            <TechLogoScrollColumns className="w-full" />
-          </div>
-        </div>
+        {stats.slice(0, 4).map((stat, index) => (
+          <GlassCard key={stat.id} className="p-5 text-left">
+            <b className={cnStat(index)}>{stat.value}</b>
+            <small className="mt-2 block text-[0.8rem] leading-[1.5] text-muted-foreground">
+              {stat.label}
+            </small>
+          </GlassCard>
+        ))}
 
-        <div className="lg:hidden mt-16 -mx-4 sm:-mx-6">
-          <TechLogoScrollColumns />
-        </div>
+        {dailyStack.length > 0 ? (
+          <GlassCard className="col-span-2 p-5 text-left">
+            <small className="mb-2 block text-[0.8rem] text-muted-foreground">
+              Daily stack
+            </small>
+            <div className="flex flex-wrap gap-1.5">
+              {dailyStack.map((item) => (
+                <span key={item} className="aurora-tag">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </GlassCard>
+        ) : null}
       </div>
     </section>
   );
+}
+
+function cnStat(index: number) {
+  const base =
+    "jk block text-[clamp(1.7rem,3.6vw,2.5rem)] font-extrabold leading-none tracking-[-0.045em]";
+  return index === 0 || index === 2 ? `${base} text-grad` : base;
 }

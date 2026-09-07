@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --base:#F3F1FE; --ink:#191934; --dim:#5B5B7C; --faint:#67678C;
+  --glass:rgba(255,255,255,.52); --glass2:rgba(255,255,255,.72); --edge:rgba(255,255,255,.85);
+  --ring:rgba(25,25,52,.08);
+  --v:#8B5CF6; --p:#673ab7; --s:#38BDF8; --m:#2DD4BF;
+  --shadow:0 18px 45px -12px rgba(60,40,140,.22);
+  /* small controls need an ink hairline — a white border is invisible on a light page.
+     the white inset keeps the glass highlight, the drop shadow does the separating. */
+  --hair:rgba(25,25,52,.14); --hairv:rgba(103,58,183,.42);
+  --ctl:rgba(255,255,255,.92); --ctlv:rgba(103,58,183,.08);
+  --lift:inset 0 1px 0 rgba(255,255,255,.95),0 1px 2px rgba(40,25,90,.05),0 6px 14px -8px rgba(40,25,90,.3);
+  --liftv:inset 0 1px 0 rgba(255,255,255,.95),0 2px 4px rgba(40,25,90,.07),0 12px 22px -10px rgba(103,58,183,.5);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--base);color:var(--ink);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.012em;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.jk{font-family:"Plus Jakarta Sans",Inter,sans-serif;letter-spacing:-.035em;line-height:1.06}
+.wrap{max-width:1120px;margin:0 auto;padding-left:clamp(1rem,4vw,1.75rem);padding-right:clamp(1rem,4vw,1.75rem)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--v);outline-offset:3px;border-radius:8px}
+::selection{background:rgba(139,92,246,.22)}
+
+/* ---------- aurora ---------- */
+.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(70px);opacity:.85}
+.aurora span{position:absolute;border-radius:50%;mix-blend-mode:multiply;will-change:transform}
+.a1{width:52vw;height:52vw;left:-6%;top:-4%;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 66%)}
+.a2{width:46vw;height:46vw;right:-6%;top:6%;background:radial-gradient(circle,rgba(236,72,153,.42),transparent 66%)}
+.a3{width:48vw;height:48vw;left:14%;bottom:-8%;background:radial-gradient(circle,rgba(56,189,248,.45),transparent 66%)}
+.a4{width:36vw;height:36vw;right:8%;bottom:2%;background:radial-gradient(circle,rgba(45,212,191,.42),transparent 66%)}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header{position:relative;z-index:2}
+
+/* ---------- glass primitive ---------- */
+.glass{background:var(--glass);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  border:1px solid var(--edge);border-radius:24px;box-shadow:0 0 0 1px var(--ring),var(--shadow);position:relative;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(340px circle at var(--mx,-500px) var(--my,-500px),rgba(255,255,255,.75),transparent 62%);
+  opacity:0;transition:opacity .35s}
+.glass:hover::before{opacity:1}
+.glass > *{position:relative;z-index:1}
+
+/* ---------- one surface shared by every small control ----------
+   badges, secondary buttons, chips and card links all sit on light backgrounds,
+   so they get the same recipe: ink hairline, white inset highlight, soft shadow. */
+.badge,.ghost,.tag,.lk a{
+  background:var(--ctl);border:1px solid var(--hair);box-shadow:var(--lift);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:100;padding-top:.7rem;padding-bottom:.7rem}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.5rem .5rem .5rem 1.15rem;border-radius:99px}
+.nav .bd{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:.95rem;letter-spacing:-.02em}
+.nav ul{list-style:none;display:flex;gap:.25rem;padding:0;margin:0}
+.nav ul a{font-size:.85rem;font-weight:500;color:var(--dim);padding:.4rem .8rem;border-radius:99px;transition:.22s}
+.nav ul a:hover{background:rgba(255,255,255,.7);color:var(--ink)}
+/* the transparent border keeps the primary exactly as tall as the bordered secondary */
+.pill{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;color:#fff;border-radius:99px;padding:.5rem 1.05rem;
+  border:0px solid transparent;background:linear-gradient(120deg,var(--v),var(--p));
+  box-shadow:0 8px 20px -6px rgba(103,58,183,.55);transition:transform .22s,box-shadow .22s}
+.pill:hover{transform:translateY(-2px);box-shadow:0 14px 28px -8px rgba(103,58,183,.68)}
+@media(max-width:900px){.nav ul{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(2.5rem,6vw,4.5rem);padding-bottom:clamp(2rem,4vw,3rem);text-align:center}
+.badge{display:inline-flex;align-items:center;gap:.55rem;font-size:.8rem;font-weight:500;color:var(--ink);border-radius:99px;padding:.42rem 1rem}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--m);box-shadow:0 0 0 3px rgba(45,212,191,.25);flex:0 0 auto}
+h1{margin-top:1.4rem;font-size:clamp(2.3rem,6.6vw,4.6rem);font-weight:800;max-width:18ch;margin-inline:auto}
+h1 .grad{background:linear-gradient(105deg,var(--v),var(--p) 45%,var(--s));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{margin:1.3rem auto 0;font-size:clamp(1rem,1.6vw,1.16rem);line-height:1.68;color:var(--dim);max-width:52ch}
+.hero .acts{margin-top:1.9rem;display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
+.ghost{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;color:var(--ink);border-radius:99px;padding:.5rem 1.05rem;
+  transition:transform .22s,box-shadow .22s,border-color .22s,color .22s}
+.ghost:hover{transform:translateY(-2px);color:var(--p);border-color:var(--hairv);box-shadow:var(--liftv)}
+
+/* bento */
+.bento{margin-top:clamp(2rem,5vw,3.25rem);display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
+@media(min-width:820px){.bento{grid-template-columns:repeat(4,1fr)}}
+.bento .cell{padding:1.15rem 1.25rem;text-align:left}
+.bento .cell.wide{grid-column:span 2}
+.bento b{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:clamp(1.7rem,3.6vw,2.5rem);letter-spacing:-.045em;line-height:1}
+.bento b.grad{background:linear-gradient(105deg,var(--v),var(--p));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bento small{display:block;margin-top:.45rem;font-size:.8rem;color:var(--faint);line-height:1.5}
+.bento .who{display:flex;align-items:center;gap:.85rem}
+.bento .who img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 6px 16px -6px rgba(60,40,140,.4)}
+.bento .who strong{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.02em}
+.bento .who span{display:block;font-size:.8rem;color:var(--faint)}
+
+/* ---------- sections ---------- */
+section{padding-top:clamp(3rem,7vw,5rem);padding-bottom:clamp(3rem,7vw,5rem)}
+.shd{text-align:center;margin-bottom:clamp(1.75rem,4vw,2.5rem)}
+/* both stops stay dark enough to pass contrast at this size — the light violet did not */
+.kick{font-size:.78rem;font-weight:600;letter-spacing:.02em;
+  background:linear-gradient(105deg,var(--p),#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+.shd h2{margin-top:.6rem;font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:clamp(1.7rem,3.8vw,2.6rem);letter-spacing:-.035em;line-height:1.1}
+.shd p{margin:.85rem auto 0;font-size:.96rem;color:var(--dim);max-width:48ch;line-height:1.7}
+
+/* projects */
+.pj{display:grid;grid-template-columns:1fr;gap:1.1rem}
+@media(min-width:900px){.pj{grid-template-columns:1fr 1fr}}
+.pc{display:flex;flex-direction:column;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.pc:hover{transform:translateY(-5px)}
+.pc .shot{margin:.7rem .7rem 0;border-radius:16px;overflow:hidden;height:210px;position:relative;background:rgba(255,255,255,.5);border:1px solid var(--edge)}
+.pc .shot img{width:100%;height:auto}
+.pc .shot.cover img{height:100%;object-fit:cover;object-position:top center}
+.pc .flag{position:absolute;top:.6rem;left:.6rem;z-index:2;font-size:.68rem;font-weight:600;color:#fff;border-radius:99px;padding:.2rem .6rem;
+  background:linear-gradient(120deg,var(--v),var(--p));box-shadow:0 6px 14px -6px rgba(139,92,246,.7)}
+.pc .in{padding:1.25rem;flex:1;display:flex;flex-direction:column}
+.pc h3{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:1.24rem;letter-spacing:-.03em}
+.pc p{margin-top:.55rem;font-size:.9rem;line-height:1.7;color:var(--dim);flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem}
+/* a plain chip states a fact; a chip that is a link is tinted so it reads as tappable */
+.tag{display:inline-flex;align-items:center;font-size:.73rem;font-weight:500;color:var(--dim);border-radius:99px;padding:.22rem .66rem;line-height:1.5}
+a.tag{color:var(--p);font-weight:600;background:var(--ctlv);border-color:var(--hairv);
+  transition:transform .22s,box-shadow .22s,background .22s}
+a.tag:hover{background:#fff;transform:translateY(-2px);box-shadow:var(--liftv)}
+
+.lk{display:flex;gap:.5rem;margin-top:1.15rem;flex-wrap:wrap}
+.lk a{font-size:.8rem;font-weight:600;border-radius:99px;padding:.36rem .85rem;
+  transition:transform .22s,box-shadow .22s,border-color .22s,color .22s}
+.lk a:hover{transform:translateY(-2px);color:var(--p);border-color:var(--hairv);box-shadow:var(--liftv)}
+.lk .off{color:var(--faint);font-weight:500;background:transparent;border-style:dashed;box-shadow:none;pointer-events:none}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:1fr;gap:.9rem}
+@media(min-width:880px){.tl{grid-template-columns:repeat(3,1fr)}}
+.tc{padding:1.35rem}
+.tc .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.9rem}
+.tc:nth-child(1) .dot{background:linear-gradient(120deg,var(--v),var(--p))}
+.tc:nth-child(2) .dot{background:linear-gradient(120deg,var(--p),var(--s))}
+.tc:nth-child(3) .dot{background:linear-gradient(120deg,var(--s),var(--m))}
+.tc .when{font-size:.78rem;color:var(--faint)}
+.tc h3{margin-top:.35rem;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:1.08rem;letter-spacing:-.025em}
+.tc .role{font-size:.84rem;color:var(--dim);margin-top:.1rem}
+.tc ul{list-style:none;padding:0;margin:.85rem 0 0;display:grid;gap:.4rem}
+.tc li{font-size:.86rem;line-height:1.6;color:var(--dim);padding-left:1.05rem;position:relative}
+.tc li::before{content:"";position:absolute;left:0;top:.6rem;width:5px;height:5px;border-radius:50%;background:var(--v);opacity:.55}
+
+/* skills */
+.sk{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem}
+@media(min-width:760px){.sk{grid-template-columns:repeat(3,1fr)}}
+.skc{padding:1.2rem}
+.skc h4{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:.95rem;letter-spacing:-.02em}
+.skc .ic{display:flex;gap:.5rem;margin:.75rem 0 .55rem;flex-wrap:wrap}
+.skc .ic img{width:18px;height:18px;opacity:.8}
+.skc p{font-size:.85rem;line-height:1.7;color:var(--dim)}
+
+/* about + contact */
+.ab{padding:clamp(1.5rem,3.5vw,2.5rem);display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
+@media(min-width:860px){.ab{grid-template-columns:230px 1fr;gap:2.75rem}}
+.ab img{width:100%;max-width:230px;aspect-ratio:1;object-fit:cover;border-radius:22px;border:2px solid #fff;box-shadow:var(--shadow)}
+.ab p{font-size:.98rem;line-height:1.76;color:var(--dim)}
+.ab p + p{margin-top:.9rem}
+.ab b{color:var(--ink);font-weight:600}
+.edu{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
+
+.cta{padding:clamp(2rem,5vw,3.5rem);text-align:center}
+.cta h2{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:clamp(1.8rem,4.4vw,3rem);letter-spacing:-.04em;line-height:1.1;max-width:17ch;margin:.7rem auto 0}
+.cta p{margin:1rem auto 0;font-size:1rem;color:var(--dim);max-width:44ch;line-height:1.7}
+.cta .acts{margin-top:1.8rem;display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
+.reach{margin-top:2rem;display:flex;justify-content:center;flex-wrap:wrap;gap:.45rem}
+/* these are real links, not facts — give them a button-sized target */
+.reach a.tag{font-size:.8rem;padding:.38rem .9rem}
+footer{padding-top:1.5rem;padding-bottom:6rem;text-align:center;font-size:.8rem;color:var(--faint)}
+
+/* `translate`, not `transform`, so a card keeps its own tilt and hover lift */
+.rv{opacity:0;translate:0 22px;transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;translate:none}
+html:not(.js) .rv{opacity:1;translate:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.15rem;padding:.3rem;border-radius:999px;
+  background:var(--glass2);backdrop-filter:blur(18px);border:1px solid var(--edge);box-shadow:var(--shadow)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-size:.7rem;font-weight:500;color:var(--dim);padding:.34rem .7rem;border-radius:999px;transition:.2s;white-space:nowrap}
+.switch a:hover{color:var(--ink);background:rgba(255,255,255,.7)}
+.switch a.on{background:linear-gradient(120deg,var(--v),var(--p));color:#fff;font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}}
+</style>
+</head>
+<body>
+
+<div class="aurora" id="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span><span class="a4"></span></div>
+<div class="grain"></div>
+
+<header>
+  <div class="wrap">
+    <div class="nav glass" style="border-radius:99px">
+      <a class="bd" href="#top">Harshal Singh</a>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a class="pill" href="mailto:harshal.wrk@gmail.com">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="wrap hero">
+    <span class="badge"><i></i> Open to frontend roles — remote or relocation</span>
+    <h1 class="jk">Frontend that feels <span class="grad">effortless</span> to use.</h1>
+    <p class="lede">I&rsquo;m Harshal — a frontend engineer with 3+ years building production React and Next.js applications. Reusable UI architecture, server rendering, API integration, and the pipeline that ships it.</p>
+    <div class="acts">
+      <a class="pill" href="#work">See selected work</a>
+      <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Résumé ⤓</a>
+    </div>
+
+    <div class="bento">
+      <div class="cell glass wide">
+        <div class="who">
+          <img src="../../public/images/profile.jpg" alt="Harshal Singh" />
+          <span><strong>Harshal Singh</strong><span>Frontend Developer @ Webol Solutions</span></span>
+        </div>
+        <small style="margin-top:.8rem">Mumbai, India — working remotely on UK hours. Replies within 48 hours.</small>
+      </div>
+      <div class="cell glass"><b class="grad">3+</b><small>Years shipping production frontends</small></div>
+      <div class="cell glass"><b>3</b><small>Product teams since 2021</small></div>
+      <div class="cell glass"><b>2</b><small>Products built end to end, solo</small></div>
+      <div class="cell glass"><b class="grad">~40%</b><small>Onboarding time cut by docs I wrote</small></div>
+      <div class="cell glass wide">
+        <small style="margin-bottom:.6rem">Daily stack</small>
+        <div class="tags" style="margin-top:.2rem">
+          <span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">Node.js</span><span class="tag">GraphQL</span><span class="tag">Docker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Selected work</div>
+      <h2>Two products, built end to end</h2>
+      <p>From an empty repository to something you can open in a browser — design, frontend, backend and deploy.</p>
+    </div>
+    <div class="pj">
+      <article class="pc glass rv">
+        <div class="shot" data-autoscroll data-duration="16000">
+          <span class="flag">AI platform</span>
+          <img src="../../public/images/projects/pragnyapan-ai.jpg" alt="Pragnyapan.ai" />
+        </div>
+        <div class="in">
+          <h3>Pragnyapan.ai</h3>
+          <p>An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Site crawl, AI analysis, a human review step, then white-label PDF export.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">MongoDB</span><span class="tag">Serverless</span></div>
+          <div class="lk"><a href="#">Visit ↗</a><a class="off">Code private</a></div>
+        </div>
+      </article>
+      <article class="pc glass rv">
+        <div class="shot cover">
+          <span class="flag">Real-time video</span>
+          <img src="../../public/images/projects/meet-space.jpg" alt="MeetSpace" />
+        </div>
+        <div class="in">
+          <h3>MeetSpace</h3>
+          <p>A browser-based meeting product — start a room, share a code or link, join a live call. Pre-join lobby with a device check, participant grid, people list and in-call chat. Peer-to-peer, no media server in the path.</p>
+          <div class="tags"><span class="tag">Node.js</span><span class="tag">Socket.IO</span><span class="tag">WebRTC</span><span class="tag">MongoDB</span></div>
+          <div class="lk"><a href="#">Visit ↗</a><a href="#">GitHub ↗</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Experience</div>
+      <h2>Three teams since 2021</h2>
+      <p>Constraint, then ownership, then pace — roughly in that order.</p>
+    </div>
+    <div class="tl">
+      <article class="tc glass rv">
+        <div class="dot">01</div>
+        <div class="when">Jul 2025 — Present · Remote, UK</div>
+        <h3>Webol Solutions</h3>
+        <div class="role">Frontend Developer</div>
+        <ul>
+          <li>Production applications in Next.js, React and TypeScript</li>
+          <li>REST integration alongside backend engineers</li>
+          <li>Figma to production with Cursor, Claude Code and Figma MCP</li>
+        </ul>
+      </article>
+      <article class="tc glass rv">
+        <div class="dot">02</div>
+        <div class="when">Aug 2024 — May 2025 · Mumbai</div>
+        <h3>Atrina Technologies</h3>
+        <div class="role">Next.js Developer</div>
+        <ul>
+          <li>Led a CMS rebuild on SSR — faster loads, better SEO</li>
+          <li>Architected reusable component libraries</li>
+          <li>Owned a three-month roadmap; onboarding docs cut ramp-up ~40%</li>
+        </ul>
+      </article>
+      <article class="tc glass rv">
+        <div class="dot">03</div>
+        <div class="when">Feb 2021 — Feb 2022 · Remote, India</div>
+        <h3>Quadb Technologies</h3>
+        <div class="role">Web Developer</div>
+        <ul>
+          <li>Responsive interfaces from Figma and Adobe XD</li>
+          <li>Node.js and Express APIs with JWT authentication</li>
+          <li>KaiOS applications built independently for feature phones</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="wrap">
+    <div class="shd rv">
+      <div class="kick">Toolkit</div>
+      <h2>What I build with</h2>
+    </div>
+    <div class="sk">
+      <div class="skc glass rv"><h4>Languages</h4><div class="ic"><img src="../../public/icons/tech/typescript.svg" alt="" /></div><p>TypeScript, JavaScript, HTML5, CSS3</p></div>
+      <div class="skc glass rv"><h4>Frontend</h4><div class="ic"><img src="../../public/icons/tech/react.svg" alt="" /><img src="../../public/icons/tech/nextdotjs.svg" alt="" /><img src="../../public/icons/tech/tailwindcss.svg" alt="" /><img src="../../public/icons/tech/vuedotjs.svg" alt="" /></div><p>React.js, Next.js, Tailwind CSS, Vue.js</p></div>
+      <div class="skc glass rv"><h4>Backend</h4><div class="ic"><img src="../../public/icons/tech/nodedotjs.svg" alt="" /><img src="../../public/icons/tech/graphql.svg" alt="" /></div><p>Node.js, Express.js, REST, GraphQL, Hasura, PHP</p></div>
+      <div class="skc glass rv"><h4>Databases</h4><div class="ic"><img src="../../public/icons/tech/mongodb.svg" alt="" /><img src="../../public/icons/tech/mysql.svg" alt="" /></div><p>MongoDB, MySQL</p></div>
+      <div class="skc glass rv"><h4>Cloud &amp; DevOps</h4><div class="ic"><img src="../../public/icons/tech/aws.svg" alt="" /><img src="../../public/icons/tech/docker.svg" alt="" /></div><p>AWS, Docker, Azure DevOps, CI/CD, Bash</p></div>
+      <div class="skc glass rv"><h4>Tools</h4><div class="ic"><img src="../../public/icons/tech/git.svg" alt="" /><img src="../../public/icons/tech/github.svg" alt="" /><img src="../../public/icons/tech/figma.svg" alt="" /><img src="../../public/icons/tech/cursor.svg" alt="" /><img src="../../public/icons/tech/claude.svg" alt="" /></div><p>Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code</p></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="wrap">
+    <div class="shd rv">
+      <div class="kick">About</div>
+      <h2>The short version</h2>
+    </div>
+    <div class="ab glass rv">
+      <img src="../../public/images/profile.jpg" alt="Harshal Singh" />
+      <div>
+        <p>The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step.</p>
+        <p>That range came from three very different environments: <b>Quadb</b> meant constraint, KaiOS feature phones where a wasted kilobyte shows. <b>Atrina</b> meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. <b>Webol</b> means pace: Figma to production with AI in the loop, without dropping the review bar.</p>
+        <div class="edu">
+          <span class="tag">M.Sc IT · KC College · 2022–2024 · Grade O+</span>
+          <span class="tag">B.Sc IT · Lala Lajpat Rai · 2019–2022 · Grade A+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact" style="padding-top:0">
+    <div class="cta glass rv">
+      <div class="kick">Contact</div>
+      <h2 class="jk">Let&rsquo;s talk about what you&rsquo;re building.</h2>
+      <p>Open to frontend engineering roles with product teams. A short brief is as welcome as a job description — I reply within 48 hours.</p>
+      <div class="acts">
+        <a class="pill" href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+        <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Download résumé</a>
+      </div>
+      <div class="reach">
+        <a class="tag" href="tel:+918828984985">+91 88289 84985</a>
+        <a class="tag" href="#">GitHub ↗</a>
+        <a class="tag" href="#">LinkedIn ↗</a>
+      </div>
+    </div>
+    <footer>© <span id="yr"></span> Harshal Singh — Mumbai, India · Direction I — Aurora</footer>
+  </section>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a href="d-depth.html">D · Depth</a>
+  <a href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a class="on" href="i-aurora.html">I · Aurora</a>
+  <a href="j-terra.html">J · Terra</a>
+  <a href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* aurora drifts with the pointer and the scroll */
+(function () {
+  if (reduced) return;
+  var blobs = Array.prototype.slice.call(document.querySelectorAll('.aurora span'));
+  var tx = .5, ty = .5, cx = .5, cy = .5;
+  addEventListener('pointermove', function (e) { tx = e.clientX / innerWidth; ty = e.clientY / innerHeight; }, { passive: true });
+  (function loop() {
+    cx += (tx - cx) * .035; cy += (ty - cy) * .035;
+    var sy = scrollY;
+    blobs.forEach(function (b, i) {
+      var k = (i + 1) * 14;
+      var d = (i % 2 ? -1 : 1);
+      b.style.transform = 'translate3d(' + ((cx - .5) * k * d) + 'px,' + (((cy - .5) * k * d) + sy * .04 * (i % 2 ? 1 : -1)) + 'px,0)';
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* light sheen follows the cursor across each glass panel */
+document.addEventListener('pointermove', function (e) {
+  var g = e.target.closest('.glass');
+  if (!g) return;
+  var r = g.getBoundingClientRect();
+  g.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  g.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}, { passive: true });
+
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px' });
+document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+document.querySelectorAll('[data-autoscroll]').forEach(function (box) {
+  var img = box.querySelector('img');
+  var dur = parseInt(box.dataset.duration, 10) || 15000;
+  box.addEventListener('mouseenter', function () {
+    if (reduced) return;
+    var d = Math.max(0, img.offsetHeight - box.clientHeight);
+    if (!d) return;
+    img.style.transition = 'transform ' + dur + 'ms linear';
+    img.style.transform = 'translateY(-' + d + 'px)';
+  });
+  box.addEventListener('mouseleave', function () {
+    img.style.transition = 'transform 700ms cubic-bezier(.22,1,.36,1)';
+    img.style.transform = 'translateY(0)';
+  });
+});
+</script>
+</body>
+</html>

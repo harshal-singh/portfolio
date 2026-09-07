@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { inter, jetbrainsMono, spaceGrotesk } from "@/lib/fonts";
+import { inter, jetbrainsMono, plusJakartaSans } from "@/lib/fonts";
 import { getSiteUrl } from "@/lib/metadata/site";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -28,7 +28,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
       <body className="grain">
         <ThemeProvider>

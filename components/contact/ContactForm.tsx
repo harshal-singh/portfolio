@@ -1,5 +1,6 @@
 "use client";
 
+import { GlassCard } from "@/components/aurora/GlassCard";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
 import { Button } from "@/components/ui/button";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
@@ -53,78 +54,70 @@ export function ContactForm({ profile }: ContactFormProps) {
 
   return (
     <div className="site-container pb-20 md:pb-28">
-      <div className="grid lg:grid-cols-5 gap-10 lg:gap-16">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid gap-8 lg:grid-cols-5 lg:gap-12">
+        <GlassCard className="space-y-8 p-6 md:p-8 lg:col-span-2">
           <div>
-            <p className="text-label text-accent mb-3">Availability</p>
-            <p className="text-body-lg text-foreground font-medium">
-              {profile.status}
-            </p>
+            <p className="text-label mb-3">Availability</p>
+            <p className="text-lg font-medium text-foreground">{profile.status}</p>
             {profile.contactAvailabilityDescription ? (
-              <p className="text-body text-muted mt-3 leading-relaxed">
+              <p className="mt-3 text-base leading-relaxed text-muted">
                 {profile.contactAvailabilityDescription}
               </p>
             ) : null}
           </div>
 
-          <div className="space-y-4">
-            <CopyEmailButton email={profile.email} variant="card" />
-
+          <div className="space-y-3">
+            <CopyEmailButton email={profile.email} variant="card" className="aurora-ghost !w-full !justify-between !rounded-2xl" />
             <a
               href={`tel:${profile.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-3 p-4 rounded-xl border border-border-subtle bg-surface hover:border-accent/25 transition-colors"
+              className="aurora-ghost !w-full !justify-start gap-3 !rounded-2xl"
             >
-              <Phone className="w-4 h-4 text-accent" aria-hidden />
-              <span className="text-sm text-foreground">{profile.phone}</span>
+              <Phone className="h-4 w-4 text-accent" aria-hidden />
+              <span className="text-sm">{profile.phone}</span>
             </a>
-
-            <p className="flex items-center gap-3 p-4 rounded-xl border border-border-subtle bg-surface">
-              <MapPin className="w-4 h-4 text-accent" aria-hidden />
+            <p className="aurora-ghost !w-full !justify-start gap-3 !rounded-2xl">
+              <MapPin className="h-4 w-4 text-accent" aria-hidden />
               <span className="text-sm text-muted">{profile.location}</span>
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <a
               href={profile.socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
+              className="aurora-tag aurora-tag-link"
               aria-label="GitHub (opens in new tab)"
             >
-              <GithubIcon className="w-4 h-4" />
+              <GithubIcon className="mr-1.5 inline h-3.5 w-3.5" />
+              GitHub
             </a>
             <a
               href={profile.socials.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-colors"
+              className="aurora-tag aurora-tag-link"
               aria-label="LinkedIn (opens in new tab)"
             >
-              <LinkedinIcon className="w-4 h-4" />
+              <LinkedinIcon className="mr-1.5 inline h-3.5 w-3.5" />
+              LinkedIn
             </a>
-            <Link
-              href="/resume"
-              className="mono text-xs text-muted hover:text-accent link-underline ml-2"
-            >
-              View resume →
+            <Link href="/resume" className="aurora-tag aurora-tag-link">
+              View resume ↗
             </Link>
           </div>
-        </div>
+        </GlassCard>
 
-        <form
-          onSubmit={onSubmit}
-          className="lg:col-span-3 space-y-4 p-6 md:p-8 rounded-2xl border border-border-subtle bg-surface"
-          noValidate
-        >
+        <GlassCard className="p-6 md:p-8 lg:col-span-3">
+          <form onSubmit={onSubmit} className="space-y-4" noValidate>
           <p className="text-label mb-2">
             {profile.contactFormLabel || "Send a message"}
           </p>
           {profile.contactFormHint ? (
-            <p className="text-caption mb-4">{profile.contactFormHint}</p>
+            <p className="mb-4 text-sm text-muted">{profile.contactFormHint}</p>
           ) : null}
           <div>
-            <label htmlFor="contact-name" className="text-label mb-1.5 block">
+            <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium">
               Name <span className="text-accent">*</span>
             </label>
             <Input
@@ -135,10 +128,11 @@ export function ContactForm({ profile }: ContactFormProps) {
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Your name"
+              className="rounded-xl bg-[var(--aurora-ctl)]"
             />
           </div>
           <div>
-            <label htmlFor="contact-email" className="text-label mb-1.5 block">
+            <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium">
               Email <span className="text-accent">*</span>
             </label>
             <Input
@@ -150,13 +144,11 @@ export function ContactForm({ profile }: ContactFormProps) {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="you@company.com"
+              className="rounded-xl bg-[var(--aurora-ctl)]"
             />
           </div>
           <div>
-            <label
-              htmlFor="contact-message"
-              className="text-label mb-1.5 block"
-            >
+            <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium">
               Message <span className="text-accent">*</span>
             </label>
             <Textarea
@@ -167,17 +159,15 @@ export function ContactForm({ profile }: ContactFormProps) {
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               placeholder="What are you working on, and how can I help?"
+              className="rounded-xl bg-[var(--aurora-ctl)]"
             />
           </div>
-          <Button
-            type="submit"
-            className="w-full font-medium"
-            disabled={submitting}
-          >
+          <Button type="submit" className="w-full" disabled={submitting}>
             {submitting ? "Sending…" : "Send message"}{" "}
-            <Send className="w-4 h-4 ml-2" />
+            <Send className="ml-2 h-4 w-4" />
           </Button>
-        </form>
+          </form>
+        </GlassCard>
       </div>
     </div>
   );

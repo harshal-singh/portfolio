@@ -1,5 +1,6 @@
+import { GlassCard } from "@/components/aurora/GlassCard";
+import { AuroraSectionHeader } from "@/components/aurora/AuroraSectionHeader";
 import { CmsImage } from "@/components/ui/cms-image";
-import { SectionHeader } from "@/components/ui/section-header";
 import type { Profile, SectionMeta } from "@/lib/types";
 
 interface AboutProps {
@@ -7,6 +8,7 @@ interface AboutProps {
   paragraphs: string[];
   profile: Profile;
   showHeader?: boolean;
+  educationTags?: string[];
 }
 
 export default function About({
@@ -14,46 +16,41 @@ export default function About({
   paragraphs,
   profile,
   showHeader = true,
+  educationTags = [],
 }: AboutProps) {
   return (
-    <section id="about" className="site-container">
-      <div className="section-grid">
-        {showHeader ? (
-          <div className="md:col-span-5">
-            <SectionHeader
-              label={section.label}
-              title={section.title}
-              align="left"
-              className="mb-0"
-            />
-            {profile.photoUrl ? (
-              <div className="mt-8 relative w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-border-subtle">
-                <CmsImage
-                  src={profile.photoUrl}
-                  alt={profile.name}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            ) : null}
-          </div>
+    <section id="about" className="site-container py-12 md:py-20">
+      {showHeader ? (
+        <AuroraSectionHeader label={section.label} title={section.title} />
+      ) : null}
+      <GlassCard className="grid grid-cols-1 items-center gap-8 p-6 md:grid-cols-[230px_1fr] md:gap-11 md:p-10">
+        {profile.photoUrl ? (
+          <CmsImage
+            src={profile.photoUrl}
+            alt={profile.name}
+            className="mx-auto aspect-square w-full max-w-[230px] rounded-[22px] border-2 border-white object-cover shadow-[var(--aurora-shadow)] md:mx-0"
+          />
         ) : null}
-        <div
-          className={`md:col-span-7 ${showHeader ? "md:pt-2" : ""} space-y-5 text-body-lg text-muted ${showHeader ? "" : "md:col-span-12"}`}
-        >
-          {!showHeader && profile.photoUrl ? (
-            <div className="relative w-32 h-32 rounded-2xl overflow-hidden border border-border-subtle mb-6">
-              <CmsImage
-                src={profile.photoUrl}
-                alt={profile.name}
-                className="object-cover w-full h-full"
-              />
+        <div>
+          {paragraphs.map((paragraph, index) => (
+            <p
+              key={index}
+              className="text-[0.98rem] leading-[1.76] text-muted [&+&]:mt-4"
+            >
+              {paragraph}
+            </p>
+          ))}
+          {educationTags.length > 0 ? (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {educationTags.map((tag) => (
+                <span key={tag} className="aurora-tag">
+                  {tag}
+                </span>
+              ))}
             </div>
           ) : null}
-          {paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
         </div>
-      </div>
+      </GlassCard>
     </section>
   );
 }

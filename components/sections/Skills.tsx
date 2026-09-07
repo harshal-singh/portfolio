@@ -1,24 +1,8 @@
-import { SectionHeader } from "@/components/ui/section-header";
-import { Tag } from "@/components/ui/tag";
+import { AuroraSectionHeader } from "@/components/aurora/AuroraSectionHeader";
+import { GlassCard } from "@/components/aurora/GlassCard";
+import { Reveal } from "@/components/motion/Reveal";
+import { iconsForSkills } from "@/lib/skills/icons";
 import type { SectionMeta } from "@/lib/types";
-import {
-  Braces,
-  Cloud,
-  Code2,
-  Cpu,
-  Database,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
-
-const skillIcons: Record<string, LucideIcon> = {
-  Languages: Braces,
-  Frontend: Code2,
-  Backend: Cpu,
-  Databases: Database,
-  "Cloud & DevOps": Cloud,
-  Tools: Wrench,
-};
 
 interface SkillsProps {
   section: SectionMeta;
@@ -27,37 +11,45 @@ interface SkillsProps {
 
 export default function Skills({ section, skills }: SkillsProps) {
   return (
-    <section className="site-container site-section">
-      <SectionHeader
+    <section className="site-container py-12 md:py-20">
+      <AuroraSectionHeader
         label={section.label}
         title={section.title}
         description={section.description || undefined}
         align="left"
       />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Object.entries(skills).map(([cat, list]) => {
-          const Icon = skillIcons[cat] || Code2;
-          return (
-            <div
-              key={cat}
-              className="group relative p-6 rounded-xl border border-border-subtle bg-surface hover:border-accent/20 hover:bg-accent-muted transition-all"
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-md bg-accent-muted text-accent flex items-center justify-center">
-                  <Icon className="w-4 h-4" />
-                </div>
-                <h3 className="heading text-h4 text-foreground">{cat}</h3>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {list.map((s) => (
-                  <Tag key={s} size="md">
-                    {s}
-                  </Tag>
+      <div className="grid grid-cols-2 gap-3.5 md:grid-cols-3">
+        {Object.entries(skills).map(([category, list], index) => (
+          <Reveal key={category} delay={index * 60}>
+            <GlassCard className="p-5 h-full">
+              <h4 className="jk text-[0.95rem] font-bold tracking-[-0.02em]">
+                {category}
+              </h4>
+              <div className="my-3 flex flex-wrap gap-4">
+                {iconsForSkills(list).map((icon) => (
+                  <img
+                    key={icon}
+                    src={icon}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="opacity-80"
+                  />
                 ))}
               </div>
-            </div>
-          );
-        })}
+              <p className="text-[0.85rem] leading-[1.7] text-muted">
+                {list.join(", ")}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {list.map((item) => (
+                  <span key={item} className="aurora-tag">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </GlassCard>
+          </Reveal>
+        ))}
       </div>
     </section>
   );

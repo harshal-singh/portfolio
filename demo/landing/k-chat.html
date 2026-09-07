@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --wall:#EAE7E0; --card:#FFFFFF; --card2:#F5F3EF;
+  --ink:#15161A; --dim:#565A63; --faint:#767B85; --line:#DCD8D0; --line2:#C8C3B9;
+  --me:#1F5FE0; --meink:#FFFFFF; --grn:#12A150;
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--wall);color:var(--ink);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.012em;line-height:1.58;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:860px;margin:0 auto;padding-left:clamp(.9rem,4vw,1.5rem);padding-right:clamp(.9rem,4vw,1.5rem)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--me);outline-offset:2px;border-radius:8px}
+::selection{background:rgba(31,95,224,.2)}
+
+/* wallpaper doodles */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(21,22,26,.055) 1px,transparent 1px);background-size:22px 22px}
+main{position:relative;z-index:1}
+
+/* ---------- chat shell ---------- */
+.chatwrap{padding-top:clamp(1rem,3vw,2rem);padding-bottom:clamp(1.5rem,3vw,2.5rem)}
+.chat{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 26px 60px -34px rgba(21,22,26,.5)}
+.chead{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;background:var(--card2);border-bottom:1px solid var(--line)}
+.chead img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+.chead .who{flex:1;min-width:0}
+.chead b{display:block;font-size:.94rem;font-weight:600;letter-spacing:-.02em}
+.chead span{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--faint)}
+.chead span i{width:7px;height:7px;border-radius:50%;background:var(--grn);display:block}
+.chead .act{display:flex;gap:.35rem}
+.icb{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--card);transition:.2s}
+.icb:hover{background:var(--wall)}
+.icb svg{stroke:var(--dim);fill:none;stroke-width:1.7}
+
+.log{height:clamp(430px,64vh,650px);overflow-y:auto;padding:1.1rem .95rem;display:flex;flex-direction:column;gap:.5rem;
+  scrollbar-width:thin;scrollbar-color:var(--line2) transparent;
+  background:linear-gradient(180deg,rgba(234,231,224,.5),transparent 90px)}
+.log::-webkit-scrollbar{width:8px}
+.log::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+.day{align-self:center;font-size:.7rem;font-weight:600;color:var(--faint);background:rgba(21,22,26,.06);border-radius:99px;padding:.2rem .7rem;margin:.2rem 0 .5rem}
+
+.msg{max-width:min(78%,540px);display:flex;flex-direction:column;gap:.2rem}
+.msg.them{align-self:flex-start}
+.msg.me{align-self:flex-end;align-items:flex-end}
+.bub{background:var(--card2);border:1px solid var(--line);border-radius:var(--r);padding:.6rem .85rem;font-size:.91rem;line-height:1.62;
+  border-bottom-left-radius:5px;animation:pop .32s cubic-bezier(.22,1,.36,1)}
+.msg.me .bub{background:var(--me);border-color:var(--me);color:var(--meink);border-bottom-left-radius:var(--r);border-bottom-right-radius:5px}
+.bub b{font-weight:600}
+.bub a{color:var(--me);font-weight:500;border-bottom:1px solid rgba(31,95,224,.35)}
+.msg.me .bub a{color:#fff;border-color:rgba(255,255,255,.5)}
+.bub ul{list-style:none;padding:0;margin:.5rem 0 0;display:grid;gap:.3rem}
+.bub li{padding-left:1rem;position:relative;font-size:.89rem}
+.bub li::before{content:"";position:absolute;left:0;top:.62rem;width:5px;height:5px;border-radius:50%;background:var(--me);opacity:.55}
+.bub .k{display:block;font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:.15rem}
+.stamp{font-size:.68rem;color:var(--faint);padding:0 .3rem}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+
+/* rich cards inside the thread */
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;animation:pop .32s cubic-bezier(.22,1,.36,1)}
+.pcard .shot{height:150px;overflow:hidden;background:var(--card2);border-bottom:1px solid var(--line);position:relative}
+.pcard .shot img{width:100%;height:auto}
+.pcard .shot.cover img{height:100%;object-fit:cover;object-position:top center}
+.pcard .in{padding:.8rem .9rem}
+.pcard h4{font-size:.98rem;font-weight:600;letter-spacing:-.02em}
+.pcard p{margin-top:.3rem;font-size:.85rem;line-height:1.6;color:var(--dim)}
+.tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.7rem}
+.tag{font-size:.71rem;color:var(--dim);background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:.12rem .5rem}
+.pcard .lk{display:flex;gap:.4rem;margin-top:.8rem;flex-wrap:wrap}
+.pcard .lk a{font-size:.78rem;font-weight:600;color:var(--me);border:1px solid var(--line);border-radius:99px;padding:.24rem .65rem;transition:.2s}
+.pcard .lk a:hover{border-color:var(--me)}
+.pcard .lk .off{color:var(--faint);border-style:dashed;pointer-events:none}
+.filecard{display:flex;align-items:center;gap:.7rem;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.7rem .85rem;animation:pop .32s}
+.filecard .ico{width:38px;height:38px;border-radius:9px;background:rgba(31,95,224,.1);color:var(--me);display:grid;place-items:center;font-size:.68rem;font-weight:700}
+.filecard b{display:block;font-size:.88rem;font-weight:600}
+.filecard span{display:block;font-size:.76rem;color:var(--faint)}
+.filecard a{margin-left:auto;font-size:.8rem;font-weight:600;color:var(--me);white-space:nowrap}
+.iconrow{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.iconrow img{width:17px;height:17px;opacity:.75}
+
+/* typing indicator */
+.typing{align-self:flex-start;display:flex;gap:.28rem;background:var(--card2);border:1px solid var(--line);border-radius:var(--r);
+  border-bottom-left-radius:5px;padding:.7rem .85rem}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--faint);display:block;animation:blink 1.3s infinite}
+.typing i:nth-child(2){animation-delay:.18s}
+.typing i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+/* composer */
+.chips{display:flex;gap:.35rem;padding:.7rem .95rem 0;flex-wrap:wrap;border-top:1px solid var(--line)}
+.chip{font-size:.8rem;font-weight:500;color:var(--me);background:var(--card);border:1px solid rgba(31,95,224,.35);border-radius:99px;
+  padding:.34rem .8rem;cursor:pointer;font-family:inherit;transition:.2s}
+.chip:hover{background:rgba(31,95,224,.08)}
+.chip:disabled{opacity:.4;cursor:default;color:var(--faint);border-color:var(--line)}
+.compose{display:flex;align-items:center;gap:.5rem;padding:.7rem .95rem .95rem}
+.compose input{flex:1;min-width:0;font:inherit;font-size:.9rem;background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:.62rem 1rem;color:var(--ink)}
+.compose input::placeholder{color:var(--faint)}
+.send{width:40px;height:40px;flex:0 0 40px;border-radius:50%;border:0;background:var(--me);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.send:hover{filter:brightness(1.1)}
+.send svg{stroke:currentColor;fill:none;stroke-width:2}
+
+/* ---------- plain view below ---------- */
+.plain{padding-top:clamp(2rem,5vw,3.5rem);padding-bottom:6rem}
+.plainhd{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding-bottom:.8rem;border-bottom:1px solid var(--line2)}
+.plainhd h2{font-size:1.2rem;font-weight:700;letter-spacing:-.03em}
+.plainhd span{font-size:.82rem;color:var(--faint)}
+.pblk{padding-top:1.6rem;padding-bottom:1.6rem;border-bottom:1px solid var(--line)}
+.pblk:last-of-type{border-bottom:0}
+.pblk h3{font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem}
+.pblk p{font-size:.94rem;line-height:1.76;color:var(--dim);max-width:66ch}
+.pblk p + p{margin-top:.7rem}
+.pblk b{color:var(--ink);font-weight:600}
+.prow{display:grid;grid-template-columns:1fr;gap:.35rem;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px dashed var(--line)}
+.prow:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
+@media(min-width:640px){.prow{grid-template-columns:9rem 1fr;gap:1.4rem}}
+.prow .when{font-size:.8rem;color:var(--faint)}
+.prow h4{font-size:.98rem;font-weight:600;letter-spacing:-.02em}
+.prow .role{font-size:.83rem;color:var(--me);font-weight:500}
+.prow p{margin-top:.35rem;font-size:.88rem;line-height:1.68}
+.pgrid{display:grid;grid-template-columns:1fr;gap:.5rem}
+@media(min-width:620px){.pgrid{grid-template-columns:1fr 1fr}}
+.pgrid div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem .95rem}
+.pgrid h4{font-size:.8rem;font-weight:600}
+.pgrid p{font-size:.85rem;margin-top:.4rem}
+.kv{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:32rem}
+.kv a,.kv div{background:var(--card);padding:.68rem .9rem;display:flex;justify-content:space-between;gap:1rem;font-size:.87rem}
+.kv a:hover{background:var(--card2)}
+.kv span{color:var(--faint)}
+.kv b{font-weight:600;color:var(--me)}
+.kv div b{color:var(--ink)}
+footer{padding-top:1.5rem;font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.12rem;padding:.28rem;border-radius:99px;background:var(--card);border:1px solid var(--line2);box-shadow:0 12px 28px -14px rgba(21,22,26,.45)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-size:.7rem;font-weight:500;color:var(--dim);padding:.34rem .68rem;border-radius:99px;transition:.2s;white-space:nowrap}
+.switch a:hover{background:var(--wall);color:var(--ink)}
+.switch a.on{background:var(--me);color:#fff;font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* the thread is script-built — without JS the plain view carries the page */
+html:not(.js) .chatwrap{display:none}
+</style>
+</head>
+<body>
+
+<main>
+
+  <!-- CHAT -->
+  <div class="wrap chatwrap">
+    <div class="chat">
+      <div class="chead">
+        <img src="../../public/images/profile.jpg" alt="Harshal Singh" />
+        <div class="who">
+          <b>Harshal Singh</b>
+          <span><i></i> Frontend Engineer · typically replies within 48h</span>
+        </div>
+        <div class="act">
+          <a class="icb" href="tel:+918828984985" aria-label="Call Harshal"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></a>
+          <a class="icb" href="mailto:harshal.wrk@gmail.com" aria-label="Email Harshal"><svg width="16" height="16" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="log" id="log" aria-live="polite"><div class="day" id="day">Today</div></div>
+
+      <div class="chips" id="chips"></div>
+
+      <form class="compose" id="compose">
+        <input id="ask" autocomplete="off" placeholder="Ask something, or write a brief…" aria-label="Write a message" />
+        <button class="send" type="submit" aria-label="Send"><svg width="17" height="17" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PLAIN VIEW -->
+  <div class="wrap plain" id="plain">
+    <div class="plainhd">
+      <h2>Everything, plainly</h2>
+      <span>For anyone who&rsquo;d rather just read</span>
+    </div>
+
+    <section class="pblk">
+      <h3>About</h3>
+      <p>Harshal Singh — frontend engineer in Mumbai with <b>3+ years of production experience</b>, currently Frontend Developer at Webol Solutions and working remotely on UK hours.</p>
+      <p>The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step. That range came from three very different environments: <b>Quadb</b> meant constraint, KaiOS feature phones where a wasted kilobyte shows. <b>Atrina</b> meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. <b>Webol</b> means pace: Figma to production with AI in the loop, without dropping the review bar.</p>
+    </section>
+
+    <section class="pblk">
+      <h3>Selected work</h3>
+      <div class="prow">
+        <div class="when">Solo — design to deploy</div>
+        <div>
+          <h4>Pragnyapan.ai</h4>
+          <div class="role">AI-powered marketing audit platform · Next.js, TypeScript, MongoDB, Serverless</div>
+          <p>An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Site crawl, AI analysis, a human review step, then white-label PDF export branded per agency.</p>
+        </div>
+      </div>
+      <div class="prow">
+        <div class="when">Solo — design to deploy</div>
+        <div>
+          <h4>MeetSpace</h4>
+          <div class="role">Real-time video meeting platform · Node.js, Socket.IO, WebRTC, MongoDB</div>
+          <p>A browser-based meeting product — start a room, share a code or link, join a live call. Pre-join lobby with a device check, participant grid, people list and in-call chat. Media stays peer-to-peer, with no server in the path.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pblk">
+      <h3>Experience</h3>
+      <div class="prow">
+        <div class="when">Jul 2025 — Present<br/>Remote, UK</div>
+        <div>
+          <h4>Webol Solutions</h4>
+          <div class="role">Frontend Developer</div>
+          <p>Production web applications in Next.js, React and TypeScript. REST integration alongside backend engineers on API contracts, data flows and production issues. Figma designs translated into scalable frontend, accelerated with Cursor, Claude Code and Figma MCP.</p>
+        </div>
+      </div>
+      <div class="prow">
+        <div class="when">Aug 2024 — May 2025<br/>Mumbai, India</div>
+        <div>
+          <h4>Atrina Technologies</h4>
+          <div class="role">Next.js Developer</div>
+          <p>Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance and SEO. Architected reusable React, Next.js and Tailwind component libraries. Owned technical planning for a three-month roadmap and wrote onboarding docs that cut ramp-up by ~40%.</p>
+        </div>
+      </div>
+      <div class="prow">
+        <div class="when">Feb 2021 — Feb 2022<br/>Remote, India</div>
+        <div>
+          <h4>Quadb Technologies</h4>
+          <div class="role">Web Developer</div>
+          <p>Responsive interfaces from Figma and Adobe XD designs. Node.js and Express APIs with JWT authentication. KaiOS applications built independently for feature phones — performance-constrained hardware.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pblk">
+      <h3>Skills</h3>
+      <div class="pgrid">
+        <div><h4>Languages</h4><p>TypeScript, JavaScript, HTML5, CSS3</p></div>
+        <div><h4>Frontend</h4><p>React.js, Next.js, Tailwind CSS, Vue.js</p></div>
+        <div><h4>Backend</h4><p>Node.js, Express.js, REST, GraphQL, Hasura, PHP</p></div>
+        <div><h4>Databases</h4><p>MongoDB, MySQL</p></div>
+        <div><h4>Cloud &amp; DevOps</h4><p>AWS, Docker, Azure DevOps, CI/CD, Bash</p></div>
+        <div><h4>Tools</h4><p>Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code</p></div>
+      </div>
+    </section>
+
+    <section class="pblk">
+      <h3>Education</h3>
+      <p><b>M.Sc, Information Technology</b> — Kishinchand Chellaram College, Mumbai · Jul 2022 – Apr 2024 · Grade O+</p>
+      <p><b>B.Sc, Information Technology</b> — Lala Lajpat Rai College, Mumbai · Jul 2019 – Apr 2022 · Grade A+</p>
+    </section>
+
+    <section class="pblk">
+      <h3>Contact</h3>
+      <div class="kv">
+        <a href="mailto:harshal.wrk@gmail.com"><span>Email</span><b>harshal.wrk@gmail.com</b></a>
+        <a href="tel:+918828984985"><span>Phone</span><b>+91 88289 84985</b></a>
+        <a href="#"><span>GitHub</span><b>harshal-singh ↗</b></a>
+        <a href="#"><span>LinkedIn</span><b>harshal-singh ↗</b></a>
+        <a href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download><span>Résumé</span><b>Download PDF ⤓</b></a>
+        <div><span>Status</span><b>Open to frontend roles — remote or relocation</b></div>
+      </div>
+    </section>
+
+    <footer><span>© <span id="yr"></span> Harshal Singh — Mumbai, India</span><span>Direction K — Chat</span></footer>
+  </div>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a href="d-depth.html">D · Depth</a>
+  <a href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a href="i-aurora.html">I · Aurora</a>
+  <a href="j-terra.html">J · Terra</a>
+  <a class="on" href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+(function () {
+  var log = document.getElementById('log'), chips = document.getElementById('chips');
+  var form = document.getElementById('compose'), ask = document.getElementById('ask');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RESUME = '../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf';
+
+  function now() {
+    return new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+  }
+  function scroll() { log.scrollTop = log.scrollHeight; }
+
+  function bubble(side, nodes) {
+    var m = document.createElement('div');
+    m.className = 'msg ' + side;
+    nodes.forEach(function (n) { m.appendChild(n); });
+    var s = document.createElement('span');
+    s.className = 'stamp';
+    s.textContent = now();
+    m.appendChild(s);
+    log.appendChild(m);
+    scroll();
+  }
+  function text(html) {
+    var b = document.createElement('div');
+    b.className = 'bub';
+    b.innerHTML = html;
+    return b;
+  }
+  function project(p) {
+    var d = document.createElement('div');
+    d.className = 'pcard';
+    d.innerHTML =
+      '<div class="shot' + (p.cover ? ' cover' : '') + '"' + (p.scroll ? ' data-autoscroll data-duration="16000"' : '') + '>' +
+        '<img src="' + p.img + '" alt="' + p.title + '" /></div>' +
+      '<div class="in"><h4>' + p.title + '</h4><p>' + p.body + '</p>' +
+        '<div class="tags">' + p.tags.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('') + '</div>' +
+        '<div class="lk">' + p.links + '</div></div>';
+    return d;
+  }
+  function file() {
+    var d = document.createElement('div');
+    d.className = 'filecard';
+    d.innerHTML = '<span class="ico">PDF</span><span><b>Harshal Singh — Résumé 2027</b><span>One page · everything above, condensed</span></span>' +
+      '<a href="' + RESUME + '" download>Download ⤓</a>';
+    return d;
+  }
+
+  var ICON = '../../public/icons/tech/';
+  function icons(list) {
+    return '<div class="iconrow">' + list.map(function (n) { return '<img src="' + ICON + n + '.svg" alt="" />'; }).join('') + '</div>';
+  }
+
+  /* ---- what Harshal can answer ---- */
+  var TOPICS = {
+    work: {
+      q: 'What have you built?',
+      keys: ['work', 'project', 'built', 'build', 'portfolio', 'shipped'],
+      reply: function () {
+        return [
+          [text('Two products end to end — an empty repository through to something you can open in a browser. Design, frontend, backend and deploy, solo on both.')],
+          [project({
+            title: 'Pragnyapan.ai', img: '../../public/images/projects/pragnyapan-ai.jpg', scroll: true,
+            body: 'An agency SaaS that turns a prospect\u2019s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Crawl, AI analysis, a human review step, then white-label PDF export.',
+            tags: ['Next.js', 'TypeScript', 'MongoDB', 'Serverless'],
+            links: '<a href="#">Visit ↗</a><a class="off">Code private</a>'
+          })],
+          [project({
+            title: 'MeetSpace', img: '../../public/images/projects/meet-space.jpg', cover: true,
+            body: 'A browser-based meeting product. Start a room, share a link, join a live call — pre-join device check, participant grid, people list and in-call chat. Peer-to-peer, no media server in the path.',
+            tags: ['Node.js', 'Socket.IO', 'WebRTC', 'MongoDB'],
+            links: '<a href="#">Visit ↗</a><a href="#">GitHub ↗</a>'
+          })]
+        ];
+      }
+    },
+    experience: {
+      q: 'Where have you worked?',
+      keys: ['experience', 'worked', 'job', 'role', 'career', 'company'],
+      reply: function () {
+        return [[text(
+          '<span class="k">Jul 2025 — present · Remote, UK</span><b>Webol Solutions</b> — Frontend Developer' +
+          '<ul><li>Production apps in Next.js, React and TypeScript</li><li>REST integration with backend engineers on contracts and data flows</li><li>Figma to production via Cursor, Claude Code and Figma MCP</li></ul>'
+        )], [text(
+          '<span class="k">Aug 2024 — May 2025 · Mumbai</span><b>Atrina Technologies</b> — Next.js Developer' +
+          '<ul><li>Led a CMS rebuild on SSR — faster loads, better SEO</li><li>Architected reusable React, Next.js and Tailwind component libraries</li><li>Owned a three-month roadmap; onboarding docs cut ramp-up ~40%</li></ul>'
+        )], [text(
+          '<span class="k">Feb 2021 — Feb 2022 · Remote</span><b>Quadb Technologies</b> — Web Developer' +
+          '<ul><li>Responsive interfaces from Figma and Adobe XD designs</li><li>Node.js and Express APIs with JWT authentication</li><li>KaiOS applications built independently for feature phones</li></ul>'
+        )]];
+      }
+    },
+    stack: {
+      q: 'What\u2019s your stack?',
+      keys: ['stack', 'skill', 'tech', 'tools', 'language', 'framework'],
+      reply: function () {
+        return [[text(
+          '<b>Languages</b> — TypeScript, JavaScript, HTML5, CSS3' + icons(['typescript']) +
+          '<br/><b>Frontend</b> — React.js, Next.js, Tailwind CSS, Vue.js' + icons(['react', 'nextdotjs', 'tailwindcss', 'vuedotjs']) +
+          '<br/><b>Backend</b> — Node.js, Express.js, REST, GraphQL, Hasura, PHP' + icons(['nodedotjs', 'graphql']) +
+          '<br/><b>Databases</b> — MongoDB, MySQL' + icons(['mongodb', 'mysql']) +
+          '<br/><b>Cloud &amp; DevOps</b> — AWS, Docker, Azure DevOps, CI/CD, Bash' + icons(['aws', 'docker']) +
+          '<br/><b>Tools</b> — Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code' + icons(['git', 'github', 'figma', 'cursor', 'claude'])
+        )]];
+      }
+    },
+    about: {
+      q: 'Tell me about yourself',
+      keys: ['about', 'yourself', 'who are you', 'background'],
+      reply: function () {
+        return [[text('The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step.')],
+          [text('That range came from three very different environments. <b>Quadb</b> meant constraint: KaiOS feature phones, where a wasted kilobyte is something the user can feel. <b>Atrina</b> meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. <b>Webol</b> means pace: Figma to production with AI in the loop, without dropping the review bar.')]];
+      }
+    },
+    education: {
+      q: 'What did you study?',
+      keys: ['study', 'studied', 'education', 'degree', 'college', 'university'],
+      reply: function () {
+        return [[text(
+          '<b>M.Sc, Information Technology</b><br/>Kishinchand Chellaram College, Mumbai · Jul 2022 – Apr 2024 · Grade O+' +
+          '<br/><br/><b>B.Sc, Information Technology</b><br/>Lala Lajpat Rai College, Mumbai · Jul 2019 – Apr 2022 · Grade A+' +
+          '<br/><br/>Both overlapped with paid work.'
+        )]];
+      }
+    },
+    available: {
+      q: 'Are you available?',
+      keys: ['available', 'hiring', 'hire', 'open to', 'notice', 'relocat', 'remote'],
+      reply: function () {
+        return [[text('Yes — I&rsquo;m open to frontend engineering roles with product teams. Remote suits me, since I already work UK hours, and I&rsquo;m open to relocation for the right team.')],
+          [text('A short brief is as welcome as a job description. Reach me at <a href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a> or <a href="tel:+918828984985">+91 88289 84985</a> — I reply within 48 hours.')]];
+      }
+    },
+    resume: {
+      q: 'Can I see your CV?',
+      keys: ['cv', 'resume', 'résumé', 'pdf'],
+      reply: function () { return [[text('Of course — here it is.')], [file()]]; }
+    }
+  };
+
+  var ORDER = ['work', 'experience', 'stack', 'about', 'education', 'available', 'resume'];
+  var used = {};
+
+  function renderChips() {
+    chips.innerHTML = '';
+    ORDER.forEach(function (k) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip';
+      b.textContent = TOPICS[k].q;
+      b.disabled = !!used[k];
+      b.addEventListener('click', function () { fire(k); });
+      chips.appendChild(b);
+    });
+  }
+
+  var busy = false;
+  function typeThen(groups, done) {
+    if (!groups.length) { busy = false; if (done) done(); return; }
+    var t = document.createElement('div');
+    t.className = 'typing';
+    t.innerHTML = '<i></i><i></i><i></i>';
+    log.appendChild(t); scroll();
+    setTimeout(function () {
+      t.remove();
+      bubble('them', groups.shift());
+      wireAutoscroll();
+      typeThen(groups, done);
+    }, reduced ? 0 : 420 + Math.random() * 260);
+  }
+
+  function fire(key) {
+    if (busy) return;
+    busy = true;
+    used[key] = true;
+    bubble('me', [text(TOPICS[key].q)]);
+    renderChips();
+    typeThen(TOPICS[key].reply());
+  }
+
+  function match(s) {
+    s = s.toLowerCase();
+    for (var i = 0; i < ORDER.length; i++) {
+      var k = ORDER[i];
+      for (var j = 0; j < TOPICS[k].keys.length; j++) if (s.indexOf(TOPICS[k].keys[j]) > -1) return k;
+    }
+    return null;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = ask.value.trim();
+    if (!v || busy) return;
+    ask.value = '';
+    var k = match(v);
+    if (k) {
+      busy = true; used[k] = true;
+      bubble('me', [text(v.replace(/</g, '&lt;'))]);
+      renderChips();
+      typeThen(TOPICS[k].reply());
+      return;
+    }
+    busy = true;
+    bubble('me', [text(v.replace(/</g, '&lt;'))]);
+    var href = 'mailto:harshal.wrk@gmail.com?subject=' + encodeURIComponent('Hello from your portfolio') + '&body=' + encodeURIComponent(v);
+    typeThen([[text('That one I&rsquo;d rather answer properly than guess at. <a href="' + href + '">Send it to me by email</a> and it&rsquo;ll reach me with your message already filled in — I reply within 48 hours.')]]);
+  });
+
+  function wireAutoscroll() {
+    document.querySelectorAll('[data-autoscroll]:not([data-wired])').forEach(function (box) {
+      box.setAttribute('data-wired', '1');
+      var img = box.querySelector('img');
+      var dur = parseInt(box.dataset.duration, 10) || 15000;
+      box.addEventListener('mouseenter', function () {
+        if (reduced) return;
+        var d = Math.max(0, img.offsetHeight - box.clientHeight);
+        if (!d) return;
+        img.style.transition = 'transform ' + dur + 'ms linear';
+        img.style.transform = 'translateY(-' + d + 'px)';
+      });
+      box.addEventListener('mouseleave', function () {
+        img.style.transition = 'transform 700ms cubic-bezier(.22,1,.36,1)';
+        img.style.transform = 'translateY(0)';
+      });
+    });
+  }
+
+  /* opening exchange, so the thread is never empty */
+  renderChips();
+  busy = true;
+  typeThen([
+    [text('Hi — I&rsquo;m Harshal, a frontend engineer in Mumbai. 👋')],
+    [text('Three years of production React, Next.js and TypeScript. I&rsquo;m currently at <b>Webol Solutions</b>, working remotely on UK hours, and I&rsquo;m open to new roles.')],
+    [text('Ask me anything below, or type your own question. Everything is also written out plainly <a href="#plain">further down the page</a>.')]
+  ]);
+})();
+</script>
+</body>
+</html>

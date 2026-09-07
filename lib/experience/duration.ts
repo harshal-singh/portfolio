@@ -118,3 +118,13 @@ export function formatExperiencePeriodLine(
   if (location.trim()) parts.push(location.trim());
   return parts.join(" · ");
 }
+
+/** Aurora card line — period and location only, no duration (matches i-aurora.html). */
+export function formatExperienceWhenLine(
+  period: string,
+  location: string,
+): string {
+  const parts = [period];
+  if (location.trim()) parts.push(location.trim());
+  return parts.join(" · ");
+}

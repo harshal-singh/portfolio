@@ -1,21 +1,27 @@
+import { AuroraSectionHeader } from "@/components/aurora/AuroraSectionHeader";
+import { cn } from "@/lib/utils";
+
 interface PageHeaderProps {
   label: string;
   title: string;
   description?: string;
+  className?: string;
 }
 
-export function PageHeader({ label, title, description }: PageHeaderProps) {
+export function PageHeader({
+  label,
+  title,
+  description,
+  className,
+}: PageHeaderProps) {
   return (
-    <div className="site-container pt-28 md:pt-32 pb-12 md:pb-16 max-w-3xl hero-stagger">
-      <p className="hero-stagger-item text-label text-accent mb-4">{label}</p>
-      <h1 className="hero-stagger-item text-display font-semibold leading-[1.05] text-foreground text-balance">
-        {title}
-      </h1>
-      {description ? (
-        <p className="hero-stagger-item max-w-2xl mt-6 text-body-lg text-muted leading-relaxed">
-          {description}
-        </p>
-      ) : null}
+    <div className={cn("site-container pt-24 pb-10 md:pt-28 md:pb-14", className)}>
+      <AuroraSectionHeader
+        label={label}
+        title={title}
+        description={description}
+        align="left"
+      />
     </div>
   );
 }

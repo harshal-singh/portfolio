@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --bg:#08090B; --panel:#0E1116; --panel2:#141920; --line:#1E242D; --line2:#2C343F;
+  --fg:#C9D1D9; --dim:#8B949E; --faint:#7D8590;
+  --green:#7EE787; --blue:#79C0FF; --amber:#E3B341; --red:#FF7B72; --purple:#D2A8FF;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.m{font-family:"JetBrains Mono",ui-monospace,monospace}
+.wrap{max-width:1080px;margin:0 auto;padding-left:clamp(1rem,4vw,1.75rem);padding-right:clamp(1rem,4vw,1.75rem)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+::selection{background:rgba(126,231,135,.25)}
+
+/* faint scanline texture */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px)}
+main,header{position:relative;z-index:1}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:80;background:rgba(8,9,11,.82);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.stuck{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:52px;font-family:"JetBrains Mono",monospace;font-size:.8rem}
+.nav .bd{color:var(--green);font-weight:700}
+.nav .bd span{color:var(--faint);font-weight:400}
+.nav ul{list-style:none;display:flex;gap:1.35rem;padding:0;margin:0}
+.nav a{color:var(--dim);transition:color .2s}
+.nav a:hover{color:var(--green)}
+.nav a::before{content:"./";color:var(--faint)}
+.nav .st{display:inline-flex;align-items:center;gap:.45rem;color:var(--green);font-size:.74rem}
+.nav .st i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* ---------- terminal ---------- */
+.tsec{padding-top:clamp(1.75rem,4vw,3rem);padding-bottom:clamp(2rem,5vw,3.5rem)}
+.term{border:1px solid var(--line2);border-radius:10px;background:var(--panel);overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.55)}
+.tbar{display:flex;align-items:center;gap:.5rem;padding:.6rem .85rem;background:var(--panel2);border-bottom:1px solid var(--line)}
+.tbar i{width:11px;height:11px;border-radius:50%;display:block}
+.tbar .r{background:#FF5F57}.tbar .y{background:#FEBC2E}.tbar .g{background:#28C840}
+.tbar span{flex:1;text-align:center;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--faint)}
+.tbody{font-family:"JetBrains Mono",monospace;font-size:clamp(.74rem,1.55vw,.84rem);line-height:1.75;padding:1rem 1.1rem 1.2rem;
+  height:clamp(360px,58vh,540px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.tbody::-webkit-scrollbar{width:8px}
+.tbody::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+.tbody p{margin:0;white-space:pre-wrap;word-break:break-word}
+.tbody .cmd{color:var(--fg)}
+.tbody .ps1{color:var(--green);font-weight:700}
+.tbody .ps1 .p{color:var(--blue)}
+.tbody .ok{color:var(--green)}
+.tbody .k{color:var(--purple)}
+.tbody .v{color:var(--blue)}
+.tbody .w{color:var(--amber)}
+.tbody .e{color:var(--red)}
+.tbody .d{color:var(--faint)}
+.tbody .blk{margin:.35rem 0 .9rem;padding-left:1.1rem;border-left:1px solid var(--line2)}
+.tbody a{color:var(--blue);border-bottom:1px dotted var(--line2)}
+.tbody a:hover{border-bottom-style:solid}
+.tin{display:flex;align-items:baseline;gap:.5rem}
+.tin input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--fg);font-family:inherit;font-size:inherit;line-height:inherit;caret-color:var(--green);padding:0}
+.thint{margin-top:.85rem;display:flex;flex-wrap:wrap;gap:.35rem;font-family:"JetBrains Mono",monospace;font-size:.72rem}
+.thint b{color:var(--faint);font-weight:400;align-self:center;margin-right:.2rem}
+.chipbtn{background:var(--panel2);border:1px solid var(--line);color:var(--dim);border-radius:5px;padding:.22rem .55rem;cursor:pointer;font:inherit;transition:.2s}
+.chipbtn:hover{border-color:var(--green);color:var(--green)}
+
+/* ---------- readable page below ---------- */
+section{padding-top:clamp(3rem,7vw,5rem);padding-bottom:clamp(3rem,7vw,5rem)}
+.sh{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--faint);margin-bottom:1.5rem;display:flex;align-items:center;gap:.7rem}
+.sh::after{content:"";flex:1;height:1px;background:var(--line)}
+.sh b{color:var(--green);font-weight:500}
+h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:.7rem}
+.lede{color:var(--dim);max-width:62ch;font-size:.97rem;line-height:1.75}
+
+/* projects */
+.pj{display:grid;grid-template-columns:1fr;gap:1.1rem}
+@media(min-width:880px){.pj{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s}
+.card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.card .shot{position:relative;height:190px;overflow:hidden;border-bottom:1px solid var(--line);background:var(--panel2)}
+.card .shot img{width:100%;height:auto}
+.card .shot.cover img{height:100%;object-fit:cover;object-position:top center}
+.card .fn{position:absolute;top:.6rem;left:.6rem;z-index:2;font-family:"JetBrains Mono",monospace;font-size:.66rem;background:rgba(8,9,11,.85);border:1px solid var(--line2);color:var(--green);border-radius:5px;padding:.16rem .5rem}
+.card .in{padding:1.15rem;flex:1;display:flex;flex-direction:column}
+.card h3{font-size:1.08rem;font-weight:600;letter-spacing:-.02em}
+.card p{margin-top:.5rem;font-size:.88rem;line-height:1.7;color:var(--dim);flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem}
+.tag{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim);background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:.14rem .45rem}
+.links{display:flex;gap:1rem;margin-top:1.05rem;font-family:"JetBrains Mono",monospace;font-size:.75rem}
+.links a{color:var(--blue)}
+.links a:hover{text-decoration:underline}
+.links .off{color:var(--faint)}
+
+/* experience */
+.job{display:grid;grid-template-columns:1fr;gap:.4rem;padding:1.15rem;border:1px solid var(--line);border-radius:9px;background:var(--panel);transition:border-color .3s}
+.job + .job{margin-top:.75rem}
+.job:hover{border-color:var(--line2)}
+@media(min-width:820px){.job{grid-template-columns:11rem 1fr;gap:1.75rem}}
+.job .when{font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--faint)}
+.job h3{font-size:1rem;font-weight:600}
+.job h3 em{font-style:normal;color:var(--green);font-weight:400}
+.job ul{list-style:none;padding:0;margin:.65rem 0 0;display:grid;gap:.35rem}
+.job li{font-size:.875rem;line-height:1.65;color:var(--dim);padding-left:1.1rem;position:relative}
+.job li::before{content:"›";position:absolute;left:0;color:var(--green)}
+
+/* skills */
+.sk{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+@media(min-width:700px){.sk{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.sk{grid-template-columns:repeat(3,1fr)}}
+.skc{background:var(--panel);padding:1.05rem 1.15rem}
+.skc h4{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--amber);font-weight:500}
+.skc .ic{display:flex;gap:.45rem;margin:.7rem 0 .55rem;flex-wrap:wrap}
+.skc .ic img{width:16px;height:16px;filter:brightness(1.8)}
+.skc p{font-size:.85rem;color:var(--dim);line-height:1.7}
+
+/* about + contact */
+.ab{display:grid;grid-template-columns:1fr;gap:1.75rem;align-items:start}
+@media(min-width:820px){.ab{grid-template-columns:190px 1fr;gap:2.5rem}}
+.ab img{width:100%;max-width:190px;border-radius:9px;border:1px solid var(--line);aspect-ratio:1;object-fit:cover}
+.ab p{font-size:.95rem;line-height:1.78;color:var(--dim)}
+.ab p + p{margin-top:.85rem}
+.ab b{color:var(--fg);font-weight:500}
+.cta{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:clamp(1.4rem,3.5vw,2.5rem)}
+.cta h2{margin-bottom:.6rem}
+.reach{margin-top:1.6rem;display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+@media(min-width:680px){.reach{grid-template-columns:repeat(2,1fr)}}
+.reach a{background:var(--panel);padding:.85rem 1rem;font-family:"JetBrains Mono",monospace;font-size:.82rem;display:flex;justify-content:space-between;gap:1rem;transition:background .2s}
+.reach a:hover{background:var(--panel2)}
+.reach a span{color:var(--faint)}
+.reach a b{color:var(--blue);font-weight:400}
+footer{border-top:1px solid var(--line);padding:1.15rem 0 6rem;font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--faint);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* `translate`, not `transform`, so a card keeps its own tilt and hover lift */
+.rv{opacity:0;translate:0 16px;transition:opacity .65s cubic-bezier(.22,1,.36,1),translate .65s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;translate:none}
+html:not(.js) .rv{opacity:1;translate:none}
+/* the terminal is script-driven end to end — drop it rather than show an empty box */
+html:not(.js) .tsec{display:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.15rem;padding:.28rem;border-radius:8px;background:var(--panel2);border:1px solid var(--line2)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-family:"JetBrains Mono",monospace;font-size:.68rem;color:var(--dim);padding:.34rem .6rem;border-radius:5px;transition:.2s;white-space:nowrap}
+.switch a:hover{color:var(--green)}
+.switch a.on{background:var(--green);color:#08090B;font-weight:700}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="bd" href="#top">harshal<span>@portfolio</span></a>
+    <ul>
+      <li><a href="#work">work</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+    <span class="st"><i></i> available</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- TERMINAL -->
+  <div class="wrap tsec">
+    <div class="term">
+      <div class="tbar"><i class="r"></i><i class="y"></i><i class="g"></i><span>harshal@portfolio: ~ — zsh — 96×28</span></div>
+      <div class="tbody" id="tbody">
+        <div id="out"></div>
+        <div class="tin" id="tin" hidden>
+          <span class="ps1">harshal@portfolio<span class="p">:~$</span></span>
+          <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input" />
+        </div>
+      </div>
+    </div>
+    <div class="thint">
+      <b>try:</b>
+      <button class="chipbtn" data-run="help">help</button>
+      <button class="chipbtn" data-run="whoami">whoami</button>
+      <button class="chipbtn" data-run="work">work</button>
+      <button class="chipbtn" data-run="skills">skills</button>
+      <button class="chipbtn" data-run="contact">contact</button>
+      <button class="chipbtn" data-run="clear">clear</button>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work" class="wrap">
+    <div class="sh rv"><b>~/work</b> — 2 repositories</div>
+    <h2 class="rv">Two products, built end to end</h2>
+    <p class="lede rv" style="margin-bottom:1.75rem">From an empty repository to something you can open in a browser. Design, frontend, backend and deploy — solo on both.</p>
+    <div class="pj">
+      <article class="card rv">
+        <div class="shot" data-autoscroll data-duration="16000">
+          <span class="fn">pragnyapan-ai/</span>
+          <img src="../../public/images/projects/pragnyapan-ai.jpg" alt="Pragnyapan.ai" />
+        </div>
+        <div class="in">
+          <h3>Pragnyapan.ai</h3>
+          <p>An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Site crawl, AI analysis, a human review step, then white-label PDF export.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">MongoDB</span><span class="tag">Serverless</span></div>
+          <div class="links"><a href="#">visit ↗</a><span class="off">code private</span></div>
+        </div>
+      </article>
+      <article class="card rv">
+        <div class="shot cover">
+          <span class="fn">meet-space/</span>
+          <img src="../../public/images/projects/meet-space.jpg" alt="MeetSpace" />
+        </div>
+        <div class="in">
+          <h3>MeetSpace</h3>
+          <p>A browser-based meeting product. Start a room, share a code or link, join a live call. Pre-join lobby with a device check, participant grid, people list and in-call chat — peer-to-peer, no media server in the path.</p>
+          <div class="tags"><span class="tag">Node.js</span><span class="tag">Socket.IO</span><span class="tag">WebRTC</span><span class="tag">MongoDB</span></div>
+          <div class="links"><a href="#">visit ↗</a><a href="#">github ↗</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="wrap">
+    <div class="sh rv"><b>~/experience</b> — 3 roles since 2021</div>
+    <article class="job rv">
+      <div class="when">Jul 2025 — present<br/>Remote, UK</div>
+      <div>
+        <h3>Webol Solutions <em>· Frontend Developer</em></h3>
+        <ul>
+          <li>Production web applications in Next.js, React and TypeScript — reusable components and responsive interfaces.</li>
+          <li>REST integration alongside backend engineers on API contracts, data flows and production issue resolution.</li>
+          <li>Figma designs translated into scalable frontend, accelerated with Cursor, Claude Code and Figma MCP.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="job rv">
+      <div class="when">Aug 2024 — May 2025<br/>Mumbai, India</div>
+      <div>
+        <h3>Atrina Technologies <em>· Next.js Developer</em></h3>
+        <ul>
+          <li>Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance and SEO.</li>
+          <li>Architected reusable React, Next.js and Tailwind component libraries for UI consistency.</li>
+          <li>Owned technical planning for a three-month roadmap and wrote onboarding docs that cut ramp-up by ~40%.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="job rv">
+      <div class="when">Feb 2021 — Feb 2022<br/>Remote, India</div>
+      <div>
+        <h3>Quadb Technologies <em>· Web Developer</em></h3>
+        <ul>
+          <li>Responsive interfaces from Figma and Adobe XD designs in HTML, CSS and JavaScript.</li>
+          <li>Node.js and Express APIs with JWT authentication for secure frontend-to-backend communication.</li>
+          <li>KaiOS applications built independently for feature phones — performance-constrained hardware.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="wrap">
+    <div class="sh rv"><b>~/skills</b> — 6 groups</div>
+    <div class="sk">
+      <div class="skc rv"><h4>languages/</h4><div class="ic"><img src="../../public/icons/tech/typescript.svg" alt="" /></div><p>TypeScript, JavaScript, HTML5, CSS3</p></div>
+      <div class="skc rv"><h4>frontend/</h4><div class="ic"><img src="../../public/icons/tech/react.svg" alt="" /><img src="../../public/icons/tech/nextdotjs.svg" alt="" /><img src="../../public/icons/tech/tailwindcss.svg" alt="" /><img src="../../public/icons/tech/vuedotjs.svg" alt="" /></div><p>React.js, Next.js, Tailwind CSS, Vue.js</p></div>
+      <div class="skc rv"><h4>backend/</h4><div class="ic"><img src="../../public/icons/tech/nodedotjs.svg" alt="" /><img src="../../public/icons/tech/graphql.svg" alt="" /></div><p>Node.js, Express.js, REST, GraphQL, Hasura, PHP</p></div>
+      <div class="skc rv"><h4>databases/</h4><div class="ic"><img src="../../public/icons/tech/mongodb.svg" alt="" /><img src="../../public/icons/tech/mysql.svg" alt="" /></div><p>MongoDB, MySQL</p></div>
+      <div class="skc rv"><h4>cloud-devops/</h4><div class="ic"><img src="../../public/icons/tech/aws.svg" alt="" /><img src="../../public/icons/tech/docker.svg" alt="" /></div><p>AWS, Docker, Azure DevOps, CI/CD, Bash</p></div>
+      <div class="skc rv"><h4>tools/</h4><div class="ic"><img src="../../public/icons/tech/git.svg" alt="" /><img src="../../public/icons/tech/github.svg" alt="" /><img src="../../public/icons/tech/figma.svg" alt="" /><img src="../../public/icons/tech/cursor.svg" alt="" /><img src="../../public/icons/tech/claude.svg" alt="" /></div><p>Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code</p></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="wrap">
+    <div class="sh rv"><b>~/about</b> — cat README.md</div>
+    <div class="ab">
+      <img class="rv" src="../../public/images/profile.jpg" alt="Harshal Singh" />
+      <div class="rv">
+        <p>Frontend engineer in Mumbai with <b>3+ years of production experience</b>. The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how frontend and API agree on a contract, and how any of it reaches production without a manual step.</p>
+        <p>Quadb meant constraint: KaiOS feature phones where a wasted kilobyte shows. Atrina meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. Webol means pace: Figma to production with AI in the loop, without dropping the review bar.</p>
+        <p><b>M.Sc Information Technology</b>, KC College Mumbai (2022–2024, grade O+). <b>B.Sc Information Technology</b>, Lala Lajpat Rai College (2019–2022, grade A+). Both overlapped with paid work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact">
+    <div class="cta rv">
+      <div class="sh"><b>~/contact</b> — open to roles</div>
+      <h2>Let&rsquo;s talk</h2>
+      <p class="lede">Open to frontend engineering roles with product teams. Remote suits me — I already work UK hours — and I&rsquo;m open to relocation. A short brief is as welcome as a job description; I reply within 48 hours.</p>
+      <div class="reach">
+        <a href="mailto:harshal.wrk@gmail.com"><span>email</span><b>harshal.wrk@gmail.com</b></a>
+        <a href="tel:+918828984985"><span>phone</span><b>+91 88289 84985</b></a>
+        <a href="#"><span>github</span><b>harshal-singh ↗</b></a>
+        <a href="#"><span>linkedin</span><b>harshal-singh ↗</b></a>
+        <a href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download><span>resume</span><b>download .pdf ⤓</b></a>
+        <a href="#top"><span>top</span><b>scroll to top ↑</b></a>
+      </div>
+    </div>
+    <footer><span>© <span id="yr"></span> Harshal Singh — Mumbai, India</span><span>Direction G — Terminal</span></footer>
+  </section>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a href="d-depth.html">D · Depth</a>
+  <a href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a class="on" href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a href="i-aurora.html">I · Aurora</a>
+  <a href="j-terra.html">J · Terra</a>
+  <a href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var hdr = document.getElementById('hdr');
+addEventListener('scroll', function () { hdr.classList.toggle('stuck', scrollY > 8); }, { passive: true });
+
+/* ---------------- terminal ---------------- */
+(function () {
+  var body = document.getElementById('tbody'), out = document.getElementById('out');
+  var tin = document.getElementById('tin'), input = document.getElementById('cmd');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var history = [], hIdx = -1;
+
+  var PS1 = '<span class="ps1">harshal@portfolio<span class="p">:~$</span></span> ';
+
+  var DB = {
+    help:
+      '<span class="d">Available commands:</span>\n' +
+      '  <span class="k">whoami</span>      who you are talking to\n' +
+      '  <span class="k">about</span>       the longer version\n' +
+      '  <span class="k">work</span>        selected projects\n' +
+      '  <span class="k">experience</span>  where I have worked\n' +
+      '  <span class="k">skills</span>      the stack, grouped\n' +
+      '  <span class="k">education</span>   degrees and grades\n' +
+      '  <span class="k">contact</span>     how to reach me\n' +
+      '  <span class="k">resume</span>      download the PDF\n' +
+      '  <span class="k">ls</span>          list sections\n' +
+      '  <span class="k">clear</span>       clear the screen\n' +
+      '<span class="d">Everything here is also on the page below — scroll if you prefer.</span>',
+    whoami:
+      '<span class="ok">Harshal Singh</span> — Frontend Engineer\n' +
+      '<span class="d">Mumbai, India · working remotely on UK hours · 3+ years in production</span>\n' +
+      'Currently <span class="v">Frontend Developer</span> at <span class="w">Webol Solutions</span>. Open to new roles.',
+    about:
+      'The work I gravitate towards sits between layers — how a component library is\n' +
+      'structured, what renders on the server, how frontend and API agree on a contract,\n' +
+      'and how any of it reaches production without a manual step.\n\n' +
+      '<span class="d">Three environments, three lessons:</span>\n' +
+      '  <span class="k">Quadb</span>   constraint — KaiOS feature phones, where a wasted kilobyte shows\n' +
+      '  <span class="k">Atrina</span>  ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs\n' +
+      '  <span class="k">Webol</span>   pace — Figma to production with AI in the loop, review bar intact',
+    work:
+      '<span class="w">01</span> <span class="ok">Pragnyapan.ai</span> <span class="d">— AI-powered marketing audit platform</span>\n' +
+      '   Turns a prospect&rsquo;s public URL into an evidence-backed audit: scoring, ranked\n' +
+      '   actions, competitor insights. Crawl → AI analysis → human review → white-label PDF.\n' +
+      '   <span class="d">stack:</span> <span class="v">Next.js · TypeScript · MongoDB · Serverless</span>\n' +
+      '   <a href="#">visit ↗</a>  <span class="d">(code private)</span>\n\n' +
+      '<span class="w">02</span> <span class="ok">MeetSpace</span> <span class="d">— real-time video meeting platform</span>\n' +
+      '   Start a room, share a link, join a live call. Pre-join lobby with device check,\n' +
+      '   participant grid, people list, in-call chat. Peer-to-peer, no media server.\n' +
+      '   <span class="d">stack:</span> <span class="v">Node.js · Socket.IO · WebRTC · MongoDB</span>\n' +
+      '   <a href="#">visit ↗</a>  <a href="#">github ↗</a>',
+    experience:
+      '<span class="w">Jul 2025 — present</span>  <span class="ok">Webol Solutions</span> <span class="d">· Frontend Developer · Remote, UK</span>\n' +
+      '   Production apps in Next.js, React and TypeScript. REST integration with backend\n' +
+      '   engineers. Figma → production via Cursor, Claude Code and Figma MCP.\n\n' +
+      '<span class="w">Aug 2024 — May 2025</span> <span class="ok">Atrina Technologies</span> <span class="d">· Next.js Developer · Mumbai</span>\n' +
+      '   Led a CMS rebuild on SSR (faster loads, better SEO). Reusable component libraries.\n' +
+      '   Owned a three-month roadmap. Onboarding docs cut ramp-up by <span class="v">~40%</span>.\n\n' +
+      '<span class="w">Feb 2021 — Feb 2022</span> <span class="ok">Quadb Technologies</span> <span class="d">· Web Developer · Remote, India</span>\n' +
+      '   Responsive UI from Figma and Adobe XD. Node + Express APIs with JWT auth.\n' +
+      '   KaiOS applications built independently for feature phones.',
+    skills:
+      '<span class="k">languages</span>     TypeScript, JavaScript, HTML5, CSS3\n' +
+      '<span class="k">frontend</span>      React.js, Next.js, Tailwind CSS, Vue.js\n' +
+      '<span class="k">backend</span>       Node.js, Express.js, REST, GraphQL, Hasura, PHP\n' +
+      '<span class="k">databases</span>     MongoDB, MySQL\n' +
+      '<span class="k">cloud-devops</span>  AWS, Docker, Azure DevOps, CI/CD, Bash\n' +
+      '<span class="k">tools</span>         Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code',
+    education:
+      '<span class="ok">M.Sc, Information Technology</span>  <span class="d">Kishinchand Chellaram College, Mumbai</span>\n' +
+      '   Jul 2022 – Apr 2024 · grade <span class="v">O+</span>\n\n' +
+      '<span class="ok">B.Sc, Information Technology</span>  <span class="d">Lala Lajpat Rai College, Mumbai</span>\n' +
+      '   Jul 2019 – Apr 2022 · grade <span class="v">A+</span>\n\n' +
+      '<span class="d">Both overlapped with paid work.</span>',
+    contact:
+      '<span class="k">email</span>     <a href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>\n' +
+      '<span class="k">phone</span>     <a href="tel:+918828984985">+91 88289 84985</a>\n' +
+      '<span class="k">github</span>    <a href="#">github.com/harshal-singh ↗</a>\n' +
+      '<span class="k">linkedin</span>  <a href="#">linkedin.com/in/harshal-singh ↗</a>\n\n' +
+      '<span class="ok">Open to frontend engineering roles.</span> Remote or relocation. Replies within 48h.',
+    ls:
+      '<span class="v">about/</span>  <span class="v">work/</span>  <span class="v">experience/</span>  <span class="v">skills/</span>  <span class="v">education/</span>  <span class="v">contact/</span>  <span class="d">resume.pdf</span>'
+  };
+
+  function line(html, cls) {
+    var p = document.createElement('p');
+    if (cls) p.className = cls;
+    p.innerHTML = html;
+    out.appendChild(p);
+    return p;
+  }
+  function block(html) {
+    var d = document.createElement('div');
+    d.className = 'blk';
+    d.innerHTML = '<p>' + html + '</p>';
+    out.appendChild(d);
+  }
+  function scroll() { body.scrollTop = body.scrollHeight; }
+
+  function run(raw) {
+    var c = (raw || '').trim().toLowerCase();
+    line(PS1 + '<span class="cmd">' + (raw || '') + '</span>');
+    if (!c) { scroll(); return; }
+    history.unshift(raw); hIdx = -1;
+
+    if (c === 'clear') { out.innerHTML = ''; scroll(); return; }
+    if (c === 'resume') {
+      block('<span class="ok">Downloading</span> Harshal Singh - Resume - 2027.pdf …');
+      var a = document.createElement('a');
+      a.href = '../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf';
+      a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+      scroll(); return;
+    }
+    if (DB[c]) { block(DB[c]); scroll(); return; }
+    block('<span class="e">command not found:</span> ' + c.replace(/</g, '&lt;') + '\nType <span class="k">help</span> for the list.');
+    scroll();
+  }
+
+  /* boot sequence, then hand over the prompt */
+  var boot = [
+    '<span class="d">Last login: today on ttys001</span>',
+    PS1 + '<span class="cmd">whoami</span>'
+  ];
+  var step = 0;
+  function bootNext() {
+    if (step < boot.length) {
+      line(boot[step]); step++;
+      setTimeout(bootNext, reduced ? 0 : 260);
+      return;
+    }
+    block(DB.whoami);
+    line(PS1 + '<span class="cmd">help</span>');
+    block(DB.help);
+    tin.hidden = false;
+    scroll();
+  }
+  setTimeout(bootNext, reduced ? 0 : 300);
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { run(input.value); input.value = ''; }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); if (hIdx < history.length - 1) { hIdx++; input.value = history[hIdx]; } }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); if (hIdx > 0) { hIdx--; input.value = history[hIdx]; } else { hIdx = -1; input.value = ''; } }
+    else if (e.key === 'Tab') {
+      e.preventDefault();
+      var v = input.value.trim().toLowerCase();
+      if (!v) return;
+      var hit = Object.keys(DB).concat(['clear', 'resume']).filter(function (k) { return k.indexOf(v) === 0; });
+      if (hit.length === 1) input.value = hit[0];
+    }
+  });
+
+  /* clicking anywhere in the terminal focuses the prompt, unless selecting text or a link */
+  body.addEventListener('click', function (e) {
+    if (e.target.closest('a') || String(getSelection())) return;
+    input.focus();
+  });
+
+  document.querySelectorAll('[data-run]').forEach(function (b) {
+    b.addEventListener('click', function () { run(b.dataset.run); input.focus(); });
+  });
+})();
+
+/* reveal */
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px' });
+document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 70 + 'ms'; io.observe(el); });
+
+/* hover to auto-scroll the tall screenshot */
+var reducedM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('[data-autoscroll]').forEach(function (box) {
+  var img = box.querySelector('img');
+  var dur = parseInt(box.dataset.duration, 10) || 15000;
+  box.addEventListener('mouseenter', function () {
+    if (reducedM) return;
+    var d = Math.max(0, img.offsetHeight - box.clientHeight);
+    if (!d) return;
+    img.style.transition = 'transform ' + dur + 'ms linear';
+    img.style.transform = 'translateY(-' + d + 'px)';
+  });
+  box.addEventListener('mouseleave', function () {
+    img.style.transition = 'transform 700ms cubic-bezier(.22,1,.36,1)';
+    img.style.transform = 'translateY(0)';
+  });
+});
+</script>
+</body>
+</html>

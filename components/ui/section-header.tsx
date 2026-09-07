@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn, formatSectionKick } from "@/lib/utils";
 
 interface SectionHeaderProps {
   label: string;
   title: string;
   description?: string;
   className?: string;
-  align?: "left" | "split";
+  align?: "left" | "split" | "center";
 }
 
 export function SectionHeader({
@@ -15,14 +15,18 @@ export function SectionHeader({
   className,
   align = "split",
 }: SectionHeaderProps) {
-  if (align === "left") {
+  if (align === "left" || align === "center") {
     return (
-      <div className={cn("mb-14", className)}>
-        <p className="text-label text-accent mb-3">{label}</p>
-        <h2 className="text-h1 text-foreground text-balance">{title}</h2>
-        {description ? (
-          <p className="mt-4 text-body text-muted max-w-2xl">{description}</p>
-        ) : null}
+      <div
+        className={cn(
+          "aurora-section-head mb-10",
+          align === "left" && "text-left",
+          className,
+        )}
+      >
+        <p className="aurora-kick">{formatSectionKick(label)}</p>
+        <h2 className="jk">{title}</h2>
+        {description ? <p>{description}</p> : null}
       </div>
     );
   }
@@ -30,16 +34,18 @@ export function SectionHeader({
   return (
     <div
       className={cn(
-        "flex items-end justify-between flex-wrap mb-14",
+        "mb-10 flex flex-wrap items-end justify-between gap-6",
         className,
       )}
     >
       <div className="max-w-2xl">
-        <p className="text-label text-accent mb-3">{label}</p>
-        <h2 className="text-h1 text-foreground text-balance">{title}</h2>
+        <p className="aurora-kick">{formatSectionKick(label)}</p>
+        <h2 className="jk text-[clamp(1.7rem,3.8vw,2.6rem)] font-extrabold leading-[1.1] tracking-[-0.035em]">
+          {title}
+        </h2>
       </div>
       {description ? (
-        <p className="mt-4 text-body text-muted leading-relaxed text-balance">
+        <p className="max-w-md text-base leading-relaxed text-muted">
           {description}
         </p>
       ) : null}

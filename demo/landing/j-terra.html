@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --sand:#F1E8D9; --sand2:#E6D9C2; --cream:#FCF8F1; --shell:#FAF4EA;
+  --ink:#2B251C; --cocoa:#6A5844; --faint:#8A7A64; --line:#DDCDB2;
+  --clay:#BC5B32; --olive:#5C6B45; --sun:#D9973F; --sky:#5E7E86;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--sand);color:var(--ink);font-family:Karla,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.66;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.fr{font-family:Fraunces,Georgia,serif;font-variation-settings:"SOFT" 40,"WONK" 1;letter-spacing:-.028em;line-height:1.06}
+.wrap{max-width:1140px;margin:0 auto;padding-left:clamp(1.15rem,4vw,2.25rem);padding-right:clamp(1.15rem,4vw,2.25rem)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:8px}
+::selection{background:var(--clay);color:var(--cream)}
+
+/* paper grain */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header{position:relative;z-index:1}
+
+.lbl{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.arch{border-radius:999px 999px 20px 20px;overflow:hidden}
+.blobshape{border-radius:58% 42% 47% 53% / 51% 45% 55% 49%}
+
+/* ---------- nav ---------- */
+header{position:sticky;top:0;z-index:80;padding-top:.75rem;padding-bottom:.75rem}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.45rem .5rem .45rem 1.2rem;border-radius:99px;
+  background:rgba(252,248,241,.82);backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:0 8px 24px -18px rgba(43,37,28,.6)}
+.nav .bd{font-family:Fraunces,serif;font-weight:700;font-size:1rem;letter-spacing:-.03em}
+.nav .bd i{color:var(--clay);font-style:normal}
+.nav ul{list-style:none;display:flex;gap:.2rem;padding:0;margin:0}
+.nav ul a{font-size:.86rem;font-weight:500;color:var(--cocoa);padding:.4rem .85rem;border-radius:99px;transition:.22s}
+.nav ul a:hover{background:var(--sand2);color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;color:var(--cream);background:var(--clay);
+  border-radius:99px;padding:.5rem 1.1rem;transition:transform .25s,background .25s}
+.pill:hover{background:var(--ink);transform:translateY(-2px)}
+@media(max-width:900px){.nav ul{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(2rem,5vw,3.5rem);padding-bottom:clamp(2rem,5vw,3.5rem);position:relative}
+.hgrid{display:grid;grid-template-columns:1fr;gap:2.25rem;align-items:center}
+@media(min-width:920px){.hgrid{grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem)}}
+.chiprow{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.leaf{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:600;color:var(--olive);
+  background:rgba(92,107,69,.12);border-radius:99px;padding:.3rem .8rem}
+.leaf i{width:7px;height:7px;border-radius:50%;background:var(--olive);display:block}
+h1{margin-top:1.35rem;font-size:clamp(2.5rem,7.2vw,5.4rem);font-weight:600;font-variation-settings:"SOFT" 60,"WONK" 1}
+h1 em{font-style:italic;color:var(--clay)}
+.hero p.lede{margin-top:1.4rem;font-size:clamp(1rem,1.6vw,1.18rem);line-height:1.72;color:var(--cocoa);max-width:48ch}
+.acts{margin-top:2rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.ghost{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;border:1.5px solid var(--line);
+  background:var(--cream);border-radius:99px;padding:.5rem 1.1rem;transition:.25s}
+.ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+
+.portrait{position:relative;justify-self:center;width:min(340px,84vw)}
+.portrait .arch{border:1.5px solid var(--line);background:var(--sand2);box-shadow:0 30px 50px -34px rgba(43,37,28,.75)}
+.portrait .arch img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.portrait .sun{position:absolute;top:-22px;right:-18px;width:78px;height:78px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#F0BE6B,var(--sun));box-shadow:0 12px 26px -12px rgba(217,151,63,.9);z-index:-1;
+  animation:float 7s ease-in-out infinite}
+.portrait .pebble{position:absolute;bottom:-26px;left:-26px;width:96px;height:96px;background:rgba(92,107,69,.22);z-index:-1;
+  animation:float 9s ease-in-out infinite reverse}
+.portrait .note{position:absolute;bottom:16px;left:-14px;background:var(--cream);border:1.5px solid var(--line);border-radius:14px;
+  padding:.5rem .8rem;font-size:.78rem;font-weight:600;box-shadow:0 14px 26px -18px rgba(43,37,28,.8)}
+.portrait .note b{color:var(--clay)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* wave divider */
+.wave{display:block;width:100%;height:clamp(38px,5vw,68px)}
+.band{background:var(--shell)}
+
+/* ---------- numbers ---------- */
+.figs{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;padding-top:clamp(1.5rem,3vw,2.25rem);padding-bottom:clamp(2rem,4vw,3rem)}
+@media(min-width:860px){.figs{grid-template-columns:repeat(4,1fr)}}
+.fig{background:var(--cream);border:1.5px solid var(--line);border-radius:20px;padding:1.15rem 1.25rem}
+.fig b{display:block;font-family:Fraunces,serif;font-weight:700;font-size:clamp(1.8rem,3.6vw,2.5rem);letter-spacing:-.04em;line-height:1}
+.fig:nth-child(1) b{color:var(--clay)}.fig:nth-child(2) b{color:var(--olive)}
+.fig:nth-child(3) b{color:var(--sky)}.fig:nth-child(4) b{color:var(--sun)}
+.fig small{display:block;margin-top:.4rem;font-size:.8rem;color:var(--faint);line-height:1.5}
+
+/* ---------- sections ---------- */
+section{padding-top:clamp(3rem,6.5vw,5rem);padding-bottom:clamp(3rem,6.5vw,5rem)}
+.shd{margin-bottom:clamp(1.75rem,4vw,2.5rem);max-width:56ch}
+.shd h2{margin-top:.7rem;font-family:Fraunces,serif;font-weight:600;font-size:clamp(1.8rem,4vw,2.9rem);letter-spacing:-.035em;line-height:1.1;font-variation-settings:"SOFT" 50,"WONK" 1}
+.shd p{margin-top:.9rem;font-size:1rem;color:var(--cocoa);line-height:1.74}
+
+/* work */
+.pj{display:grid;grid-template-columns:1fr;gap:clamp(1.25rem,3vw,2rem)}
+@media(min-width:900px){.pj{grid-template-columns:1fr 1fr}}
+.pc{background:var(--cream);border:1.5px solid var(--line);border-radius:26px;padding:.75rem .75rem 0;display:flex;flex-direction:column;
+  box-shadow:0 24px 40px -34px rgba(43,37,28,.8);transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s}
+.pc:hover{transform:translateY(-6px);box-shadow:0 34px 54px -34px rgba(43,37,28,.85)}
+.pc .shot{border-radius:999px 999px 14px 14px;overflow:hidden;height:230px;background:var(--sand2);position:relative;border:1px solid var(--line)}
+.pc .shot img{width:100%;height:auto}
+.pc .shot.cover img{height:100%;object-fit:cover;object-position:top center}
+.pc .flag{position:absolute;top:.85rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.72rem;font-weight:700;
+  background:rgba(252,248,241,.94);border:1px solid var(--line);border-radius:99px;padding:.2rem .7rem;white-space:nowrap}
+.pc .in{padding:1.3rem .85rem 1.5rem;flex:1;display:flex;flex-direction:column}
+.pc h3{font-family:Fraunces,serif;font-weight:700;font-size:1.4rem;letter-spacing:-.03em}
+.pc p{margin-top:.6rem;font-size:.92rem;line-height:1.72;color:var(--cocoa);flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:1.1rem}
+.tag{font-size:.74rem;font-weight:500;color:var(--cocoa);background:var(--sand);border:1px solid var(--line);border-radius:99px;padding:.18rem .62rem}
+.lk{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap}
+.lk a{font-size:.8rem;font-weight:700;border:1.5px solid var(--line);border-radius:99px;padding:.34rem .85rem;transition:.22s}
+.lk a:hover{border-color:var(--clay);color:var(--clay)}
+.lk .off{color:var(--faint);font-weight:500;border-style:dashed;pointer-events:none}
+
+/* experience — a growing stem */
+.stem{position:relative;display:grid;gap:1.35rem;padding-left:2.35rem}
+.stem::before{content:"";position:absolute;left:11px;top:.6rem;bottom:.6rem;width:2px;background:linear-gradient(var(--olive),var(--sun),var(--clay));border-radius:2px;opacity:.5}
+.node{position:relative;background:var(--cream);border:1.5px solid var(--line);border-radius:20px;padding:1.2rem 1.35rem;transition:transform .35s,border-color .35s}
+.node:hover{transform:translateX(4px);border-color:var(--clay)}
+.node::before{content:"";position:absolute;left:-2.35rem;top:1.4rem;width:24px;height:24px;border-radius:50%;background:var(--cream);border:2px solid var(--olive)}
+.node:nth-child(2)::before{border-color:var(--sun)}
+.node:nth-child(3)::before{border-color:var(--clay)}
+.node::after{content:"";position:absolute;left:calc(-2.35rem + 8px);top:calc(1.4rem + 8px);width:8px;height:8px;border-radius:50%;background:var(--olive)}
+.node:nth-child(2)::after{background:var(--sun)}
+.node:nth-child(3)::after{background:var(--clay)}
+.node .top{display:flex;align-items:baseline;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}
+.node h3{font-family:Fraunces,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.025em}
+.node .when{font-size:.79rem;color:var(--faint);font-weight:500}
+.node .role{font-size:.85rem;color:var(--clay);font-weight:600;margin-top:.15rem}
+.node ul{list-style:none;padding:0;margin:.9rem 0 0;display:grid;gap:.4rem}
+.node li{font-size:.89rem;line-height:1.66;color:var(--cocoa);padding-left:1.15rem;position:relative}
+.node li::before{content:"✦";position:absolute;left:0;color:var(--sun);font-size:.7rem;top:.2rem}
+
+/* skills */
+.sk{display:grid;grid-template-columns:1fr;gap:1rem}
+@media(min-width:700px){.sk{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.sk{grid-template-columns:repeat(3,1fr)}}
+.skc{background:var(--cream);border:1.5px solid var(--line);border-radius:20px;padding:1.2rem 1.3rem;transition:transform .35s,border-color .35s}
+.skc:hover{transform:translateY(-4px);border-color:var(--olive)}
+.skc h4{font-family:Fraunces,serif;font-weight:700;font-size:1rem;letter-spacing:-.02em}
+.skc .ic{display:flex;gap:.5rem;margin:.8rem 0 .6rem;flex-wrap:wrap}
+.skc .ic img{width:18px;height:18px;opacity:.72}
+.skc p{font-size:.88rem;line-height:1.7;color:var(--cocoa)}
+
+/* about */
+.ab{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center;background:var(--cream);border:1.5px solid var(--line);
+  border-radius:28px;padding:clamp(1.4rem,3.5vw,2.5rem)}
+@media(min-width:880px){.ab{grid-template-columns:230px 1fr;gap:2.75rem}}
+.ab .ph{position:relative;justify-self:center}
+.ab .ph img{width:min(230px,70vw);aspect-ratio:1;object-fit:cover;border:1.5px solid var(--line)}
+.ab p{font-size:1rem;line-height:1.78;color:var(--cocoa)}
+.ab p + p{margin-top:.9rem}
+.ab b{color:var(--ink);font-weight:700}
+.edu{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.3rem}
+
+/* contact */
+.end{background:var(--ink);color:var(--shell);border-radius:32px;padding:clamp(2rem,5vw,3.75rem);position:relative;overflow:hidden}
+.end::after{content:"";position:absolute;right:-70px;bottom:-90px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,rgba(217,151,63,.42),rgba(188,91,50,.18) 60%,transparent 72%)}
+.end > *{position:relative;z-index:1}
+.end .lbl{color:rgba(250,244,234,.6)}
+.end h2{margin-top:.8rem;font-family:Fraunces,serif;font-weight:600;font-size:clamp(1.9rem,5vw,3.4rem);letter-spacing:-.04em;line-height:1.06;max-width:16ch;font-variation-settings:"SOFT" 60,"WONK" 1}
+.end h2 em{font-style:italic;color:var(--sun)}
+.end p{margin-top:1.1rem;font-size:1rem;line-height:1.74;color:rgba(250,244,234,.76);max-width:46ch}
+.end .acts{margin-top:2rem}
+.end .pill{background:var(--sun);color:var(--ink)}
+.end .pill:hover{background:var(--shell)}
+.end .ghost{background:transparent;border-color:rgba(250,244,234,.32);color:var(--shell)}
+.end .ghost:hover{border-color:var(--shell)}
+.end .more{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(250,244,234,.16);display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.87rem}
+.end .more a{color:rgba(250,244,234,.8);border-bottom:1px solid rgba(250,244,234,.3);padding-bottom:.1rem;transition:.2s}
+.end .more a:hover{color:var(--sun);border-color:var(--sun)}
+footer{padding-top:1.5rem;padding-bottom:6rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--faint)}
+
+/* `translate`, not `transform`, so a card keeps its own tilt and hover lift */
+.rv{opacity:0;translate:0 20px;transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;translate:none}
+html:not(.js) .rv{opacity:1;translate:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.12rem;padding:.3rem;border-radius:99px;background:var(--cream);border:1.5px solid var(--line);box-shadow:0 12px 28px -14px rgba(43,37,28,.6)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-size:.7rem;font-weight:600;color:var(--cocoa);padding:.34rem .7rem;border-radius:99px;transition:.2s;white-space:nowrap}
+.switch a:hover{background:var(--sand);color:var(--ink)}
+.switch a.on{background:var(--clay);color:var(--cream)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="nav">
+      <a class="bd" href="#top">Harshal Singh<i>.</i></a>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a class="pill" href="mailto:harshal.wrk@gmail.com">Say hello</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div class="hgrid">
+      <div>
+        <div class="chiprow">
+          <span class="leaf"><i></i> Open to frontend roles</span>
+          <span class="lbl">Mumbai · UK hours</span>
+        </div>
+        <h1 class="fr">Frontend, grown<br/><em>patiently.</em></h1>
+        <p class="lede">I&rsquo;m Harshal — a frontend engineer with three years of production React, Next.js and TypeScript. I like codebases that are still pleasant to work in a year later, and interfaces that feel unhurried to use.</p>
+        <div class="acts">
+          <a class="pill" href="#work">See selected work</a>
+          <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Résumé ⤓</a>
+        </div>
+      </div>
+      <div class="portrait">
+        <span class="sun"></span>
+        <span class="pebble blobshape"></span>
+        <div class="arch"><img src="../../public/images/profile.jpg" alt="Harshal Singh" /></div>
+        <span class="note">Currently at <b>Webol Solutions</b></span>
+      </div>
+    </div>
+  </div>
+
+  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0,46 C220,90 430,6 700,32 C960,58 1180,8 1440,42 L1440,90 L0,90 Z" fill="#FAF4EA"/></svg>
+
+  <div class="band">
+    <div class="wrap figs">
+      <div class="fig rv"><b>3+</b><small>Years shipping production frontends</small></div>
+      <div class="fig rv"><b>3</b><small>Product teams since 2021</small></div>
+      <div class="fig rv"><b>2</b><small>Products built end to end, solo</small></div>
+      <div class="fig rv"><b>~40%</b><small>Onboarding time cut by docs I wrote</small></div>
+    </div>
+
+    <!-- WORK -->
+    <section id="work" class="wrap" style="padding-top:clamp(1.5rem,3vw,2rem)">
+      <div class="shd rv">
+        <span class="lbl">Selected work</span>
+        <h2>Two products, from seed to shipped.</h2>
+        <p>Both taken from an empty repository to something you can open in a browser — design, frontend, backend and deploy, solo on each.</p>
+      </div>
+      <div class="pj">
+        <article class="pc rv">
+          <div class="shot" data-autoscroll data-duration="16000">
+            <span class="flag">AI platform</span>
+            <img src="../../public/images/projects/pragnyapan-ai.jpg" alt="Pragnyapan.ai" />
+          </div>
+          <div class="in">
+            <h3>Pragnyapan.ai</h3>
+            <p>An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit — scoring, ranked actions and competitor insights. Site crawl, AI analysis, a human review step, then white-label PDF export branded per agency.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">MongoDB</span><span class="tag">Serverless</span></div>
+            <div class="lk"><a href="#">Visit ↗</a><a class="off">Code private</a></div>
+          </div>
+        </article>
+        <article class="pc rv">
+          <div class="shot cover">
+            <span class="flag">Real-time video</span>
+            <img src="../../public/images/projects/meet-space.jpg" alt="MeetSpace" />
+          </div>
+          <div class="in">
+            <h3>MeetSpace</h3>
+            <p>A browser-based meeting product — start a room, share a code or link, join a live call. A pre-join lobby handles your name and a device check, then the call offers a participant grid, people list and in-call chat. Media stays peer-to-peer.</p>
+            <div class="tags"><span class="tag">Node.js</span><span class="tag">Socket.IO</span><span class="tag">WebRTC</span><span class="tag">MongoDB</span></div>
+            <div class="lk"><a href="#">Visit ↗</a><a href="#">GitHub ↗</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="transform:scaleY(-1)"><path d="M0,46 C220,90 430,6 700,32 C960,58 1180,8 1440,42 L1440,90 L0,90 Z" fill="#FAF4EA"/></svg>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="wrap">
+    <div class="shd rv">
+      <span class="lbl">Experience</span>
+      <h2>Three teams, in the order they taught me things.</h2>
+      <p>Constraint first, then ownership, then pace.</p>
+    </div>
+    <div class="stem">
+      <article class="node rv">
+        <div class="top"><h3>Quadb Technologies</h3><span class="when">Feb 2021 — Feb 2022 · Remote, India</span></div>
+        <div class="role">Web Developer — constraint</div>
+        <ul>
+          <li>Responsive interfaces from Figma and Adobe XD designs in HTML, CSS and JavaScript.</li>
+          <li>Node.js and Express APIs with JWT authentication for secure frontend-to-backend communication.</li>
+          <li>KaiOS applications built independently for feature phones, where a wasted kilobyte is something the user can feel.</li>
+        </ul>
+      </article>
+      <article class="node rv">
+        <div class="top"><h3>Atrina Technologies</h3><span class="when">Aug 2024 — May 2025 · Mumbai, India</span></div>
+        <div class="role">Next.js Developer — ownership</div>
+        <ul>
+          <li>Led a CMS frontend rebuild with Next.js and SSR, improving page-load performance and SEO.</li>
+          <li>Architected reusable React, Next.js and Tailwind component libraries for UI consistency.</li>
+          <li>Owned technical planning for a three-month roadmap and wrote onboarding docs that cut ramp-up by ~40%.</li>
+        </ul>
+      </article>
+      <article class="node rv">
+        <div class="top"><h3>Webol Solutions</h3><span class="when">Jul 2025 — Present · Remote, UK</span></div>
+        <div class="role">Frontend Developer — pace</div>
+        <ul>
+          <li>Production web applications in Next.js, React and TypeScript with reusable, responsive components.</li>
+          <li>REST integration alongside backend engineers on API contracts, data flows and production issues.</li>
+          <li>Figma designs into scalable frontend, accelerated with Cursor, Claude Code and Figma MCP.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="wrap" style="padding-top:0">
+    <div class="shd rv">
+      <span class="lbl">Toolkit</span>
+      <h2>What I build with.</h2>
+    </div>
+    <div class="sk">
+      <div class="skc rv"><h4>Languages</h4><div class="ic"><img src="../../public/icons/tech/typescript.svg" alt="" /></div><p>TypeScript, JavaScript, HTML5, CSS3</p></div>
+      <div class="skc rv"><h4>Frontend</h4><div class="ic"><img src="../../public/icons/tech/react.svg" alt="" /><img src="../../public/icons/tech/nextdotjs.svg" alt="" /><img src="../../public/icons/tech/tailwindcss.svg" alt="" /><img src="../../public/icons/tech/vuedotjs.svg" alt="" /></div><p>React.js, Next.js, Tailwind CSS, Vue.js</p></div>
+      <div class="skc rv"><h4>Backend</h4><div class="ic"><img src="../../public/icons/tech/nodedotjs.svg" alt="" /><img src="../../public/icons/tech/graphql.svg" alt="" /></div><p>Node.js, Express.js, REST, GraphQL, Hasura, PHP</p></div>
+      <div class="skc rv"><h4>Databases</h4><div class="ic"><img src="../../public/icons/tech/mongodb.svg" alt="" /><img src="../../public/icons/tech/mysql.svg" alt="" /></div><p>MongoDB, MySQL</p></div>
+      <div class="skc rv"><h4>Cloud &amp; DevOps</h4><div class="ic"><img src="../../public/icons/tech/aws.svg" alt="" /><img src="../../public/icons/tech/docker.svg" alt="" /></div><p>AWS, Docker, Azure DevOps, CI/CD, Bash</p></div>
+      <div class="skc rv"><h4>Tools</h4><div class="ic"><img src="../../public/icons/tech/git.svg" alt="" /><img src="../../public/icons/tech/github.svg" alt="" /><img src="../../public/icons/tech/figma.svg" alt="" /><img src="../../public/icons/tech/cursor.svg" alt="" /><img src="../../public/icons/tech/claude.svg" alt="" /></div><p>Git, GitHub, Jira, Figma, Sketch, Postman, Cursor, Claude Code</p></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="wrap" style="padding-top:0">
+    <div class="ab rv">
+      <div class="ph"><img class="blobshape" src="../../public/images/profile.jpg" alt="Harshal Singh" /></div>
+      <div>
+        <span class="lbl">About</span>
+        <p style="margin-top:.9rem">The work I gravitate towards sits between layers — how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step.</p>
+        <p>That range came from three very different environments: <b>Quadb</b> meant constraint, KaiOS feature phones where a wasted kilobyte shows. <b>Atrina</b> meant ownership — an SSR rebuild, a quarter of roadmap, the onboarding docs. <b>Webol</b> means pace: Figma to production with AI in the loop, without dropping the review bar.</p>
+        <div class="edu">
+          <span class="tag">M.Sc IT · KC College · 2022–2024 · Grade O+</span>
+          <span class="tag">B.Sc IT · Lala Lajpat Rai · 2019–2022 · Grade A+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="wrap" id="contact" style="padding-top:0">
+    <div class="end rv">
+      <span class="lbl">Contact</span>
+      <h2 class="fr">Tell me what you&rsquo;re <em>growing.</em></h2>
+      <p>Open to frontend engineering roles with product teams. Remote suits me — I already work UK hours — and I&rsquo;m open to relocation. A short brief is as welcome as a job description; I reply within 48 hours.</p>
+      <div class="acts">
+        <a class="pill" href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+        <a class="ghost" href="../../public/resume/Harshal%20Singh%20-%20Resume%20-%202027.pdf" download>Download résumé</a>
+      </div>
+      <div class="more">
+        <a href="tel:+918828984985">+91 88289 84985</a>
+        <a href="#">GitHub ↗</a>
+        <a href="#">LinkedIn ↗</a>
+      </div>
+    </div>
+    <footer><span>© <span id="yr"></span> Harshal Singh — Mumbai, India</span><span>Direction J — Terra</span></footer>
+  </section>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a href="d-depth.html">D · Depth</a>
+  <a href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a href="i-aurora.html">I · Aurora</a>
+  <a class="on" href="j-terra.html">J · Terra</a>
+  <a href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px' });
+document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+document.querySelectorAll('[data-autoscroll]').forEach(function (box) {
+  var img = box.querySelector('img');
+  var dur = parseInt(box.dataset.duration, 10) || 15000;
+  box.addEventListener('mouseenter', function () {
+    if (reduced) return;
+    var d = Math.max(0, img.offsetHeight - box.clientHeight);
+    if (!d) return;
+    img.style.transition = 'transform ' + dur + 'ms linear';
+    img.style.transform = 'translateY(-' + d + 'px)';
+  });
+  box.addEventListener('mouseleave', function () {
+    img.style.transition = 'transform 700ms cubic-bezier(.22,1,.36,1)';
+    img.style.transform = 'translateY(0)';
+  });
+});
+</script>
+</body>
+</html>

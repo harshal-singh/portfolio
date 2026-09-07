@@ -1,10 +1,10 @@
 "use client";
 
+import { GlassCard } from "@/components/aurora/GlassCard";
 import { Reveal } from "@/components/motion/Reveal";
-import { CopyEmailButton } from "@/components/ui/copy-email-button";
+import { assetFilename, resolvePublicAsset } from "@/lib/assets";
 import type { Profile, SectionMeta } from "@/lib/types";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { formatSectionKick } from "@/lib/utils";
 
 interface ContactCtaProps {
   profile: Profile;
@@ -12,41 +12,33 @@ interface ContactCtaProps {
 }
 
 export default function ContactCta({ profile, section }: ContactCtaProps) {
-  const ctaLabel = profile.contactCtaButtonLabel || profile.headerContactLabel;
+  const resumeHref = resolvePublicAsset(profile.resumePdfUrl);
+  const resumeName = assetFilename(profile.resumePdfUrl, "resume.pdf");
 
   return (
-    <section className="site-container site-section">
+    <section id="contact" className="site-container pb-16 pt-4 md:pb-24">
       <Reveal>
-        <div className="relative rounded-2xl border border-border-subtle bg-surface p-8 md:p-12 overflow-hidden shadow-sm">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-accent-muted blur-3xl rounded-full pointer-events-none" />
-          <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            <div className="max-w-xl">
-              {section.label ? (
-                <p className="text-label text-accent mb-3">{section.label}</p>
-              ) : null}
-              <h2 className="text-h1 text-foreground leading-tight mb-4 text-balance">
-                {section.title}
-              </h2>
-              {section.description ? (
-                <p className="text-body text-muted leading-relaxed">
-                  {section.description}
-                </p>
-              ) : null}
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground px-6 py-3 rounded-md font-medium hover:bg-accent-hover transition-colors active:scale-[0.98]"
-              >
-                {ctaLabel} <ArrowUpRight className="w-4 h-4" />
-              </Link>
-              <CopyEmailButton
-                email={profile.email}
-                className="justify-center"
-              />
-            </div>
+        <GlassCard className="px-6 py-10 text-center md:px-12 md:py-14">
+          {section.label ? (
+            <p className="aurora-kick">{formatSectionKick(section.label)}</p>
+          ) : null}
+          <h2 className="jk mx-auto mt-[0.7rem] max-w-[17ch] text-[clamp(1.8rem,4.4vw,3rem)] font-extrabold leading-[1.1] tracking-[-0.04em]">
+            {section.title}
+          </h2>
+          {section.description ? (
+            <p className="mx-auto mt-4 max-w-[44ch] text-base leading-[1.7] text-muted">
+              {section.description}
+            </p>
+          ) : null}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+            <a href={`mailto:${profile.email}`} className="aurora-pill">
+              {profile.email}
+            </a>
+            <a href={resumeHref} download={resumeName} className="aurora-ghost">
+              Download resume ⤓
+            </a>
           </div>
-        </div>
+        </GlassCard>
       </Reveal>
     </section>
   );

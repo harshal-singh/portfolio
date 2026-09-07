@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Singh — Frontend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --white:#FBFBFD; --ink:#1D1D1F; --dim:#86868B; --line:rgba(0,0,0,.1);
+  --blue:#0071E3; --black:#000;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.015em;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2rem)}
+.narrow{max-width:820px}
+
+/* ---------- nav ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:200;height:48px;display:flex;align-items:center;
+  background:rgba(251,251,253,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid transparent;transition:background .5s,color .5s,border-color .5s}
+header.dark{background:rgba(0,0,0,.6);color:#F5F5F7;border-bottom-color:rgba(255,255,255,.1)}
+header.line{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:2rem;width:100%}
+.nav .bd{font-size:.86rem;font-weight:600}
+.nav nav{display:flex;gap:1.75rem}
+.nav nav a{font-size:.76rem;opacity:.75;transition:opacity .25s}
+.nav nav a:hover{opacity:1}
+.nav .go{font-size:.76rem;background:var(--blue);color:#fff;border-radius:99px;padding:.28rem .8rem;transition:filter .2s}
+.nav .go:hover{filter:brightness(1.12)}
+@media(max-width:820px){.nav nav{display:none}}
+
+/* ---------- progress rail ---------- */
+.rail{position:fixed;right:1.4rem;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:column;gap:.75rem}
+.rail a{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.2);transition:background .3s,transform .3s;position:relative}
+.rail a.on{background:var(--ink);transform:scale(1.5)}
+.rail.inv a{background:rgba(255,255,255,.25)}
+.rail.inv a.on{background:#fff}
+.rail a span{position:absolute;right:16px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:.68rem;opacity:0;transition:opacity .25s;pointer-events:none;color:inherit}
+.rail a:hover span{opacity:.7}
+@media(max-width:900px){.rail{display:none}}
+
+/* ---------- shared stage typography ---------- */
+.stage{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 0}
+.kicker{font-size:.8rem;font-weight:600;color:var(--blue);letter-spacing:0}
+.huge{font-size:clamp(2.4rem,7.4vw,5.4rem);font-weight:600;letter-spacing:-.04em;line-height:1.05}
+.sub{margin-top:1.2rem;font-size:clamp(1.05rem,2vw,1.4rem);line-height:1.5;color:var(--dim);max-width:34ch;margin-inline:auto}
+.dark{background:var(--black);color:#F5F5F7}
+.dark .sub{color:#A1A1A6}
+.pillbtn{display:inline-flex;align-items:center;gap:.4rem;font-size:.95rem;font-weight:500;background:var(--blue);color:#fff;border-radius:99px;padding:.72rem 1.5rem;transition:filter .2s,transform .2s}
+.pillbtn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.linkbtn{font-size:.95rem;color:var(--blue);display:inline-flex;align-items:center;gap:.3rem}
+.linkbtn:hover{text-decoration:underline}
+.acts{margin-top:2rem;display:flex;gap:1.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+
+/* ---------- hero ---------- */
+#hero{position:relative}
+#hero .inner{transform-origin:center 40%;will-change:transform,opacity}
+.scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.7rem;color:var(--dim)}
+.scrollcue i{width:20px;height:32px;border:1.5px solid rgba(0,0,0,.25);border-radius:99px;position:relative}
+.scrollcue i::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:6px;border-radius:2px;background:rgba(0,0,0,.4);transform:translateX(-50%);animation:cue 1.9s infinite}
+@keyframes cue{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+/* ---------- pinned counter ---------- */
+.pin{position:relative}
+.pinstage{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.bignum{font-size:clamp(5rem,22vw,17rem);font-weight:700;letter-spacing:-.055em;line-height:.9}
+.rot{position:relative;height:5.5em;margin-top:1rem;width:100%}
+.rot p{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;font-size:clamp(1.05rem,2.1vw,1.5rem);line-height:1.5;color:var(--dim);max-width:30ch;margin-inline:auto;
+  opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+.rot p.on{opacity:1;transform:none}
+.dark .rot p{color:#A1A1A6}
+
+/* ---------- word reveal ---------- */
+.reveal{padding:clamp(5rem,16vh,10rem) 0}
+.reveal p{font-size:clamp(1.4rem,3.6vw,2.6rem);font-weight:500;letter-spacing:-.03em;line-height:1.42}
+.reveal w{transition:color .28s,opacity .28s;color:rgba(245,245,247,.22)}
+.reveal w.lit{color:#F5F5F7}
+.reveal w.blue.lit{color:#2997FF}
+
+/* ---------- pinned project ---------- */
+.pj{position:relative}
+.pjstage{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden}
+.pjgrid{display:grid;grid-template-columns:1fr;gap:2rem;width:100%;align-items:center}
+@media(min-width:940px){.pjgrid{grid-template-columns:1fr 1.05fr;gap:3.5rem}}
+.pjtxt .kicker{color:var(--blue)}
+.pjtxt h2{margin-top:.7rem;font-size:clamp(2rem,5vw,3.4rem);font-weight:600;letter-spacing:-.04em;line-height:1.05}
+.pjtxt .one{margin-top:.9rem;font-size:clamp(.98rem,1.5vw,1.1rem);line-height:1.6;color:var(--dim);max-width:40ch}
+.steps{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.15rem}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start;padding:.6rem .8rem;border-radius:10px;font-size:.93rem;line-height:1.55;color:var(--dim);
+  opacity:.42;transition:opacity .4s,background .4s,color .4s}
+.steps li .d{width:6px;height:6px;border-radius:50%;background:currentColor;margin-top:.55rem;transition:background .4s,transform .4s}
+.steps li.on{opacity:1;color:var(--ink);background:rgba(0,0,0,.045)}
+.dark .steps li.on{color:#F5F5F7;background:rgba(255,255,255,.08)}
+.steps li.on .d{background:var(--blue);transform:scale(1.6)}
+.pjtxt .links{display:flex;gap:1.25rem;margin-top:1.4rem;flex-wrap:wrap}
+.pjtxt .links .off{color:var(--dim);pointer-events:none}
+
+.device{border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 40px 90px rgba(0,0,0,.14)}
+.dark .device{border-color:rgba(255,255,255,.14);box-shadow:0 40px 90px rgba(0,0,0,.6)}
+.device .bar{display:flex;align-items:center;gap:.4rem;padding:.5rem .7rem;background:#F5F5F7;border-bottom:1px solid var(--line)}
+.dark .device .bar{background:#1C1C1E;border-bottom-color:rgba(255,255,255,.1)}
+.device .bar i{width:8px;height:8px;border-radius:50%;background:#D2D2D7}
+.dark .device .bar i{background:#3A3A3C}
+.device .bar span{flex:1;text-align:center;font-size:.64rem;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.device .view{height:min(58vh,440px);overflow:hidden;position:relative;background:#fff}
+.dark .device .view{background:#000}
+.device .view img{width:100%;height:auto;will-change:transform}
+.device .view.cover img{height:100%;object-fit:cover;object-position:top center}
+
+/* ---------- experience cards ---------- */
+.xp{padding:clamp(4rem,10vw,7rem) 0}
+.xhead{text-align:center;margin-bottom:clamp(2rem,5vw,3.5rem)}
+.xhead h2{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:600;letter-spacing:-.04em;line-height:1.1}
+.xhead p{margin:.9rem auto 0;font-size:1.02rem;color:var(--dim);max-width:40ch}
+.xgrid{display:grid;grid-template-columns:1fr;gap:1rem}
+@media(min-width:900px){.xgrid{grid-template-columns:repeat(3,1fr)}}
+.xc{background:#fff;border-radius:18px;padding:1.6rem;border:1px solid var(--line);transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .5s}
+.xc:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.09)}
+.xc .when{font-size:.76rem;color:var(--dim)}
+.xc h3{margin-top:.5rem;font-size:1.12rem;font-weight:600;letter-spacing:-.02em}
+.xc .role{font-size:.86rem;color:var(--blue);margin-top:.15rem}
+.xc p{margin-top:.8rem;font-size:.9rem;line-height:1.65;color:var(--dim)}
+.xc .tg{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:1rem}
+.tag{font-size:.72rem;color:var(--dim);background:#F5F5F7;border-radius:6px;padding:.18rem .5rem}
+
+/* ---------- skills strip ---------- */
+.sk{padding:clamp(3.5rem,8vw,6rem) 0;text-align:center}
+.sk h2{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:600;letter-spacing:-.04em}
+.sk p{margin:.8rem auto 2.25rem;color:var(--dim);max-width:40ch}
+.skrow{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(1.25rem,3vw,2.5rem);align-items:center}
+.skrow figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:.5rem;transition:transform .3s}
+.skrow figure:hover{transform:translateY(-4px)}
+.skrow img{width:26px;height:26px}
+.skrow figcaption{font-size:.7rem;color:var(--dim)}
+.sklists{margin-top:2.75rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;text-align:left;max-width:820px;margin-inline:auto}
+@media(min-width:760px){.sklists{grid-template-columns:repeat(3,1fr)}}
+.sklists h4{font-size:.8rem;font-weight:600}
+.sklists ul{list-style:none;padding:0;margin:.45rem 0 0;font-size:.85rem;line-height:1.75;color:var(--dim)}
+
+/* ---------- about + contact ---------- */
+.ab{padding:clamp(4rem,10vw,7rem) 0}
+.abgrid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:center}
+@media(min-width:880px){.abgrid{grid-template-columns:280px 1fr;gap:3.5rem}}
+.abgrid img{width:100%;max-width:280px;aspect-ratio:1;object-fit:cover;border-radius:24px}
+.abgrid p{font-size:1.02rem;line-height:1.72;color:var(--dim)}
+.abgrid p + p{margin-top:1rem}
+.abgrid b{color:var(--ink);font-weight:500}
+.dark .abgrid b{color:#F5F5F7}
+.reach{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.reach a{font-size:.85rem;border:1px solid var(--line);border-radius:99px;padding:.4rem .9rem;transition:.25s}
+.reach a:hover{border-color:var(--ink)}
+.dark .reach a{border-color:rgba(255,255,255,.2)}
+.dark .reach a:hover{border-color:#fff}
+footer{padding:2rem 0 6rem;text-align:center;font-size:.74rem;color:var(--dim)}
+.dark footer{border-top:1px solid rgba(255,255,255,.1)}
+
+/* `translate`, not `transform`, so a card keeps its own tilt and hover lift */
+.rv{opacity:0;translate:0 26px;transition:opacity .8s cubic-bezier(.22,1,.36,1),translate .8s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;translate:none}
+html:not(.js) .rv{opacity:1;translate:none}
+
+.switch{max-width:calc(100vw - 1.5rem);overflow-x:auto;scrollbar-width:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:300;display:flex;gap:.2rem;padding:.28rem;border-radius:999px;background:rgba(0,0,0,.78);backdrop-filter:blur(14px)}
+.switch::-webkit-scrollbar{display:none}
+.switch a{font-size:.7rem;color:rgba(255,255,255,.65);padding:.36rem .74rem;border-radius:999px;transition:.2s;white-space:nowrap}
+.switch a:hover{color:#fff}
+.switch a.on{background:#fff;color:#000;font-weight:500}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;translate:none}.reveal w{color:#F5F5F7}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="bd" href="#hero">Harshal Singh</a>
+    <nav><a href="#years">Overview</a><a href="#p1">Pragnyapan.ai</a><a href="#p2">MeetSpace</a><a href="#xp">Experience</a><a href="#about">About</a></nav>
+    <a class="go" href="mailto:harshal.wrk@gmail.com">Contact</a>
+  </div>
+</header>
+
+<div class="rail" id="rail">
+  <a href="#hero" class="on"><span>Intro</span></a>
+  <a href="#years"><span>Overview</span></a>
+  <a href="#story"><span>Approach</span></a>
+  <a href="#p1"><span>Pragnyapan.ai</span></a>
+  <a href="#p2"><span>MeetSpace</span></a>
+  <a href="#xp"><span>Experience</span></a>
+  <a href="#about"><span>About</span></a>
+</div>
+
+<main>
+
+  <!-- 1 · HERO -->
+  <section class="stage" id="hero">
+    <div class="inner wrap" id="heroInner">
+      <div class="kicker">Frontend Engineer · Mumbai, India</div>
+      <h1 class="huge">Built for the<br/>browser. Every<br/>single day.</h1>
+      <p class="sub">Three years of production React and Next.js — architecture, performance, and the pipeline that ships it.</p>
+      <div class="acts">
+        <a class="pillbtn" href="#p1">See the work</a>
+        <a class="linkbtn" href="mailto:harshal.wrk@gmail.com">Get in touch &rsaquo;</a>
+      </div>
+    </div>
+    <div class="scrollcue"><i></i> Scroll</div>
+  </section>
+
+  <!-- 2 · PINNED COUNTER -->
+  <section class="pin" id="years" style="height:300vh">
+    <div class="pinstage">
+      <div class="wrap">
+        <div class="kicker">The short version</div>
+        <div class="bignum" id="bignum">0</div>
+        <div class="rot" id="rot">
+          <p data-i="0">Years of production frontend experience, starting in 2021.</p>
+          <p data-i="1">Product teams — Quadb, Atrina, and now Webol Solutions.</p>
+          <p data-i="2">Products built end to end, solo: Pragnyapan.ai and MeetSpace.</p>
+          <p data-i="3">Percent faster onboarding, from documentation I wrote at Atrina.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · WORD REVEAL -->
+  <section class="dark reveal" id="story">
+    <div class="wrap narrow">
+      <p id="revealText">The work I gravitate towards sits between layers: how a component library is structured, what renders on the server, how the frontend and the API agree on a contract, and how any of it reaches production without a manual step.</p>
+    </div>
+  </section>
+
+  <!-- 4 · PROJECT ONE -->
+  <section class="pj dark" id="p1" style="height:340vh">
+    <div class="pjstage">
+      <div class="wrap pjgrid">
+        <div class="pjtxt">
+          <div class="kicker">Selected work — 01</div>
+          <h2>Pragnyapan.ai</h2>
+          <p class="one">An agency SaaS that turns a prospect&rsquo;s public URL into an evidence-backed marketing audit.</p>
+          <ul class="steps" data-steps>
+            <li><span class="d"></span><span><b>Crawl.</b> Point it at any public URL and it collects the evidence itself.</span></li>
+            <li><span class="d"></span><span><b>Analyse.</b> AI scoring across marketing maturity, plus competitor insights.</span></li>
+            <li><span class="d"></span><span><b>Review.</b> A human approves or edits every finding before it leaves the building.</span></li>
+            <li><span class="d"></span><span><b>Deliver.</b> White-label PDF export, branded per agency, ready for the pitch.</span></li>
+          </ul>
+          <div class="links"><a class="linkbtn" href="#">Visit site ↗</a><span class="linkbtn off">Code private</span></div>
+        </div>
+        <div class="device">
+          <div class="bar"><i></i><i></i><i></i><span>pragnyapan-ai.vercel.app</span></div>
+          <div class="view" data-scrollshot><img src="../../public/images/projects/pragnyapan-ai.jpg" alt="Pragnyapan.ai" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · PROJECT TWO -->
+  <section class="pj" id="p2" style="height:320vh">
+    <div class="pjstage">
+      <div class="wrap pjgrid">
+        <div class="pjtxt">
+          <div class="kicker">Selected work — 02</div>
+          <h2>MeetSpace</h2>
+          <p class="one">A browser-based meeting product. No install, no account, no enterprise conferencing tool for a five-minute conversation.</p>
+          <ul class="steps" data-steps>
+            <li><span class="d"></span><span><b>Create or join.</b> Start a room, share a code or link. That&rsquo;s the whole entry flow.</span></li>
+            <li><span class="d"></span><span><b>Check yourself first.</b> A pre-join lobby for your name, camera and microphone.</span></li>
+            <li><span class="d"></span><span><b>Talk.</b> Participant grid, people list, in-call chat, mute and camera controls.</span></li>
+            <li><span class="d"></span><span><b>Peer to peer.</b> WebRTC for media, Socket.IO signalling — no media server in the path.</span></li>
+          </ul>
+          <div class="links"><a class="linkbtn" href="#">Visit site ↗</a><a class="linkbtn" href="#">GitHub ↗</a></div>
+        </div>
+        <div class="device">
+          <div class="bar"><i></i><i></i><i></i><span>meet-spacee.vercel.app</span></div>
+          <div class="view cover"><img src="../../public/images/projects/meet-space.jpg" alt="MeetSpace" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · EXPERIENCE -->
+  <section class="xp" id="xp">
+    <div class="wrap">
+      <div class="xhead rv">
+        <h2>Three teams. Three different kinds of hard.</h2>
+        <p>Constraint, then ownership, then pace.</p>
+      </div>
+      <div class="xgrid">
+        <article class="xc rv">
+          <div class="when">Jul 2025 — Present · Remote, UK</div>
+          <h3>Webol Solutions</h3>
+          <div class="role">Frontend Developer</div>
+          <p>Production applications in Next.js, React and TypeScript. Reusable components, REST integration alongside backend engineers, and Figma-to-production delivery streamlined with Cursor, Claude Code and Figma MCP.</p>
+          <div class="tg"><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">TypeScript</span></div>
+        </article>
+        <article class="xc rv">
+          <div class="when">Aug 2024 — May 2025 · Mumbai</div>
+          <h3>Atrina Technologies</h3>
+          <div class="role">Next.js Developer</div>
+          <p>Led a CMS frontend rebuild on SSR, improving page-load performance and SEO. Architected reusable component libraries, owned a three-month roadmap, and wrote onboarding docs that cut ramp-up by ~40%.</p>
+          <div class="tg"><span class="tag">SSR</span><span class="tag">Tailwind</span><span class="tag">Planning</span></div>
+        </article>
+        <article class="xc rv">
+          <div class="when">Feb 2021 — Feb 2022 · Remote, India</div>
+          <h3>Quadb Technologies</h3>
+          <div class="role">Web Developer</div>
+          <p>Responsive interfaces from Figma and Adobe XD, Node and Express APIs with JWT auth, and KaiOS apps built independently for feature phones — hardware where a wasted kilobyte is visible.</p>
+          <div class="tg"><span class="tag">JavaScript</span><span class="tag">Node.js</span><span class="tag">KaiOS</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · SKILLS -->
+  <section class="sk">
+    <div class="wrap">
+      <h2 class="rv">The toolkit</h2>
+      <p class="rv">What I reach for, and what I&rsquo;ve shipped with.</p>
+      <div class="skrow rv">
+        <figure><img src="../../public/icons/tech/typescript.svg" alt="" /><figcaption>TypeScript</figcaption></figure>
+        <figure><img src="../../public/icons/tech/react.svg" alt="" /><figcaption>React</figcaption></figure>
+        <figure><img src="../../public/icons/tech/nextdotjs.svg" alt="" /><figcaption>Next.js</figcaption></figure>
+        <figure><img src="../../public/icons/tech/tailwindcss.svg" alt="" /><figcaption>Tailwind</figcaption></figure>
+        <figure><img src="../../public/icons/tech/nodedotjs.svg" alt="" /><figcaption>Node.js</figcaption></figure>
+        <figure><img src="../../public/icons/tech/graphql.svg" alt="" /><figcaption>GraphQL</figcaption></figure>
+        <figure><img src="../../public/icons/tech/mongodb.svg" alt="" /><figcaption>MongoDB</figcaption></figure>
+        <figure><img src="../../public/icons/tech/docker.svg" alt="" /><figcaption>Docker</figcaption></figure>
+        <figure><img src="../../public/icons/tech/aws.svg" alt="" /><figcaption>AWS</figcaption></figure>
+      </div>
+      <div class="sklists rv">
+        <div><h4>Languages</h4><ul><li>TypeScript, JavaScript</li><li>HTML5, CSS3</li></ul></div>
+        <div><h4>Frontend</h4><ul><li>React.js, Next.js</li><li>Tailwind CSS, Vue.js</li></ul></div>
+        <div><h4>Backend</h4><ul><li>Node.js, Express.js</li><li>REST, GraphQL, Hasura, PHP</li></ul></div>
+        <div><h4>Databases</h4><ul><li>MongoDB, MySQL</li></ul></div>
+        <div><h4>Cloud &amp; DevOps</h4><ul><li>AWS, Docker</li><li>Azure DevOps, CI/CD, Bash</li></ul></div>
+        <div><h4>Tools</h4><ul><li>Git, GitHub, Jira, Postman</li><li>Figma, Sketch, Cursor, Claude Code</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · ABOUT + CONTACT -->
+  <section class="dark ab" id="about">
+    <div class="wrap">
+      <div class="abgrid">
+        <img class="rv" src="../../public/images/profile.jpg" alt="Harshal Singh" />
+        <div class="rv">
+          <div class="kicker">About</div>
+          <p style="margin-top:.7rem">I&rsquo;m Harshal, a frontend engineer in Mumbai. <b>M.Sc Information Technology</b> from KC College (2022–2024, grade O+) and <b>B.Sc Information Technology</b> from Lala Lajpat Rai College (2019–2022, grade A+) — both overlapping with paid work.</p>
+          <p>I&rsquo;m currently <b>open to frontend engineering roles</b> with product teams. Remote suits me — I already work UK hours — and I&rsquo;m open to relocation for the right team. A short brief is as welcome as a job description, and I reply within 48 hours.</p>
+          <div class="reach">
+            <a href="mailto:harshal.wrk@gmail.com">harshal.wrk@gmail.com</a>
+            <a href="tel:+918828984985">+91 88289 84985</a>
+            <a href="#">GitHub ↗</a>
+            <a href="#">LinkedIn ↗</a>
+            <a href="#">Résumé ⤓</a>
+          </div>
+        </div>
+      </div>
+      <footer>&copy; <span id="yr"></span> Harshal Singh — Direction E · Scroll</footer>
+    </div>
+  </section>
+
+</main>
+
+<div class="switch">
+  <a href="index.html">Index</a>
+  <a href="a-creative.html">A · Creative</a>
+  <a href="b-product.html">B · Product</a>
+  <a href="c-lateral.html">C · Lateral</a>
+  <a href="d-depth.html">D · Depth</a>
+  <a class="on" href="e-scroll.html">E · Scroll</a>
+  <a href="f-playful.html">F · Playful</a>
+  <a href="g-terminal.html">G · Terminal</a>
+  <a href="h-split.html">H · Split</a>
+  <a href="i-aurora.html">I · Aurora</a>
+  <a href="j-terra.html">J · Terra</a>
+  <a href="k-chat.html">K · Chat</a>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+/* ---- pinned counter: 3+ / 3 / 2 / 40 ---- */
+var pinYears = document.getElementById('years');
+var bignum = document.getElementById('bignum');
+var rots = Array.prototype.slice.call(document.querySelectorAll('#rot p'));
+var vals = ['3+', '3', '2', '~40%'];
+
+/* ---- word reveal ---- */
+var revealEl = document.getElementById('revealText');
+(function () {
+  var words = revealEl.textContent.trim().split(/\s+/);
+  revealEl.innerHTML = words.map(function (w, i) {
+    var blue = /(component|server|contract|production)/i.test(w) ? ' class="blue"' : '';
+    return '<w' + blue + ' data-i="' + i + '">' + w + '</w>';
+  }).join(' ');
+})();
+var wordEls = Array.prototype.slice.call(revealEl.querySelectorAll('w'));
+
+/* ---- pinned project scroll-shots ---- */
+var pjs = Array.prototype.slice.call(document.querySelectorAll('.pj'));
+
+/* ---- header theme + rail ---- */
+var hdr = document.getElementById('hdr');
+var railLinks = Array.prototype.slice.call(document.querySelectorAll('#rail a'));
+var rail = document.getElementById('rail');
+var darkSections = Array.prototype.slice.call(document.querySelectorAll('.dark'));
+
+function frame() {
+  var vh = innerHeight;
+
+  /* counter */
+  var r = pinYears.getBoundingClientRect();
+  var p = clamp(-r.top / (r.height - vh));
+  var idx = Math.min(vals.length - 1, Math.floor(p * vals.length * 0.999));
+  bignum.textContent = vals[idx];
+  rots.forEach(function (el) { el.classList.toggle('on', +el.dataset.i === idx); });
+
+  /* word reveal */
+  var rr = revealEl.getBoundingClientRect();
+  var wp = clamp((vh * 0.82 - rr.top) / (rr.height + vh * 0.42));
+  var lit = Math.floor(wp * wordEls.length * 1.15);
+  wordEls.forEach(function (w, i) { w.classList.toggle('lit', i < lit); });
+
+  /* pinned projects */
+  pjs.forEach(function (sec) {
+    var pr = sec.getBoundingClientRect();
+    var t = clamp(-pr.top / (pr.height - vh));
+    var shot = sec.querySelector('[data-scrollshot] img');
+    if (shot) {
+      var box = shot.parentElement;
+      var over = Math.max(0, shot.offsetHeight - box.clientHeight);
+      shot.style.transform = 'translateY(-' + (over * t) + 'px)';
+    }
+    var steps = sec.querySelectorAll('[data-steps] li');
+    var si = Math.min(steps.length - 1, Math.floor(t * steps.length * 0.999));
+    steps.forEach(function (li, i) { li.classList.toggle('on', i === si); });
+  });
+
+  /* header + rail invert over dark sections */
+  var over = darkSections.some(function (s) {
+    var b = s.getBoundingClientRect();
+    return b.top <= 24 && b.bottom >= 24;
+  });
+  hdr.classList.toggle('dark', over);
+  rail.classList.toggle('inv', darkSections.some(function (s) {
+    var b = s.getBoundingClientRect();
+    return b.top <= vh / 2 && b.bottom >= vh / 2;
+  }));
+  hdr.classList.toggle('line', !over && scrollY > 8);
+
+  /* rail active dot */
+  var best = 0, bestD = Infinity;
+  railLinks.forEach(function (a, i) {
+    var t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    var b = t.getBoundingClientRect();
+    var d = Math.abs(b.top - vh * 0.3);
+    if (b.top < vh * 0.8 && d < bestD) { bestD = d; best = i; }
+  });
+  railLinks.forEach(function (a, i) { a.classList.toggle('on', i === best); });
+
+  /* hero fade-away */
+  var hi = document.getElementById('heroInner');
+  var hp = clamp(scrollY / (vh * 0.9));
+  hi.style.opacity = 1 - hp;
+  hi.style.transform = 'scale(' + (1 - hp * 0.14) + ') translateY(' + (hp * -40) + 'px)';
+
+  requestAnimationFrame(frame);
+}
+if (!reduced) requestAnimationFrame(frame);
+else wordEls.forEach(function (w) { w.classList.add('lit'); });
+
+var io = new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px' });
+document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(el); });
+</script>
+</body>
+</html>

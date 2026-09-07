@@ -1,5 +1,6 @@
 "use client";
 
+import { GlassCard } from "@/components/aurora/GlassCard";
 import { Button } from "@/components/ui/button";
 import {
   assetFilename,
@@ -50,8 +51,8 @@ export function ResumeView({ profile }: ResumeViewProps) {
 
   return (
     <div className="site-container pb-10 md:pb-16">
-      <div
-        className="relative mx-auto max-w-4xl overflow-hidden bg-background shadow-xl shadow-black/20 h-110 md:h-[calc(100dvh-18rem)]"
+      <GlassCard
+        className="relative mx-auto h-110 max-w-4xl overflow-hidden md:h-[calc(100dvh-18rem)]"
         aria-label="Resume preview"
       >
         <iframe
@@ -80,14 +81,14 @@ export function ResumeView({ profile }: ResumeViewProps) {
               href={pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-md border border-border bg-surface/95 backdrop-blur-sm text-sm text-foreground hover:border-accent/30 hover:text-accent transition-colors shadow-sm"
+              className="aurora-ghost backdrop-blur-sm"
             >
-              <ExternalLink className="w-4 h-4 shrink-0" />
+              <ExternalLink className="h-4 w-4 shrink-0" />
               Open in New Tab
             </a>
           </div>
         </div>
-      </div>
+      </GlassCard>
     </div>
   );
 }

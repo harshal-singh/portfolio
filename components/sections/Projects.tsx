@@ -1,5 +1,5 @@
-import { ProjectShowcaseList } from "@/components/projects/ProjectShowcaseList";
-import { SectionHeader } from "@/components/ui/section-header";
+import { AuroraProjectCard } from "@/components/aurora/AuroraProjectCard";
+import { AuroraSectionHeader } from "@/components/aurora/AuroraSectionHeader";
 import type { Project, SectionMeta } from "@/lib/types";
 
 interface ProjectsProps {
@@ -18,13 +18,18 @@ export default function Projects({
   return (
     <section id={id} className="site-container pb-16 md:pb-24">
       {showHeader ? (
-        <SectionHeader
+        <AuroraSectionHeader
           label={section.label}
           title={section.title}
           description={section.description || undefined}
+          align="left"
         />
       ) : null}
-      <ProjectShowcaseList projects={projects} variant="full" />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {projects.map((project) => (
+          <AuroraProjectCard key={project.id} project={project} />
+        ))}
+      </div>
     </section>
   );
 }
