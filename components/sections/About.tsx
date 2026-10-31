@@ -15,40 +15,31 @@ export default function About({
   profile,
   showHeader = true,
 }: AboutProps) {
+  const hasPhoto = Boolean(profile.photoUrl?.trim());
+
   return (
-    <section id="about" className="site-container">
-      <div className="section-grid">
-        {showHeader ? (
-          <div className="md:col-span-5">
-            <SectionHeader
-              label={section.label}
-              title={section.title}
-              align="left"
-              className="mb-0"
+    <section id="about" className="site-container pb-16 md:pb-24">
+      {showHeader ? (
+        <SectionHeader
+          label={section.label}
+          title={section.title}
+          align="left"
+          className="mb-10 md:mb-14"
+        />
+      ) : null}
+
+      <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10 lg:gap-12">
+        {hasPhoto ? (
+          <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl border border-border-subtle md:h-72 md:w-72">
+            <CmsImage
+              src={profile.photoUrl}
+              alt={profile.name}
+              className="h-full w-full object-cover object-top"
             />
-            {profile.photoUrl ? (
-              <div className="mt-8 relative w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border border-border-subtle">
-                <CmsImage
-                  src={profile.photoUrl}
-                  alt={profile.name}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            ) : null}
           </div>
         ) : null}
-        <div
-          className={`md:col-span-7 ${showHeader ? "md:pt-2" : ""} space-y-5 text-body-lg text-muted ${showHeader ? "" : "md:col-span-12"}`}
-        >
-          {!showHeader && profile.photoUrl ? (
-            <div className="relative w-32 h-32 rounded-2xl overflow-hidden border border-border-subtle mb-6">
-              <CmsImage
-                src={profile.photoUrl}
-                alt={profile.name}
-                className="object-cover w-full h-full"
-              />
-            </div>
-          ) : null}
+
+        <div className="min-w-0 flex-1 space-y-5 text-body-lg text-muted">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
